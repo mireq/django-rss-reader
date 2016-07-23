@@ -3,5 +3,6 @@
 *.swo
 *.swp
 *.un~
+__pycache__
 /db.sqlite3
 /static/CACHE/
