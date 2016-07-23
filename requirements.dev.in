@@ -1,0 +1,11 @@
+Django
+pip-tools
+Werkzeug
+django-debug-toolbar
+django-debugtools
+django-extensions
+ipython<5
+ptpython
+pyinotify
+pylint-django
+watchdog
