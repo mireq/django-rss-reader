@@ -1,0 +1,7 @@
+*.mo
+*.pyc
+*.swo
+*.swp
+*.un~
+/db.sqlite3
+/static/CACHE/
