@@ -3,11 +3,11 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.db import models
-from django.db.models import Max
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 from web.models import TimestampModelMixin
+from web.ordering import get_next_order
 
 
 @python_2_unicode_compatible
@@ -89,9 +89,7 @@ class Feed(TimestampModelMixin, models.Model):
 	)
 
 	def subscribe(self, user, category=None):
-		next_order = (UserFeed.objects
-			.filter(user=user, category=category)
-			.aggregate(next=Max('order'))['next'] or 0) + 1
+		next_order = get_next_order(UserFeed.objects.filter(user=user, category=category))
 		UserFeed.objects.update_or_create(
 			user=user,
 			feed=self,
