@@ -1,4 +1,5 @@
 Django
+celery
 feedparser
 pip-tools
 -e git+https://github.com/mireq/django-ajax-utils.git@34be26a0315c341bfc7bce16a1001137af9ae18a#egg=django_ajax_utils

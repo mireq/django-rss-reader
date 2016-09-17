@@ -5,8 +5,12 @@
 #    pip-compile --output-file requirements.dev.txt requirements.dev.in
 #
 -e git+https://github.com/mireq/django-ajax-utils.git@34be26a0315c341bfc7bce16a1001137af9ae18a#egg=django_ajax_utils
+amqp==1.4.9               # via kombu
+anyjson==0.3.3            # via kombu
 argh==0.26.2              # via watchdog
 astroid==1.4.8            # via pylint, pylint-plugin-utils
+billiard==3.3.0.23        # via celery
+celery==3.1.23
 click==6.6                # via pip-tools
 decorator==4.0.10         # via ipython, traitlets
 django-debug-toolbar==1.5
@@ -20,6 +24,7 @@ ipython-genutils==0.1.0   # via traitlets
 ipython==5.1.0
 isort==4.2.5              # via pylint
 jedi==0.9.0               # via ptpython
+kombu==3.0.35             # via celery
 lazy-object-proxy==1.2.2  # via astroid
 libsass==0.11.1
 mccabe==0.5.2             # via pylint
@@ -35,6 +40,7 @@ pyinotify==0.9.6
 pylint-django==0.7.2
 pylint-plugin-utils==0.2.4  # via pylint-django
 pylint==1.6.4             # via pylint-django, pylint-plugin-utils
+pytz==2016.6.1            # via celery
 pyyaml==3.12              # via watchdog
 simplegeneric==0.8.1      # via ipython
 six==1.10.0               # via astroid, django-extensions, libsass, pip-tools, prompt-toolkit, pylint, traitlets
