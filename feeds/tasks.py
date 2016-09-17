@@ -7,6 +7,7 @@ from time import mktime
 import feedparser
 from django.utils import timezone
 from django.utils.encoding import force_text
+from web.celery import app
 
 from feeds.models import Feed, Entry
 
@@ -28,6 +29,7 @@ def fill_feed_info(feed, parser_data):
 	feed.last_build_date = timestruct_to_utctime(feed_data.get('updated_parsed', None))
 
 
+@app.task
 def register_feed(url):
 	feed, _ = Feed.objects.update_or_create(xml_url=url)
 	try:
@@ -57,10 +59,18 @@ def import_entries(feed, entries):
 		)
 
 
-def import_feed(feed):
+@app.task
+def import_feed(feed_id, force=False):
+	try:
+		feed = Feed.objects.get(pk=feed_id)
+	except Feed.DoesNotExist:
+		return
 	try:
 		parser_data = feedparser.parse(feed.xml_url)
+		old_build_date = feed.last_build_date
 		fill_feed_info(feed, parser_data)
+		if not force and old_build_date == feed.last_build_date:
+			return
 		feed.update_status = Feed.UPDATE_STATUS_UPDATED
 		feed.update_error = ''
 		feed.save()
@@ -69,3 +79,8 @@ def import_feed(feed):
 		feed.update_error = force_text(e)
 		feed.save()
 	import_entries(feed, parser_data.entries)
+
+
+@app.task
+def synchronize():
+	print("ok")

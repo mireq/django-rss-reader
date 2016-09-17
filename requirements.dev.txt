@@ -42,6 +42,7 @@ pylint-plugin-utils==0.2.4  # via pylint-django
 pylint==1.6.4             # via pylint-django, pylint-plugin-utils
 pytz==2016.6.1            # via celery
 pyyaml==3.12              # via watchdog
+redis==2.10.5
 simplegeneric==0.8.1      # via ipython
 six==1.10.0               # via astroid, django-extensions, libsass, pip-tools, prompt-toolkit, pylint, traitlets
 sqlparse==0.2.1           # via django-debug-toolbar

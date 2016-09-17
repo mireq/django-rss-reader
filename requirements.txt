@@ -16,4 +16,5 @@ first==2.0.1              # via pip-tools
 kombu==3.0.35             # via celery
 pip-tools==1.7.0
 pytz==2016.6.1            # via celery
+redis==2.10.5
 six==1.10.0               # via pip-tools
