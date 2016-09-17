@@ -119,8 +119,14 @@ class UserFeed(models.Model):
 		unique_together = (('user', 'feed'),)
 
 
+class NewsManager(models.Manager):
+	pass
+
+
 @python_2_unicode_compatible
 class News(models.Model):
+	objects = NewsManager()
+
 	feed = models.ForeignKey(
 		Feed,
 		verbose_name=_("feed")
