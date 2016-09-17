@@ -4,8 +4,10 @@
 #
 #    pip-compile --output-file requirements.txt requirements.in
 #
+-e git+https://github.com/mireq/django-ajax-utils.git@34be26a0315c341bfc7bce16a1001137af9ae18a#egg=django_ajax_utils
 click==6.6                # via pip-tools
-django==1.9.8
+django==1.10.1
+feedparser==5.2.1
 first==2.0.1              # via pip-tools
 pip-tools==1.7.0
 six==1.10.0               # via pip-tools

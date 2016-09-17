@@ -2,7 +2,8 @@ Werkzeug
 django-debug-toolbar
 django-debugtools
 django-extensions
-ipython<5
+ipython<6
+libsass
 ptpython
 pyinotify
 pylint-django

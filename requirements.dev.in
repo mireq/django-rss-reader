@@ -1,10 +1,13 @@
 Django
+feedparser
 pip-tools
+-e git+https://github.com/mireq/django-ajax-utils.git@34be26a0315c341bfc7bce16a1001137af9ae18a#egg=django_ajax_utils
 Werkzeug
 django-debug-toolbar
 django-debugtools
 django-extensions
-ipython<5
+ipython<6
+libsass
 ptpython
 pyinotify
 pylint-django
