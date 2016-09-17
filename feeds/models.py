@@ -199,7 +199,7 @@ class Entry(models.Model):
 		return self.title
 
 	class Meta:
-		verbose_name = _("News entry"),
+		verbose_name = _("News entry")
 		verbose_name_plural = _("News entries")
 		unique_together = (('feed', 'guid'),)
 
