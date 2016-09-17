@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.db import models
+from django.db.models import Max
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
@@ -36,6 +37,9 @@ class Category(models.Model):
 
 @python_2_unicode_compatible
 class Feed(TimestampModelMixin, models.Model):
+	UPDATE_STATUS_UPDATED = 'u'
+	UPDATE_STATUS_ERROR = 'e'
+
 	UPDATE_STATUS_CHOICES = (
 		('', _("Not updated")),
 		('u', _("Updated")),
@@ -51,7 +55,8 @@ class Feed(TimestampModelMixin, models.Model):
 		blank=True
 	)
 	xml_url = models.URLField(
-		verbose_name=_("URL of feed")
+		verbose_name=_("URL of feed"),
+		unique=True
 	)
 	html_url = models.URLField(
 		verbose_name=_("URL of html page"),
@@ -72,7 +77,7 @@ class Feed(TimestampModelMixin, models.Model):
 		blank=True,
 		null=True
 	)
-	updates_status = models.CharField(
+	update_status = models.CharField(
 		verbose_name=_("update status"),
 		max_length=1,
 		choices=UPDATE_STATUS_CHOICES,
@@ -82,6 +87,20 @@ class Feed(TimestampModelMixin, models.Model):
 		verbose_name=_("update error"),
 		blank=True
 	)
+
+	def subscribe(self, user, category=None):
+		next_order = (UserFeed.objects
+			.filter(user=user, category=category)
+			.aggregate(next=Max('order'))['next'] or 0) + 1
+		UserFeed.objects.update_or_create(
+			user=user,
+			feed=self,
+			defaults={
+				'name': self.title,
+				'category': category,
+				'order': next_order
+			}
+		)
 
 	def __str__(self):
 		return self.title
@@ -107,25 +126,33 @@ class UserFeed(models.Model):
 	)
 	category = models.ForeignKey(
 		Category,
-		verbose_name=_("category")
+		verbose_name=_("category"),
+		blank=True,
+		null=True
+	)
+	order = models.PositiveIntegerField(
+		verbose_name=_("order"),
+		default=0,
+		db_index=True
 	)
 
 	def __str__(self):
-		return self.title
+		return self.name
 
 	class Meta:
 		verbose_name = _("Feed for user"),
 		verbose_name_plural = _("Feeds for user")
 		unique_together = (('user', 'feed'),)
+		ordering = ('order',)
 
 
-class NewsManager(models.Manager):
+class EntryManager(models.Manager):
 	pass
 
 
 @python_2_unicode_compatible
-class News(models.Model):
-	objects = NewsManager()
+class Entry(models.Model):
+	objects = EntryManager()
 
 	feed = models.ForeignKey(
 		Feed,
@@ -145,8 +172,8 @@ class News(models.Model):
 		max_length=1000,
 		blank=True
 	)
-	description = models.TextField(
-		verbose_name=_("description"),
+	summary = models.TextField(
+		verbose_name=_("summary"),
 		blank=True
 	)
 	content = models.TextField(
@@ -169,29 +196,24 @@ class News(models.Model):
 		max_length=200,
 		blank=True
 	)
-	author_uri = models.CharField(
-		verbose_name=("URI of author"),
-		max_length=1000,
-		blank=True
-	)
 
 	def __str__(self):
 		return self.title
 
 	class Meta:
-		verbose_name = _("News item"),
-		verbose_name_plural = _("News items")
+		verbose_name = _("News entry"),
+		verbose_name_plural = _("News entries")
 		unique_together = (('feed', 'guid'),)
 
 
 @python_2_unicode_compatible
-class UserNewsStatus(models.Model):
+class UserEntryStatus(models.Model):
 	user = models.ForeignKey(
 		settings.AUTH_USER_MODEL,
 		verbose_name=_("user")
 	)
-	news = models.ForeignKey(
-		News,
+	entry = models.ForeignKey(
+		Entry,
 		verbose_name=_("news item")
 	)
 	is_unread = models.BooleanField(
@@ -208,9 +230,9 @@ class UserNewsStatus(models.Model):
 	)
 
 	def __str__(self):
-		return self.news.title
+		return self.entry.title
 
 	class Meta:
-		verbose_name = _("News status for user")
-		verbose_name_plural = _("News statuses for user")
-		unique_together = (('user', 'news'),)
+		verbose_name = _("News entry status for user")
+		verbose_name_plural = _("News entry statuses for user")
+		unique_together = (('user', 'entry'),)
