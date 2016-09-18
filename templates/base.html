@@ -3,6 +3,7 @@
 <head>
 	<title>{% block head_title %}{% trans "RSS reader" %}{% endblock %}</title>
 	<meta charset="utf-8" />
+	<meta name="mobile-web-app-capable" content="yes">
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
 	{% compress css %}
 		<link rel="stylesheet" type="text/x-scss" href="{% static "css/style.scss" %}" />
@@ -12,12 +13,31 @@
 {% block body %}
 	<div id="header">
 		<header>
+			<button class="button menu toggle-menu"></button>
 			<div class="button-group navigation">
-				<button>◀</button>
-				<button>▶</button>
+				<button class="button left"></button>
+				<button class="button right"></button>
 			</div>
-			<h1>{% block title %}{% endblock %}</h1>
+			<h1>{% block title %}{% endblock %}&nbsp;</h1>
 		</header>
+	</div>
+
+	<div id="menu_shadow" class="close-menu">
+	</div>
+	<div id="menu">
+		<div id="menu-content">
+			<nav>
+				<ul>
+					<li class="close-menu"><a href="#">Close sidebar</a></li>
+					{% if user.is_authenticated %}
+						<li><a href="{% url "accounts:logout" %}">Logout</a></li>
+					{% else %}
+						{% url "home" as next_url %}
+						<li><a href="{% url "accounts:login" %}?next={{ next_url|urlencode:"" }}">Login</a></li>
+					{% endif %}
+				</ul>
+			</nav>
+		</div>
 	</div>
 
 	<div id="content">
