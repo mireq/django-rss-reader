@@ -7,9 +7,9 @@ from time import mktime
 import feedparser
 from django.utils import timezone
 from django.utils.encoding import force_text
-from web.celery import app
 
 from feeds.models import Feed, Entry
+from web.celery import app
 
 
 def timestruct_to_utctime(timestruct):
@@ -35,6 +35,8 @@ def register_feed(url):
 	try:
 		parser_data = feedparser.parse(feed.xml_url)
 		fill_feed_info(feed, parser_data)
+		feed.update_status = Feed.UPDATE_STATUS_UPDATED
+		feed.last_build_date = None
 		feed.save()
 		return {'status': 'success', 'feed': feed}
 	except Exception as e: #pylint: disable=broad-except
@@ -60,7 +62,7 @@ def import_entries(feed, entries):
 
 
 @app.task
-def import_feed(feed_id, force=False):
+def update_feed(feed_id, force=False):
 	try:
 		feed = Feed.objects.get(pk=feed_id)
 	except Feed.DoesNotExist:
@@ -83,4 +85,5 @@ def import_feed(feed_id, force=False):
 
 @app.task
 def synchronize():
-	print("ok")
+	for feed in Feed.objects.for_update().values_list('pk', flat=True):
+		update_feed.delay(feed)
