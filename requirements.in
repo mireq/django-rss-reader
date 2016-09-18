@@ -1,6 +1,8 @@
 Django
 celery
+django-libsass
 feedparser
 pip-tools
 redis
+-e git+https://github.com/mireq/django-assets-manager.git@af4944e6f1def727b84f51583a911ef60e978d55#egg=django_assets_manager
 -e git+https://github.com/mireq/django-ajax-utils.git@34be26a0315c341bfc7bce16a1001137af9ae18a#egg=django_ajax_utils

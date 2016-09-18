@@ -5,6 +5,7 @@
 #    pip-compile --output-file requirements.dev.txt requirements.dev.in
 #
 -e git+https://github.com/mireq/django-ajax-utils.git@34be26a0315c341bfc7bce16a1001137af9ae18a#egg=django_ajax_utils
+-e git+https://github.com/mireq/django-assets-manager.git@af4944e6f1def727b84f51583a911ef60e978d55#egg=django_assets_manager
 amqp==1.4.9               # via kombu
 anyjson==0.3.3            # via kombu
 argh==0.26.2              # via watchdog
@@ -13,9 +14,12 @@ billiard==3.3.0.23        # via celery
 celery==3.1.23
 click==6.6                # via pip-tools
 decorator==4.0.10         # via ipython, traitlets
+django-appconf==1.0.2     # via django-compressor
+django-compressor==2.1    # via django-libsass
 django-debug-toolbar==1.5
 django-debugtools==1.7
 django-extensions==1.7.4
+django-libsass==0.7
 django==1.10.1
 docopt==0.6.2             # via ptpython
 feedparser==5.2.1
@@ -42,7 +46,9 @@ pylint-plugin-utils==0.2.4  # via pylint-django
 pylint==1.6.4             # via pylint-django, pylint-plugin-utils
 pytz==2016.6.1            # via celery
 pyyaml==3.12              # via watchdog
+rcssmin==1.0.6            # via django-compressor
 redis==2.10.5
+rjsmin==1.0.12            # via django-compressor
 simplegeneric==0.8.1      # via ipython
 six==1.10.0               # via astroid, django-extensions, libsass, pip-tools, prompt-toolkit, pylint, traitlets
 sqlparse==0.2.1           # via django-debug-toolbar
