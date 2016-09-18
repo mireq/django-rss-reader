@@ -1,0 +1,244 @@
+$rem-base: 16px !default;
+
+@function strip-unit($num) {
+	@return $num / ($num * 0 + 1);
+}
+
+@function lower-bound($range){
+	@if length($range) <= 0 {
+		@return 0;
+	}
+	@return nth($range,1);
+}
+
+@function upper-bound($range) {
+	@if length($range) < 2 {
+		@return 999999999999;
+	}
+	@return nth($range, 2);
+}
+
+@function convert-to-rem($value, $base-value: $rem-base)  {
+	$value: strip-unit($value) / strip-unit($base-value) * 1rem;
+	@if ($value == 0rem) { $value: 0; } // Turn 0rem into 0
+	@return $value;
+}
+
+@function rem-calc($values, $base-value: $rem-base) {
+	$max: length($values);
+
+	@if $max == 1 { @return convert-to-rem(nth($values, 1), $base-value); }
+
+	$remValues: ();
+	@for $i from 1 through $max {
+		$remValues: append($remValues, convert-to-rem(nth($values, $i), $base-value));
+	}
+	@return $remValues;
+}
+
+$screen: "only screen";
+
+$xsmall-range: (0, 30em);
+$small-range: (30.063em, 40em);
+$medium-range: (40.063em, 52em);
+$large-range: (52.063em, 64em);
+$xlarge-range: (64.063em, 90em);
+$xxlarge-range: (90.063em, 99999999em);
+
+$landscape: "#{$screen} and (orientation: landscape)";
+$portrait: "#{$screen} and (orientation: portrait)";
+
+$xsmall-up: $screen;
+$xsmall-down: "#{$screen} and (max-width:#{lower-bound($xsmall-range)})";
+$xsmall-only: "#{$screen} and (min-width: #{upper-bound($xsmall-range)})";
+
+$small-up: "#{$screen} and (min-width:#{lower-bound($small-range)})";
+$small-down: "#{$screen} and (max-width:#{upper-bound($small-range)})";
+$small-only: "#{$screen} and (min-width:#{lower-bound($small-range)}) and (max-width:#{upper-bound($small-range)})";
+
+$medium-up: "#{$screen} and (min-width:#{lower-bound($medium-range)})";
+$medium-down: "#{$screen} and (max-width:#{upper-bound($medium-range)})";
+$medium-only: "#{$screen} and (min-width:#{lower-bound($medium-range)}) and (max-width:#{upper-bound($medium-range)})";
+
+$large-up: "#{$screen} and (min-width:#{lower-bound($large-range)})";
+$large-down: "#{$screen} and (max-width:#{upper-bound($large-range)})";
+$large-only: "#{$screen} and (min-width:#{lower-bound($large-range)}) and (max-width:#{upper-bound($large-range)})";
+
+$xlarge-up: "#{$screen} and (min-width:#{lower-bound($xlarge-range)})";
+$xlarge-down: "#{$screen} and (max-width:#{upper-bound($xlarge-range)})";
+$xlarge-only: "#{$screen} and (min-width:#{lower-bound($xlarge-range)}) and (max-width:#{upper-bound($xlarge-range)})";
+
+$xxlarge-up: "#{$screen} and (min-width:#{lower-bound($xxlarge-range)})";
+$xxlarge-down: $screen;
+$xxlarge-only: "#{$screen} and (min-width:#{lower-bound($xxlarge-range)}) and (max-width:#{upper-bound($xxlarge-range)})";
+
+$hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 3/2), (min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx)";
+
+html {
+	font-family: sans-serif;
+}
+
+body {
+	margin: 0;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="url"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="week"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+select,
+textarea {
+	padding: 8px 10px;
+	display: block;
+	border: 1px solid #ccc;
+	box-shadow: inset 0 1px 3px #eee;
+	border-radius: 4px;
+	vertical-align: middle;
+	box-sizing: border-box;
+	margin: 4px 0;
+	box-sizing: border-box;
+	width: 100%;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+select:focus,
+textarea:focus {
+	outline: 0;
+	border-color: #129FEA;
+}
+
+input[type="file"]:focus,
+input[type="radio"]:focus,
+input[type="checkbox"]:focus {
+	outline: thin solid #129FEA;
+	outline: 1px auto #129FEA;
+}
+
+.checkbox,
+.radio {
+	margin: 8px 0;
+	display: block;
+}
+
+
+input[type="text"][disabled],
+input[type="password"][disabled],
+input[type="email"][disabled],
+input[type="url"][disabled],
+input[type="date"][disabled],
+input[type="month"][disabled],
+input[type="time"][disabled],
+input[type="datetime"][disabled],
+input[type="datetime-local"][disabled],
+input[type="week"][disabled],
+input[type="number"][disabled],
+input[type="search"][disabled],
+input[type="tel"][disabled],
+input[type="color"][disabled],
+select[disabled],
+textarea[disabled] {
+	cursor: not-allowed;
+	background-color: #eaeded;
+	color: #cad2d3;
+}
+
+input:focus:invalid,
+textarea:focus:invalid,
+select:focus:invalid {
+	color: #b94a48;
+	border-color: #e9322d;
+}
+
+select {
+	height: 2.25em;
+	border: 1px solid #ccc;
+	background-color: white;
+}
+select[multiple] {
+	height: auto;
+}
+label {
+	margin: 8px 0 3px;
+}
+
+fieldset {
+	margin: 0;
+	padding: 5px 0 12px;
+	border: 0;
+}
+legend {
+	display: block;
+	width: 100%;
+	padding: 5px 0;
+	margin-bottom: 5px;
+	color: #333;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+button {
+	display: inline-block;
+	line-height: normal;
+	white-space: nowrap;
+	vertical-align: middle;
+	text-align: center;
+	cursor: pointer;
+	padding: 0.5em 1em;
+	box-sizing: border-box;
+	color: white;
+	border: 1px solid #0078e7;
+	background-color: #0078e7;
+	text-decoration: none;
+	border-radius: 4px;
+}
+
+button:hover, button:focus {
+	background: lighter(#0078e7);
+	border: 1px solid #aaa;
+}
+
+button::-moz-focus-inner {
+	padding: 0;
+	border: 0;
+}
+
+/* special */
+
+body.login {
+	.panel {
+		box-sizing: border-box;
+		padding: 0 1em;
+		font-weight: 300;
+
+		@media #{$small-up} {
+			width: 50%;
+			float: left;
+		}
+
+		h2 {
+			font-weight: 300;
+			border-bottom: 1px solid #e5e5e5;
+			padding-bottom: 0.5em;
+		}
+	}
+}

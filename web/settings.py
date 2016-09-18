@@ -2,6 +2,11 @@
 import os
 from datetime import timedelta
 
+from .assets import ASSETS
+
+
+ASSETS_MANAGER_FILES = ASSETS
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -28,6 +33,9 @@ INSTALLED_APPS = [
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
 	# vendor
+	'compressor',
+	'django_ajax_utils',
+	'django_assets_manager',
 	# apps
 	'accounts',
 	'feeds',
@@ -46,11 +54,17 @@ MIDDLEWARE_CLASSES = [
 
 ROOT_URLCONF = 'web.urls'
 
+BUILTINS_EXTRA = [
+	'django.contrib.staticfiles.templatetags.staticfiles',
+	'django.templatetags.i18n',
+	'django.templatetags.l10n',
+	'compressor.templatetags.compress',
+]
+
 TEMPLATES = [
 	{
 		'BACKEND': 'django.template.backends.django.DjangoTemplates',
-		'DIRS': [],
-		'APP_DIRS': True,
+		'DIRS': [os.path.join(BASE_DIR, 'templates'),],
 		'OPTIONS': {
 			'context_processors': [
 				'django.template.context_processors.debug',
@@ -58,6 +72,11 @@ TEMPLATES = [
 				'django.contrib.auth.context_processors.auth',
 				'django.contrib.messages.context_processors.messages',
 			],
+			'loaders': [
+				'django.template.loaders.filesystem.Loader',
+				'django.template.loaders.app_directories.Loader',
+			],
+			'builtins': BUILTINS_EXTRA,
 		},
 	},
 ]
@@ -107,6 +126,24 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, '..', 'static_assets', 'static')
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+STATICFILES_FINDERS = (
+	'django.contrib.staticfiles.finders.FileSystemFinder',
+	'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+	'compressor.finders.CompressorFinder',
+)
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'static_assets', 'media')
+
+COMPRESS_ENABLED = True
+COMPRESS_PRECOMPILERS = (
+	('text/x-scss', 'django_libsass.SassCompiler'),
+)
+
+LIBSASS_OUTPUT_STYLE = 'nested'
+LIBSASS_SOURCE_COMMENTS = True
 
 BROKER_URL = 'redis://localhost:6379/0'
 

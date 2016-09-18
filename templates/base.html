@@ -1,0 +1,20 @@
+{% load assets_manager %}<!DOCTYPE html>
+<html>
+<head>
+	<title>{% block head_title %}{% trans "RSS reader" %}{% endblock %}</title>
+	<meta charset="utf-8" />
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+	{% compress css %}
+		<link rel="stylesheet" type="text/x-scss" href="{% static "css/style.scss" %}" />
+	{% endcompress %}
+</head>
+<body class="{% block bodyclass %}{% endblock %}">
+{% block body %}
+{% endblock %}
+
+{% compress js %}
+{% assets_js "app" %}
+{% endcompress %}
+</body>
+</html>
+
