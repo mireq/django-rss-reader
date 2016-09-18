@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<div>
+		{% if user.is_authenticated %}
+			<a href="{% url "accounts:logout" %}">Login</a>
+		{% else %}
+			{% url "home" as next_url %}
+			<a href="{% url "accounts:login" %}?next={{ next_url|urlencode:"" }}">Login</a>
+		{% endif %}
+	</div>
+	{{ user }}
+{% endblock %}

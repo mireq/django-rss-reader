@@ -10,6 +10,10 @@
 </head>
 <body class="{% block bodyclass %}{% endblock %}">
 {% block body %}
+	<div id="content">
+		{% block content %}
+		{% endblock %}
+	</div>
 {% endblock %}
 
 {% compress js %}

@@ -159,4 +159,8 @@ CELERYBEAT_SCHEDULE = {
 		'task': 'feeds.tasks.synchronize',
 		'schedule': timedelta(seconds=300),
 	},
+	'clean-remember-tokens': {
+		'task': 'accounts.tasks.clean_remember_tokens',
+		'schedule': timedelta(seconds=300),
+	},
 }

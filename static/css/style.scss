@@ -74,6 +74,14 @@ $xxlarge-only: "#{$screen} and (min-width:#{lower-bound($xxlarge-range)}) and (m
 
 $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 3/2), (min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx)";
 
+@import 'constants_white';
+
+html, body {
+	background: white;
+	color: black;
+}
+
+/*
 html {
 	font-family: sans-serif;
 }
@@ -222,8 +230,6 @@ button::-moz-focus-inner {
 	border: 0;
 }
 
-/* special */
-
 body.login {
 	.panel {
 		box-sizing: border-box;
@@ -242,3 +248,4 @@ body.login {
 		}
 	}
 }
+*/
