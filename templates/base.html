@@ -10,6 +10,16 @@
 </head>
 <body class="{% block bodyclass %}{% endblock %}">
 {% block body %}
+	<div id="header">
+		<header>
+			<div class="button-group navigation">
+				<button>◀</button>
+				<button>▶</button>
+			</div>
+			<h1>{% block title %}{% endblock %}</h1>
+		</header>
+	</div>
+
 	<div id="content">
 		{% block content %}
 		{% endblock %}

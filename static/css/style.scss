@@ -36,6 +36,121 @@ $rem-base: 16px !default;
 	@return $remValues;
 }
 
+@mixin base-margin {
+	margin: $base-margin;
+}
+
+@mixin base-margin-horizontal {
+	margin-left: $base-margin;
+	margin-right: $base-margin;
+}
+
+@mixin base-margin-vertical {
+	margin-top: $base-margin;
+	margin-bottom: $base-margin;
+}
+
+@mixin base-margin-cancel-horizontal {
+	margin-left: -$base-margin;
+	margin-right: -$base-margin;
+}
+
+@mixin base-margin-cancel-bottom {
+	margin-left: -$base-margin;
+	margin-right: -$base-margin;
+	margin-bottom: -$base-margin;
+}
+
+@mixin base-margin-cancel-top {
+	margin-top: -$base-margin;
+	margin-left: -$base-margin;
+	margin-right: -$base-margin;
+}
+
+@mixin base-padding {
+	padding: $base-margin;
+}
+
+@mixin base-padding-horizontal {
+	padding-left: $base-margin;
+	padding-right: $base-margin;
+}
+
+@mixin base-padding-vertical {
+	padding-top: $base-margin;
+	padding-bottom: $base-margin;
+}
+
+@mixin base-padding-vertical-content {
+	padding-top: $base-margin / 2;
+	padding-bottom: $base-margin / 2;
+}
+
+@mixin input-margin {
+	margin-bottom: $input-spacing;
+}
+
+@mixin input-padding {
+	padding: 8px 10px;
+}
+
+@mixin button($button-background, $text-color, $only-color: false) {
+	@if ($flat-buttons == false) {
+		box-shadow: inset 0px 1px 0px 0px mix($button-background, #fff);
+		background: linear-gradient(to bottom, $button-background 5%, darken($button-background, 2%) 100%);
+		border: 1px solid darken($button-background, 10%);
+	}
+
+	background-color: $button-background;
+	font-size: 90%;
+	line-height: 1.2;
+	border-radius: 0;
+	cursor: pointer;
+
+	@if ($only-color == false) {
+		font-weight: bold;
+		display: block;
+	}
+
+	color: $text-color;
+	@if ($only-color == false) {
+		display: block;
+		@include input-padding;
+	}
+	&:hover {
+		color: $text-color;
+		@if ($only-color == false) {
+			text-decoration: none;
+		}
+	}
+
+	&:active {
+		background-color: darken($button-background, 5%);
+		@if ($flat-buttons == false) {
+			background: linear-gradient(to bottom, darken($button-background, 5%) 5%, darken(darken($button-background, 5%), 2%) 100%);
+			border: 1px solid darken($button-background, 15%);
+		}
+	}
+
+	&:disabled {
+		background-color: mix($button-background, $background-color);
+		@if ($flat-buttons == false) {
+			background: linear-gradient(to bottom, mix($button-background, $background-color) 5%, darken(mix($button-background, $background-color), 2%) 100%);
+			border: 1px solid darken(mix($button-background, $background-color), 10%);
+		}
+	}
+
+	&:active  {
+		box-shadow: 0 0 5px $primary-color;;
+	}
+
+	@if ($flat-buttons == true) {
+		.btn-group & {
+			border-left: 1px solid darken($button-background, 5%);
+		}
+	}
+}
+
 $screen: "only screen";
 
 $xsmall-range: (0, 30em);
@@ -77,17 +192,48 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 @import 'constants_white';
 
 html, body {
-	background: white;
-	color: black;
-}
-
-/*
-html {
+	background: mix($background-color, $text-color, 95%);
+	color: $text-color;
 	font-family: sans-serif;
+	margin: 0;
 }
 
-body {
-	margin: 0;
+#content {
+	@include base-padding;
+	@include base-margin;
+	margin-top: -$base-margin;
+	background: $background-color;
+	box-shadow: 0px 0px 6px -1px rgba(0, 0, 0, 0.25), 0px 0px 0px 1px rgba(0, 0, 0, 0.05);
+}
+
+#header {
+	@include base-padding-horizontal;
+	padding: $base-margin $base-margin $base-margin*2 $base-margin;
+	background: $primary-color;
+	overflow: hidden;
+	h1 {
+		color: $primary-complement;
+		font-size: 22px;
+		display: block;
+		margin: 0;
+	}
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 300;
+	margin: 0 0 $base-margin 0;
+}
+
+h1 {
+	font-size: 22px;
+}
+
+h2 {
+	font-size: 20px;
+}
+
+h3 {
+	font-size: 19px;
 }
 
 input[type="text"],
@@ -105,147 +251,135 @@ input[type="search"],
 input[type="tel"],
 select,
 textarea {
-	padding: 8px 10px;
-	display: block;
-	border: 1px solid #ccc;
-	box-shadow: inset 0 1px 3px #eee;
-	border-radius: 4px;
-	vertical-align: middle;
-	box-sizing: border-box;
-	margin: 4px 0;
-	box-sizing: border-box;
-	width: 100%;
-}
+	@include input-margin;
+	@include input-padding;
 
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="email"]:focus,
-input[type="url"]:focus,
-input[type="date"]:focus,
-input[type="month"]:focus,
-input[type="time"]:focus,
-input[type="datetime"]:focus,
-input[type="datetime-local"]:focus,
-input[type="week"]:focus,
-input[type="number"]:focus,
-input[type="search"]:focus,
-input[type="tel"]:focus,
-select:focus,
-textarea:focus {
-	outline: 0;
-	border-color: #129FEA;
+	display: block;
+	background: $background-color;
+	border: 1px solid $input-border-color;
+	box-shadow: inset 0 1px 3px $input-shadow-color;
+	box-sizing: border-box;
+	border-radius: 0;
+	width: 100%;
+
+	&:focus {
+		outline: 0;
+		border-color: $primary-color;
+		box-shadow: 0px 0px 4px -1px $primary-color;
+	}
+
+	&:focus:invalid, .has-errors & {
+		border-color: $invalid-color;
+		color: $invalid-color;
+		box-shadow: 0px 0px 4px -1px $invalid-color;
+	}
+
+	&[disabled] {
+		cursor: not-allowed;
+		background-color: mix($background-color, $text-color, 80%);
+		color: mix($background-color, $text-color, 40%);;
+	}
 }
 
 input[type="file"]:focus,
 input[type="radio"]:focus,
 input[type="checkbox"]:focus {
-	outline: thin solid #129FEA;
-	outline: 1px auto #129FEA;
+	outline: thin solid $primary-color;
+	outline: 1px auto $primary-color;
 }
 
-.checkbox,
-.radio {
-	margin: 8px 0;
-	display: block;
-}
-
-
-input[type="text"][disabled],
-input[type="password"][disabled],
-input[type="email"][disabled],
-input[type="url"][disabled],
-input[type="date"][disabled],
-input[type="month"][disabled],
-input[type="time"][disabled],
-input[type="datetime"][disabled],
-input[type="datetime-local"][disabled],
-input[type="week"][disabled],
-input[type="number"][disabled],
-input[type="search"][disabled],
-input[type="tel"][disabled],
-input[type="color"][disabled],
-select[disabled],
-textarea[disabled] {
-	cursor: not-allowed;
-	background-color: #eaeded;
-	color: #cad2d3;
-}
-
-input:focus:invalid,
-textarea:focus:invalid,
-select:focus:invalid {
-	color: #b94a48;
-	border-color: #e9322d;
-}
-
-select {
-	height: 2.25em;
-	border: 1px solid #ccc;
-	background-color: white;
-}
-select[multiple] {
-	height: auto;
-}
-label {
-	margin: 8px 0 3px;
-}
-
-fieldset {
-	margin: 0;
-	padding: 5px 0 12px;
-	border: 0;
-}
-legend {
-	display: block;
-	width: 100%;
-	padding: 5px 0;
-	margin-bottom: 5px;
-	color: #333;
-	border-bottom: 1px solid #e5e5e5;
-}
-
-button {
-	display: inline-block;
-	line-height: normal;
-	white-space: nowrap;
-	vertical-align: middle;
-	text-align: center;
-	cursor: pointer;
-	padding: 0.5em 1em;
-	box-sizing: border-box;
-	color: white;
-	border: 1px solid #0078e7;
-	background-color: #0078e7;
-	text-decoration: none;
-	border-radius: 4px;
-}
-
-button:hover, button:focus {
-	background: lighter(#0078e7);
-	border: 1px solid #aaa;
+button, input[type=submit], .button {
+	@include input-margin;
+	@include button($primary-color, $primary-complement);
 }
 
 button::-moz-focus-inner {
 	padding: 0;
-	border: 0;
+	border: 0
+}
+
+.button-group {
+	overflow: hidden;
+	padding-left: 1px;
+	button, input[type=submit], .button {
+		display: block;
+		float: left;
+		margin-left: -1px;
+	}
+}
+
+.button-group.navigation {
+	float: right;
+	button, input[type=submit], .button {
+		padding: $base-margin / 2;
+		width: 30px;
+		height: 30px;
+		margin-bottom: 0;
+	}
+}
+
+select {
+	height: 2.25em;
+	border: 1px solid $input-border-color;
+	background-color: $background-color;
+	color: $text-color;
+}
+
+select[multiple] {
+	height: auto;
+}
+
+
+label {
+	display: block;
+	margin: 0;
+	color: mix($text-color, $background-color, 80%);
+}
+
+.errors {
+	@include base-padding;
+	@include base-margin-cancel-horizontal;
+	@include input-margin;
+	list-style: none;
+	border-top: 1px solid #ffd9d9;
+	border-bottom: 1px solid #ffd9d9;
+	color: maroon;
+	background: #ffe6e6;
+}
+
+.errors:first-child {
+	@include base-margin-cancel-top;
+}
+
+.submit-row {
+	@include base-margin-cancel-bottom;
+	@include base-padding;
+	padding-bottom: $base-margin - $input-spacing;
+	overflow: hidden;
+	background: mix($background-color, $text-color, 98%);
+	border-top: 1px solid mix($background-color, $text-color, 90%);
+	box-shadow: inset 0px 4px 3px -3px rgba(0, 0, 0, 0.02);
+
+	.positive {
+		float: right;
+	}
+
+	.negative {
+		float: left;
+	}
 }
 
 body.login {
-	.panel {
-		box-sizing: border-box;
-		padding: 0 1em;
-		font-weight: 300;
-
-		@media #{$small-up} {
-			width: 50%;
-			float: left;
+	@media #{$large-up} {
+		#content {
+			max-width: 400px;
+			margin-left: auto;
+			margin-right: auto;
+			margin-top: $base-margin * 2;
 		}
 
-		h2 {
-			font-weight: 300;
-			border-bottom: 1px solid #e5e5e5;
-			padding-bottom: 0.5em;
+		#header {
+			@include base-padding;
 		}
 	}
 }
-*/

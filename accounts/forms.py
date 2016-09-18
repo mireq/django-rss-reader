@@ -7,8 +7,9 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class AuthenticationForm(auth_forms.AuthenticationForm):
-	remember = forms.BooleanField(
-		label=_("Remember me"),
-		required=False,
-		initial=True
-	)
+	pass
+	#remember = forms.BooleanField(
+	#	label=_("Remember me"),
+	#	required=False,
+	#	initial=True
+	#)
