@@ -35,6 +35,11 @@ class Category(models.Model):
 		ordering = ('order',)
 
 
+class FeedManager(models.Manager):
+	def for_update(self):
+		return self.get_queryset().exclude(update_status='')
+
+
 @python_2_unicode_compatible
 class Feed(TimestampModelMixin, models.Model):
 	UPDATE_STATUS_UPDATED = 'u'
@@ -45,6 +50,8 @@ class Feed(TimestampModelMixin, models.Model):
 		('u', _("Updated")),
 		('e', _("Update error")),
 	)
+
+	objects = FeedManager()
 
 	title = models.CharField(
 		verbose_name=_("feed title"),
@@ -145,7 +152,9 @@ class UserFeed(models.Model):
 
 
 class EntryManager(models.Manager):
-	pass
+	def for_user(self, user):
+		return (self.get_queryset()
+			.filter(status__user=user))
 
 
 @python_2_unicode_compatible
@@ -212,7 +221,8 @@ class UserEntryStatus(models.Model):
 	)
 	entry = models.ForeignKey(
 		Entry,
-		verbose_name=_("news item")
+		verbose_name=_("news item"),
+		related_name='status'
 	)
 	is_unread = models.BooleanField(
 		verbose_name=_("news is unread"),
