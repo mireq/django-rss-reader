@@ -39,6 +39,7 @@ INSTALLED_APPS = [
 	# apps
 	'accounts',
 	'feeds',
+	'web',
 ]
 
 MIDDLEWARE_CLASSES = [
