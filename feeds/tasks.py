@@ -57,7 +57,7 @@ def import_entries(feed, entries):
 			'author_name': entry.get('author', ''),
 		}
 		Entry.objects.update_or_create(
-			guid=entry.guid,
+			guid=entry.get('guid', entry.get('link')),
 			feed=feed,
 			defaults=entry_data,
 		)
