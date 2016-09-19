@@ -206,8 +206,6 @@ class Entry(models.Model):
 	)
 	created = models.DateTimeField(
 		verbose_name = _("created date"),
-		blank=True,
-		null=True,
 		db_index=True
 	)
 	updated = models.DateTimeField(

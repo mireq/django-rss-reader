@@ -9,3 +9,12 @@
 		{{ entry.summary|safe }}
 	</div>
 {% endblock %}
+
+{% block top_navigation %}
+	{% if prev %}
+		<a href="{{ prev.get_absolute_url }}?list_type={{ request.GET.list_type }}" class="button left"></a>
+	{% endif %}
+	{% if next %}
+		<a href="{{ next.get_absolute_url }}?list_type={{ request.GET.list_type }}" class="button right"></a>
+	{% endif %}
+{% endblock %}

@@ -106,6 +106,7 @@ $rem-base: 16px !default;
 	line-height: 1.2;
 	border-radius: 0;
 	cursor: pointer;
+	box-sizing: border-box;
 
 	@if ($only-color == false) {
 		font-weight: bold;
@@ -486,7 +487,7 @@ button::-moz-focus-inner {
 			height: 0;
 			border-style: solid;
 			vertical-align: middle;
-			margin: 0 auto;
+			margin: 5px auto;
 		}
 	}
 
