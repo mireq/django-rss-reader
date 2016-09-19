@@ -15,6 +15,8 @@ from web.celery import app
 def timestruct_to_utctime(timestruct):
 	if timestruct is None:
 		return None
+	elif isinstance(timestruct, datetime):
+		return timestruct
 	else:
 		utc_date = datetime.utcfromtimestamp(mktime(timestruct))
 		return utc_date.replace(tzinfo=timezone.utc)
@@ -51,7 +53,7 @@ def import_entries(feed, entries):
 			'title': entry.title,
 			'summary': entry.get('summary', ''),
 			'content': entry.get('content', ''),
-			'created': timestruct_to_utctime(entry.published_parsed),
+			'created': timestruct_to_utctime(entry.get('published_parsed', timezone.now())),
 			'author_name': entry.get('author', ''),
 		}
 		Entry.objects.update_or_create(
