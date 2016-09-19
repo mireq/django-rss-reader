@@ -53,7 +53,8 @@ def import_entries(feed, entries):
 			'title': entry.title,
 			'summary': entry.get('summary', ''),
 			'content': entry.get('content', ''),
-			'created': timestruct_to_utctime(entry.get('published_parsed', timezone.now())),
+			'created': timestruct_to_utctime(entry.get('published_parsed', entry.get('updated_parsed', timezone.now()))),
+			'updated': timestruct_to_utctime(entry.get('updated_parsed')),
 			'author_name': entry.get('author', ''),
 		}
 		Entry.objects.update_or_create(
