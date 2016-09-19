@@ -187,14 +187,14 @@ class Entry(models.Model):
 		verbose_name=_("content"),
 		blank=True
 	)
-	published = models.DateTimeField(
-		verbose_name = _("published date"),
+	created = models.DateTimeField(
+		verbose_name = _("created date"),
 		blank=True,
 		null=True,
 		db_index=True
 	)
-	modified = models.DateTimeField(
-		verbose_name = _("modified date"),
+	updated = models.DateTimeField(
+		verbose_name = _("updated date"),
 		blank=True,
 		null=True
 	)

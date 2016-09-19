@@ -14,12 +14,14 @@
 	<div id="header">
 		<header>
 			<a class="toggle-menu" href="#"></a>
-			<!--
 			<div class="button-group navigation">
-				<button class="button left"></button>
-				<button class="button right"></button>
+				{% block top_navigation %}
+					<!--
+					<button class="button left"></button>
+					<button class="button right"></button>
+					-->
+					{% endblock %}
 			</div>
-			-->
 			<h1>{% block title %}{% endblock %}&nbsp;</h1>
 		</header>
 	</div>

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.conf import settings
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.core.urlresolvers import reverse
 from django.http.response import HttpResponseRedirect
@@ -15,7 +16,7 @@ class Login(FormView):
 
 	def form_valid(self, form):
 		auth_login(self.request, form.get_user())
-		next_url = self.request.POST.get('next') or reverse('home')
+		next_url = self.request.POST.get('next') or reverse(settings.LOGIN_REDIRECT_URL)
 		return HttpResponseRedirect(next_url)
 
 	def get_context_data(self, **kwargs):
@@ -26,7 +27,7 @@ class Login(FormView):
 class Logout(View):
 	def get(self, request, *args, **kwargs):
 		auth_logout(request)
-		return HttpResponseRedirect(reverse('home'))
+		return HttpResponseRedirect(reverse(settings.LOGIN_URL))
 
 
 login = Login.as_view()
