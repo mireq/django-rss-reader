@@ -53,6 +53,11 @@ class EntryDetail(UserEntriesMixin, DetailView):
 		ctx['prev'] = self.get_new_prev()
 		return ctx
 
+	def get_object(self, **kwargs):
+		obj = super(EntryDetail, self).get_object(**kwargs)
+		obj.status.filter(user=self.request.user).update(is_unread=False)
+		return obj
+
 
 new_entries = NewEntries.as_view()
 entry_detail = EntryDetail.as_view()
