@@ -24,7 +24,7 @@ def timestruct_to_utctime(timestruct):
 
 def fill_feed_info(feed, parser_data):
 	feed_data = parser_data.feed
-	feed.title = feed_data.get('title', feed)
+	feed.title = feed_data.get('title', feed.xml_url)
 	feed.description = feed_data.get('description', '')
 	feed.html_url = feed_data.get('link', '')
 	feed.language = feed_data.get('language', '')
