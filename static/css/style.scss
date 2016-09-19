@@ -307,7 +307,7 @@ html, body {
 
 		&:hover, &:active {
 			text-decoration: none;
-			background: mix($primary-color, $background-color, 75%);
+			background: $active-color;
 			color: $primary-complement;
 		}
 	}
@@ -356,6 +356,10 @@ a {
 	&:hover {
 		text-decoration: underline;
 	}
+}
+
+p {
+	margin: 0 0 0.5em 0;
 }
 
 input, button, textarea, select, a {
@@ -623,7 +627,7 @@ label {
 			margin-top: $base-margin-reduced;
 		}
 		&:hover {
-			background: mix($primary-color, $background-color, 75%);
+			background: $active-color;
 			.title {
 				color: $primary-complement;
 			}
@@ -631,6 +635,34 @@ label {
 				color: mix($primary-complement, $primary-color, 75%);
 			}
 		}
+	}
+}
+
+.entry {
+	.info {
+		background: $background-color;
+		color: $primary-color;
+		padding-bottom: $base-margin;
+		border-bottom: 1px solid $light-border-color;
+
+		.extra-info {
+			color: mix($text-color, $background-color);
+			font-size: 13px;
+			@include base-padding-horizontal;
+			.feed {
+				float: right;
+			}
+		}
+
+		h1 {
+			@include base-padding;
+			margin: 0 0 ($base-margin / 2) 0;
+			padding-bottom: 0;
+		}
+	}
+
+	.summary {
+		@include base-padding;
 	}
 }
 

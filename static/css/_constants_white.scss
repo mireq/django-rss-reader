@@ -8,6 +8,7 @@ $body-background-color: mix($background-color, $text-color, 95%);
 $primary-color: #6b8fc7;
 $primary-complement: white;
 $invalid-color: #ee5555;
+$active-color: mix($primary-color, $background-color, 75%);
 
 $flat-buttons: false;
 

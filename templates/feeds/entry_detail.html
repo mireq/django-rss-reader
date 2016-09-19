@@ -5,8 +5,20 @@
 
 {% block content %}
 	<div class="entry">
-		<h1>{{ entry }}</h1>
-		{{ entry.summary|safe }}
+		<div class="info">
+			<h1>{{ entry }}</h1>
+			<div class="extra-info">
+				<span class="feed">
+					{{ entry.feed_name }}
+				</span>
+				<span class="date">
+					{{ entry.created|date:"SHORT_DATETIME_FORMAT" }}
+				</span>
+			</div>
+		</div>
+		<div class="summary">
+			{{ entry.summary|safe }}
+		</div>
 	</div>
 {% endblock %}
 
