@@ -475,11 +475,15 @@ button::-moz-focus-inner {
 		}
 	}
 
+	.button-group .button {
+		margin-top: $base-margin-reduced / 4;
+		line-height: 21px;
+	}
+
 	.button.left, .button.right {
 		width: 35px;
 		padding-left: 0;
 		padding-right: 0;
-		margin-top: $base-margin-reduced / 4;
 		&:before {
 			content: " ";
 			display: block;

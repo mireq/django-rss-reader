@@ -11,6 +11,7 @@
 {% endblock %}
 
 {% block top_navigation %}
+	<a href="{{ entry.link }}" class="button" target="_blank">{% trans "Open" %}</a>
 	{% if prev %}
 		<a href="{{ prev.get_absolute_url }}?list_type={{ request.GET.list_type }}" class="button left"></a>
 	{% endif %}
