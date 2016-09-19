@@ -73,7 +73,7 @@ def update_feed(feed_id, force=False):
 		parser_data = feedparser.parse(feed.xml_url)
 		old_build_date = feed.last_build_date
 		fill_feed_info(feed, parser_data)
-		if not force and old_build_date == feed.last_build_date:
+		if not force and (old_build_date == feed.last_build_date and not old_build_date is None):
 			return
 		feed.update_status = Feed.UPDATE_STATUS_UPDATED
 		feed.update_error = ''
