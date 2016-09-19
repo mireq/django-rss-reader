@@ -7,7 +7,12 @@
 	<ul class="entries">
 		{% for entry in object_list %}
 			<li>
-				{{ entry }}
+				<span class="feed">{{ entry.feed_name }}</span>
+				<a class="title" href="{{ entry.get_absolute_url }}">{{ entry }}</a>
+				<div class="summary">
+					{{ entry.short_summary }}
+				</div>
+				<a class="fullclickable-link" href="{{ entry.get_absolute_url }}"></a>
 			</li>
 		{% endfor %}
 	</ul>
@@ -15,10 +20,10 @@
 	{% if is_paginated %}
 		<div class="pagination">
 			{% if page_obj.has_previous %}
-				<a class="previous" href="{{ request.path }}?page={{ page_obj.previous_page_number }}">{% trans "Previous" %}</a>
+				<a class="previous button" href="{{ request.path }}?page={{ page_obj.previous_page_number }}">{% trans "Previous" %}</a>
 			{% endif %}
 			{% if page_obj.has_next %}
-				<a class="next" href="{{ request.path }}?page={{ page_obj.next_page_number }}">{% trans "Next" %}</a>
+				<a class="next button" href="{{ request.path }}?page={{ page_obj.next_page_number }}">{% trans "Next" %}</a>
 			{% endif %}
 		</div>
 	{% endif %}

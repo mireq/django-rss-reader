@@ -3,7 +3,11 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.db import models
+from django.db.models import F, Case, When
+from django.db.models.functions import Coalesce
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.html import strip_tags
+from django.utils.text import Truncator
 from django.utils.translation import ugettext_lazy as _
 
 from web.models import TimestampModelMixin
@@ -153,8 +157,21 @@ class UserFeed(models.Model):
 
 class EntryManager(models.Manager):
 	def for_user(self, user):
+		feed_name = Coalesce(
+			Case(
+				When(
+					feed__userfeed__user=user,
+					then=F('feed__userfeed__name')
+				),
+				output_field=models.CharField(null=True)
+			),
+			F('feed'),
+			output_field=models.CharField()
+		)
 		return (self.get_queryset()
-			.filter(status__user=user))
+			.filter(status__user=user, feed__userfeed__user=user)
+			.annotate(feed_name=feed_name)
+			.select_related('feed'))
 
 
 @python_2_unicode_compatible
@@ -206,6 +223,10 @@ class Entry(models.Model):
 
 	def __str__(self):
 		return self.title
+
+	@property
+	def short_summary(self):
+		return Truncator(strip_tags(self.summary).replace('&shy;', '')).words(100, truncate="...")
 
 	class Meta:
 		verbose_name = _("News entry")

@@ -546,6 +546,7 @@ label {
 
 .submit-row, .pagination {
 	@include base-padding;
+	padding-bottom: $base-margin - $input-spacing;
 	overflow: hidden;
 	background: mix($background-color, $text-color, 98%);
 	border-top: 1px solid mix($background-color, $text-color, 90%);
@@ -564,13 +565,67 @@ label {
 
 .submit-row {
 	@include base-margin-cancel-bottom;
-	padding-bottom: $base-margin - $input-spacing;
 	.positive {
 		float: right;
 	}
 
 	.negative {
 		float: left;
+	}
+}
+
+.fullclickable-link {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+.entries {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+
+	li {
+		@include base-padding-horizontal;
+		@include base-padding-vertical;
+		border-top: 1px solid $light-border-color;
+		position: relative;
+		overflow: hidden;
+		&:first-child {
+			border-top: none;
+		}
+		.title {
+			@include text-ellipsis;
+			display: block;
+			font-weight: bold;
+			text-decoration: none;
+			color: mix($text-color, $background-color, 80%);
+		}
+		.feed {
+			float: right;
+			font-size: 14px;
+			padding-left: $base-margin;
+			color: mix($text-color, $background-color, 50%);
+		}
+		.summary {
+			font-size: 14px;
+			line-height: 18px;
+			height: 36px;
+			overflow: hidden;
+			color: mix($text-color, $background-color, 60%);
+			margin-top: $base-margin-reduced;
+		}
+		&:hover {
+			background: mix($primary-color, $background-color, 75%);
+			.title {
+				color: $primary-complement;
+			}
+			.feed, .summary {
+				color: mix($primary-complement, $primary-color, 75%);
+			}
+		}
 	}
 }
 
