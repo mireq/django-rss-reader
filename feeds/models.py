@@ -165,7 +165,7 @@ class EntryManager(models.Manager):
 				),
 				output_field=models.CharField(null=True)
 			),
-			F('feed'),
+			F('feed__title'),
 			output_field=models.CharField()
 		)
 		return (self.get_queryset()
