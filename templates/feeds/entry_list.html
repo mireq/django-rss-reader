@@ -8,11 +8,11 @@
 		{% for entry in object_list %}
 			<li>
 				<span class="feed">{{ entry.feed_name }}</span>
-				<a class="title" href="{{ entry.get_absolute_url }}">{{ entry }}</a>
+				<a class="title" href="{{ entry.get_absolute_url }}?list_type={{ list_type }}">{{ entry }}</a>
 				<div class="summary">
 					{{ entry.short_summary }}
 				</div>
-				<a class="fullclickable-link" href="{{ entry.get_absolute_url }}"></a>
+				<a class="fullclickable-link" href="{{ entry.get_absolute_url }}?list_type={{ list_type }}"></a>
 			</li>
 		{% endfor %}
 	</ul>

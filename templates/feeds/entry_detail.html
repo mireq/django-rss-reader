@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block head_title %}{% trans "New entries" %} | {{ block.super }}{% endblock %}
+{% block title %}{% trans "New entries" %}{% endblock %}
+
+{% block content %}
+	<div class="entry">
+		<h1>{{ entry }}</h1>
+		{{ entry.summary|safe }}
+	</div>
+{% endblock %}

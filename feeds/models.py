@@ -228,6 +228,10 @@ class Entry(models.Model):
 	def short_summary(self):
 		return Truncator(strip_tags(self.summary).replace('&shy;', '')).words(100, truncate="...")
 
+	@models.permalink
+	def get_absolute_url(self):
+		return ('entry_detail', (self.pk,), {})
+
 	class Meta:
 		verbose_name = _("News entry")
 		verbose_name_plural = _("News entries")
