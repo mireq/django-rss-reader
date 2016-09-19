@@ -438,10 +438,40 @@ button::-moz-focus-inner {
 		margin-bottom: 0;
 	}
 
+	a {
+		color: white;
+	}
+
 	.navigation {
 		float: right;
 	}
 
+	.toggle-menu {
+		float: left;
+		font-size: 22px;
+		line-height: 22px;
+		padding: 9px 0;
+		width: 40px;
+		height: 22px;
+		margin-left: -$base-margin / 2;
+		@media #{$large-up} {
+			margin-left: 0;
+		}
+		&:before {
+			content: " ";
+			display: block;
+			border: none;
+			margin-left: auto;
+			margin-right: auto;
+			box-shadow: 0px 3px 0px 2px #FFF, 0px 10px 0px 2px #FFF, 0px 17px 0px 2px #FFF;
+			width: 1px;
+		}
+		&:hover {
+			text-decoration: none;
+		}
+	}
+
+	/*
 	.button.left, .button.right, .button.menu {
 		width: 35px;
 		padding-left: 0;
@@ -477,6 +507,7 @@ button::-moz-focus-inner {
 			width: 16px;
 		}
 	}
+	*/
 }
 
 select {
