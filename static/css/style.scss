@@ -613,7 +613,11 @@ label {
 			color: mix($text-color, $background-color, 80%);
 		}
 		.feed {
-			float: right;
+			display: none;
+			@media #{$large-up} {
+				float: right;
+				display: block;
+			}
 			font-size: 14px;
 			padding-left: $base-margin;
 			color: mix($text-color, $background-color, 50%);
