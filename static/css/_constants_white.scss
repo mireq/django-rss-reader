@@ -4,6 +4,7 @@ $input-spacing: $base-margin;
 
 $background-color: white;
 $text-color: black;
+$body-background-color: mix($background-color, $text-color, 95%);
 $primary-color: #6b8fc7;
 $primary-complement: white;
 $invalid-color: #ee5555;
@@ -12,3 +13,4 @@ $flat-buttons: false;
 
 $input-border-color: mix($background-color, $text-color, 80%);
 $input-shadow-color: mix($background-color, $text-color, 93%);
+$light-border-color: mix($background-color, $text-color, 95%);

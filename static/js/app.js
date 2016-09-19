@@ -1,9 +1,9 @@
 (function(_) {
 
 
-var toggleMenu = function() { _.toggleClass(document.body, 'visible-menu'); };
-var openMenu = function() { _.addClass(document.body, 'visible-menu'); };
-var closeMenu = function() { _.removeClass(document.body, 'visible-menu'); };
+var toggleMenu = function(e) { _.toggleClass(document.body, 'visible-menu'); e.preventDefault(); };
+var openMenu = function(e) { _.addClass(document.body, 'visible-menu'); e.preventDefault(); };
+var closeMenu = function(e) { _.removeClass(document.body, 'visible-menu'); e.preventDefault(); };
 
 
 var register = function(element) {

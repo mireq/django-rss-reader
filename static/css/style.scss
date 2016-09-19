@@ -198,7 +198,7 @@ $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5
 @import 'constants_white';
 
 html, body {
-	background: mix($background-color, $text-color, 95%);
+	background: $body-background-color;
 	color: $text-color;
 	font-family: sans-serif;
 	margin: 0;
@@ -218,9 +218,17 @@ html, body {
 
 #header {
 	padding: ($base-margin-reduced / 2) $base-margin-reduced ($base-margin * 1.5) $base-margin-reduced;
+}
+
+.heading {
+	@include base-padding-horizontal;
+	@include base-padding-vertical-content;
+}
+
+#header, .heading {
 	background: $primary-color;
 	overflow: hidden;
-	h1 {
+	h1, .title {
 		color: $primary-complement;
 		font-size: 22px;
 		line-height: 22px;
@@ -229,12 +237,13 @@ html, body {
 		margin: 0;
 		padding: 9px ($base-margin-reduced / 2);
 		vertical-align: middle;
+		font-weight: 300;
 		@include text-ellipsis;
 	}
 }
 
 #menu {
-	background: white;
+	background: $body-background-color;
 	position: fixed;
 	z-index: 10;
 	top: 0px;
@@ -245,6 +254,23 @@ html, body {
 	margin-left: -256px;
 	transition: all 0.2s;
 
+	.heading .title {
+		padding: 0;
+		@include base-padding-vertical-content;
+		&:before {
+			content: " ";
+			display: inline-block;
+			width: 0;
+			height: 0;
+			border-style: solid;
+			vertical-align: middle;
+			margin: 0 $base-margin 0 0;
+			border-width: 6px 12px 6px 0;
+			border-color: transparent #ffffff transparent transparent;
+			vertical-align: middle;
+		}
+	}
+
 	#menu-content {
 		height: 100%;
 		overflow-x: hidden;
@@ -253,6 +279,37 @@ html, body {
 
 	body.visible-menu & {
 		margin-left: 0;
+	}
+
+	ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.15);
+	}
+
+	li {
+		padding: 0;
+		margin: 0;
+	}
+
+	a {
+		display: block;
+		background: $background-color;
+		color: $text-color;
+		@include text-ellipsis;
+		@include base-padding-horizontal;
+		@include base-padding-vertical-content;
+
+		&:hover, &:active {
+			text-decoration: none;
+			background: mix($primary-color, $background-color, 75%);
+			color: $primary-complement;
+		}
+	}
+
+	li.active a {
+		font-weight: bold;
 	}
 }
 

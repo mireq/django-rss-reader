@@ -9,7 +9,7 @@
 		<link rel="stylesheet" type="text/x-scss" href="{% static "css/style.scss" %}" />
 	{% endcompress %}
 </head>
-<body class="{% block bodyclass %}{% endblock %}">
+<body class="{% block bodyclass %}{% endblock %}{% if "visible-menu" in request.GET %} visible-menu{% endif %}">
 {% block body %}
 	<div id="header">
 		<header>
@@ -27,8 +27,10 @@
 	<div id="menu">
 		<div id="menu-content">
 			<nav>
+				<div class="heading">
+					<span class="close-menu title">{% trans "Menu" %}</span>
+				</div>
 				<ul>
-					<li class="close-menu"><a href="#">Close sidebar</a></li>
 					{% if user.is_authenticated %}
 						<li><a href="{% url "accounts:logout" %}">Logout</a></li>
 					{% else %}
