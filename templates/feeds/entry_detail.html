@@ -23,10 +23,6 @@
 {% endblock %}
 
 {% block top_navigation %}
-	{% if prev %}
-		<a href="{{ prev.get_absolute_url }}?list_type={{ request.GET.list_type }}" class="button left"></a>
-	{% endif %}
-	{% if next %}
-		<a href="{{ next.get_absolute_url }}?list_type={{ request.GET.list_type }}" class="button right"></a>
-	{% endif %}
+	<a href="{% if prev %}{{ prev.get_absolute_url }}?list_type={{ request.GET.list_type }}{% else %}#{% endif %}" class="button left{% if not prev %} disabled{% endif %}"></a>
+	<a href="{% if next %}{{ next.get_absolute_url }}?list_type={{ request.GET.list_type }}{% else %}#{% endif %}" class="button right{% if not next %} disabled {% endif %}"></a>
 {% endblock %}

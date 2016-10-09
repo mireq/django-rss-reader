@@ -484,7 +484,15 @@ button::-moz-focus-inner {
 		line-height: 21px;
 	}
 
-	.button.left, .button.right {
+	.button.disabled {
+		pointer-events: none;
+	}
+
+	.button.disabled:before {
+		opacity: .5;
+	}
+
+	.button.left, .button.right, .button.up, .button.down {
 		width: 35px;
 		padding-left: 0;
 		padding-right: 0;
