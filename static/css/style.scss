@@ -670,6 +670,9 @@ label {
 			@include base-padding;
 			margin: 0 0 ($base-margin / 2) 0;
 			padding-bottom: 0;
+			a {
+				display: block;
+			}
 		}
 	}
 
