@@ -39,6 +39,10 @@ class User(AbstractUser):
 	def user_settings(self, val):
 		self.settings = json.dumps(val, cls=DjangoJSONEncoder)
 
+	def get_full_name(self):
+		full_name = ('%s %s' % (self.first_name, self.last_name)).strip()
+		return full_name or self.username
+
 
 class RememberTokenManager(models.Manager):
 	def get_by_string(self, token):
