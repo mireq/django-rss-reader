@@ -35,6 +35,11 @@ class User(AbstractUser):
 		except ValueError:
 			return {}
 
+	@property
+	def new_entries_count(self):
+		from feeds.models import Entry
+		return Entry.objects.for_user(self).filter(status__is_unread=True).count()
+
 	@user_settings.setter
 	def user_settings(self, val):
 		self.settings = json.dumps(val, cls=DjangoJSONEncoder)

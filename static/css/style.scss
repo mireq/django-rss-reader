@@ -278,6 +278,13 @@ html, body {
 
 		.username {
 			font-weight: bold;
+			margin-top: 4px;
+			@include text-ellipsis;
+		}
+
+		.entries {
+			font-size: 80%;
+			@include text-ellipsis;
 		}
 	}
 
