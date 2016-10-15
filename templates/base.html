@@ -1,4 +1,4 @@
-{% load assets_manager %}<!DOCTYPE html>
+{% load accounts_tags assets_manager %}<!DOCTYPE html>
 <html>
 <head>
 	<title>{% block head_title %}{% trans "RSS reader" %}{% endblock %}</title>
@@ -28,7 +28,16 @@
 		<div id="menu-content">
 			<nav>
 				<div class="heading">
-					<span class="close-menu title">{% trans "Menu" %}</span>
+					<div class="user">
+						<img class="avatar" src="{% gravatar_for_email request.user.email %}" alt="avatar" />
+						<div class="info">
+							{% if request.user.is_authenticated %}
+								<div class="username">{{ user.get_full_name }}</div>
+							{% else %}
+								<div class="username">{% trans "Anonymous user" %}</div>
+							{% endif %}
+						</div>
+					</div>
 				</div>
 				<ul>
 					{% if user.is_authenticated %}
