@@ -24,7 +24,11 @@ class UserEntriesMixin(LoginRequiredMixin):
 		return self.get_filtered_queryset().order_by(*self.get_ordering())
 
 	def get_filtered_queryset(self):
-		return Entry.objects.for_user(self.request.user)
+		qs = Entry.objects.for_user(self.request.user)
+		if self.saved_filters.get('all'):
+			return qs
+		else:
+			return qs.filter(is_read=False)
 
 	def get_reverse_queryset(self):
 		return self.get_filtered_queryset().order_by(*self.get_reverse_ordering())
@@ -69,17 +73,12 @@ class UserEntriesMixin(LoginRequiredMixin):
 		filters = self.request.session.get('saved_filters', {})
 		if 'list_type' in self.request.GET:
 			filters['list_type'] = self.request.GET['list_type']
+		if 'all' in self.request.GET:
+			filters['all'] = self.request.GET.get('all')
 		return filters
 
 
 class EntryList(UserEntriesMixin, ListView):
-	def get_filtered_queryset(self):
-		qs = super(EntryList, self).get_filtered_queryset()
-		if 'all' in self.request.GET:
-			return qs
-		else:
-			return qs.filter(is_read=False)
-
 	def get(self, request, *args, **kwargs):
 		if self.request.session.get('saved_filters') != self.saved_filters:
 			self.request.session['saved_filters'] = self.saved_filters
@@ -100,9 +99,6 @@ class EntryDetail(UserEntriesMixin, DetailView):
 		obj = super(EntryDetail, self).get_object(**kwargs)
 		obj.mark_favorite(self.request.user)
 		return obj
-
-	def get_filtered_queryset(self):
-		return super(EntryDetail, self).get_filtered_queryset().filter(is_read=False)
 
 
 entry_list = EntryList.as_view()
