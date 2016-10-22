@@ -13,7 +13,8 @@ def link_add(context, url, **values):
 		return url
 	get_data = context['request'].GET.copy()
 	get_data.pop('page', None)
-	get_data.update(values)
+	for k, v in values.items():
+		get_data[k] = v
 	separator = '&' if '?' in url else '?'
 	return url + separator + get_data.urlencode()
 
@@ -37,9 +38,9 @@ def link_remove(context, url, *keys):
 
 @register.simple_tag(takes_context=True)
 def current_link_add(context, **values):
-	return link_add(context['request'].path, **values)
+	return link_add(context, context['request'].path, **values)
 
 
 @register.simple_tag(takes_context=True)
 def current_link_remove(context, *keys):
-	return link_remove(context['request'].path, *keys)
+	return link_remove(context, context['request'].path, *keys)

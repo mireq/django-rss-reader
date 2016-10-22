@@ -20,6 +20,12 @@ class UserEntriesMixin(LoginRequiredMixin):
 
 	paginate_by = 10
 
+	def get_context_data(self, **kwargs):
+		ctx = super(UserEntriesMixin, self).get_context_data(**kwargs)
+		ctx['filters'] = self.saved_filters
+		return ctx
+
+
 	def get_queryset(self):
 		return self.get_filtered_queryset().order_by(*self.get_ordering())
 
@@ -34,7 +40,7 @@ class UserEntriesMixin(LoginRequiredMixin):
 		return self.get_filtered_queryset().order_by(*self.get_reverse_ordering())
 
 	def get_ordering(self):
-		return self.ORDERINGS.get(self.saved_filters.get('list_type', 'new'), self.ORDERINGS['default'])
+		return self.ORDERINGS.get(self.saved_filters.get('list_ordering', 'new'), self.ORDERINGS['default'])
 
 	def get_reverse_ordering(self):
 		def invert_field(field):
@@ -71,8 +77,8 @@ class UserEntriesMixin(LoginRequiredMixin):
 	@cached_property
 	def saved_filters(self):
 		filters = self.request.session.get('saved_filters', {})
-		if 'list_type' in self.request.GET:
-			filters['list_type'] = self.request.GET['list_type']
+		if 'list_ordering' in self.request.GET:
+			filters['list_ordering'] = self.request.GET['list_ordering']
 		if 'all' in self.request.GET:
 			filters['all'] = self.request.GET.get('all')
 		return filters

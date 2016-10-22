@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load url_tags %}
+
 {% block title %}{% trans "RSS reader" %}{% endblock %}
 
 {% block content %}
@@ -29,6 +31,9 @@
 {% endblock %}
 
 {% block top_navigation %}
-	<a href="#" class="button">{% trans "Old first" %}</a>
-	<a href="#" class="button">{% trans "New first" %}</a>
+	{% if filters.list_ordering == "old" %}
+		<a href="{% current_link_add list_ordering="new" %}" class="button">{% trans "New first" %}</a>
+	{% else %}
+		<a href="{% current_link_add list_ordering="old" %}" class="button">{% trans "Old first" %}</a>
+	{% endif %}
 {% endblock %}
