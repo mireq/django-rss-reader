@@ -7,6 +7,7 @@ from functools import reduce
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.views.generic import ListView, DetailView
+from django.utils.functional import cached_property
 
 from .models import Entry
 
@@ -28,17 +29,8 @@ class UserEntriesMixin(LoginRequiredMixin):
 	def get_reverse_queryset(self):
 		return self.get_filtered_queryset().order_by(*self.get_reverse_ordering())
 
-	def get_list_type(self):
-		return self.request.GET.get('list_type', 'new')
-
-	def get_context_data(self, **kwargs):
-		ctx = super(UserEntriesMixin, self).get_context_data(**kwargs)
-		ctx['list_type'] = self.get_list_type()
-		return ctx
-
 	def get_ordering(self):
-		list_type = self.request.GET.get('list_type', '')
-		return self.ORDERINGS.get(list_type, self.ORDERINGS['default'])
+		return self.ORDERINGS.get(self.saved_filters.get('list_type', 'new'), self.ORDERINGS['default'])
 
 	def get_reverse_ordering(self):
 		def invert_field(field):
@@ -72,6 +64,13 @@ class UserEntriesMixin(LoginRequiredMixin):
 		qs =  self.get_filtered_queryset().order_by(*ordering)
 		return self.get_next_by_ordering(qs, ordering).first()
 
+	@cached_property
+	def saved_filters(self):
+		filters = self.request.session.get('saved_filters', {})
+		if 'list_type' in self.request.GET:
+			filters['list_type'] = self.request.GET['list_type']
+		return filters
+
 
 class EntryList(UserEntriesMixin, ListView):
 	def get_filtered_queryset(self):
@@ -80,6 +79,11 @@ class EntryList(UserEntriesMixin, ListView):
 			return qs
 		else:
 			return qs.filter(is_read=False)
+
+	def get(self, request, *args, **kwargs):
+		if self.request.session.get('saved_filters') != self.saved_filters:
+			self.request.session['saved_filters'] = self.saved_filters
+		return super(EntryList, self).get(request, *args, **kwargs)
 
 
 class EntryDetail(UserEntriesMixin, DetailView):

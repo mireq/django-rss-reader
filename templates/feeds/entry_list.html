@@ -8,11 +8,11 @@
 		{% for entry in object_list %}
 			<li class="{% if not entry.is_read %} new{% endif %}{% if entry.is_favorite %} favorite{% endif %}">
 				<span class="feed">{{ entry.feed_name }}</span>
-				<a class="title" href="{{ entry.get_absolute_url }}?list_type={{ list_type }}">{{ entry }}</a>
+				<a class="title" href="{{ entry.get_absolute_url }}">{{ entry }}</a>
 				<div class="summary">
 					{{ entry.short_summary }}
 				</div>
-				<a class="fullclickable-link" href="{{ entry.get_absolute_url }}?list_type={{ list_type }}"></a>
+				<a class="fullclickable-link" href="{{ entry.get_absolute_url }}"></a>
 			</li>
 		{% endfor %}
 	</ul>
