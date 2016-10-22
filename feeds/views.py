@@ -94,7 +94,7 @@ class EntryDetail(UserEntriesMixin, DetailView):
 
 	def get_object(self, **kwargs):
 		obj = super(EntryDetail, self).get_object(**kwargs)
-		obj.status.filter(user=self.request.user).update(is_unread=False)
+		obj.mark_favorite(self.request.user)
 		return obj
 
 	def get_filtered_queryset(self):

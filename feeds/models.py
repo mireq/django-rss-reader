@@ -234,6 +234,15 @@ class Entry(models.Model):
 	def get_absolute_url(self):
 		return ('entry_detail', (self.pk,), {})
 
+	def mark_read(self, user, status=True):
+		if status:
+			self.status.filter(user=user).update(is_unread=False)
+		else:
+			self.status.filter(user=user).update(is_unread=True)
+
+	def mark_favorite(self, user, status=True):
+		self.status.filter(user=user).update(is_favorite=status)
+
 	class Meta:
 		verbose_name = _("News entry")
 		verbose_name_plural = _("News entries")
