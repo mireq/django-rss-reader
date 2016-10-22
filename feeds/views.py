@@ -79,7 +79,7 @@ class EntryList(UserEntriesMixin, ListView):
 		if 'all' in self.request.GET:
 			return qs
 		else:
-			return qs.filter(is_unread=True)
+			return qs.filter(is_read=False)
 
 
 class EntryDetail(UserEntriesMixin, DetailView):
@@ -98,7 +98,7 @@ class EntryDetail(UserEntriesMixin, DetailView):
 		return obj
 
 	def get_filtered_queryset(self):
-		return super(EntryDetail, self).get_filtered_queryset().filter(is_unread=True)
+		return super(EntryDetail, self).get_filtered_queryset().filter(is_read=False)
 
 
 entry_list = EntryList.as_view()

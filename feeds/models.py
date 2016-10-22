@@ -5,6 +5,7 @@ from django.conf import settings
 from django.db import models
 from django.db.models import F, Case, When
 from django.db.models.functions import Coalesce
+from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.html import strip_tags
 from django.utils.text import Truncator
@@ -172,7 +173,7 @@ class EntryManager(models.Manager):
 			.filter(status__user=user, feed__userfeed__user=user)
 			.annotate(
 				feed_name=feed_name,
-				is_unread=F('status__is_unread'),
+				is_read=F('status__is_read'),
 				is_favorite=F('status__is_favorite')
 			)
 			.select_related('feed'))
@@ -235,10 +236,7 @@ class Entry(models.Model):
 		return ('entry_detail', (self.pk,), {})
 
 	def mark_read(self, user, status=True):
-		if status:
-			self.status.filter(user=user).update(is_unread=False)
-		else:
-			self.status.filter(user=user).update(is_unread=True)
+		self.status.filter(user=user).update(is_read=status, read_time=timezone.now() if status else None)
 
 	def mark_favorite(self, user, status=True):
 		self.status.filter(user=user).update(is_favorite=status)
@@ -260,8 +258,8 @@ class UserEntryStatus(models.Model):
 		verbose_name=_("news item"),
 		related_name='status'
 	)
-	is_unread = models.BooleanField(
-		verbose_name=_("news is unread"),
+	is_read = models.BooleanField(
+		verbose_name=_("news is readed"),
 		blank=True,
 		default=False,
 		db_index=True
@@ -270,6 +268,12 @@ class UserEntryStatus(models.Model):
 		verbose_name=_("news is favorite"),
 		blank=True,
 		default=False,
+		db_index=True
+	)
+	read_time = models.DateTimeField(
+		verbose_name=_("last read time"),
+		blank=True,
+		null=True,
 		db_index=True
 	)
 

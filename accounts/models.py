@@ -38,7 +38,7 @@ class User(AbstractUser):
 	@property
 	def new_entries_count(self):
 		from feeds.models import Entry
-		return Entry.objects.for_user(self).filter(status__is_unread=True).count()
+		return Entry.objects.for_user(self).filter(is_read=False).count()
 
 	@user_settings.setter
 	def user_settings(self, val):

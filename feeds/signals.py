@@ -17,7 +17,7 @@ def on_entry_updated(sender, instance, **kwargs): # pylint: disable=unused-argum
 		.values_list('user_id', flat=True))
 	to_create = set(users).difference(set(user_statuses))
 	new_status_instances = [
-		UserEntryStatus(user_id=user_id, entry=instance, is_unread=True)
+		UserEntryStatus(user_id=user_id, entry=instance, is_read=False)
 		for user_id in to_create
 	]
 	UserEntryStatus.objects.bulk_create(new_status_instances)
