@@ -12,9 +12,12 @@ from .models import Entry
 
 
 class UserEntriesMixin(LoginRequiredMixin):
+	ORDERINGS = {
+		'default': ('-created', '-pk'),
+		'old': ('created', 'pk'),
+	}
+
 	paginate_by = 10
-	list_type = ''
-	ordering = ('pk',)
 
 	def get_queryset(self):
 		return self.get_filtered_queryset().order_by(*self.get_ordering())
@@ -25,13 +28,17 @@ class UserEntriesMixin(LoginRequiredMixin):
 	def get_reverse_queryset(self):
 		return self.get_filtered_queryset().order_by(*self.get_reverse_ordering())
 
+	def get_list_type(self):
+		return self.request.GET.get('list_type', 'new')
+
 	def get_context_data(self, **kwargs):
 		ctx = super(UserEntriesMixin, self).get_context_data(**kwargs)
-		ctx['list_type'] = self.request.GET.get('list_type', self.list_type)
+		ctx['list_type'] = self.get_list_type()
 		return ctx
 
 	def get_ordering(self):
-		return self.ordering
+		list_type = self.request.GET.get('list_type', '')
+		return self.ORDERINGS.get(list_type, self.ORDERINGS['default'])
 
 	def get_reverse_ordering(self):
 		def invert_field(field):
@@ -66,20 +73,18 @@ class UserEntriesMixin(LoginRequiredMixin):
 		return self.get_next_by_ordering(qs, ordering).first()
 
 
-class NewEntries(UserEntriesMixin, ListView):
-	list_type = 'new'
-	ordering = ('-created', '-pk')
-
+class EntryList(UserEntriesMixin, ListView):
 	def get_filtered_queryset(self):
-		return super(NewEntries, self).get_filtered_queryset().filter(status__is_unread=True)
+		qs = super(EntryList, self).get_filtered_queryset()
+		if 'all' in self.request.GET:
+			return qs
+		else:
+			return qs.filter(status__is_unread=True)
 
 
 class EntryDetail(UserEntriesMixin, DetailView):
 	def get_queryset(self):
 		return Entry.objects.for_user(self.request.user)
-
-	def get_ordering(self):
-		return ('-created', '-pk',)
 
 	def get_context_data(self, **kwargs):
 		ctx = super(EntryDetail, self).get_context_data(**kwargs)
@@ -96,5 +101,5 @@ class EntryDetail(UserEntriesMixin, DetailView):
 		return super(EntryDetail, self).get_filtered_queryset().filter(status__is_unread=True)
 
 
-new_entries = NewEntries.as_view()
+entry_list = EntryList.as_view()
 entry_detail = EntryDetail.as_view()
