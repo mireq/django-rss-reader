@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
-{% block head_title %}{% trans "New entries" %} | {{ block.super }}{% endblock %}
-{% block title %}{% trans "New entries" %}{% endblock %}
+{% block title %}{% trans "RSS reader" %}{% endblock %}
 
 {% block content %}
 	<div class="entry">
@@ -23,6 +22,6 @@
 {% endblock %}
 
 {% block top_navigation %}
-	<a href="{% if prev %}{{ prev.get_absolute_url }}?list_type={{ request.GET.list_type }}{% else %}#{% endif %}" class="button left{% if not prev %} disabled{% endif %}"></a>
-	<a href="{% if next %}{{ next.get_absolute_url }}?list_type={{ request.GET.list_type }}{% else %}#{% endif %}" class="button right{% if not next %} disabled {% endif %}"></a>
+	<a href="{% if prev %}{{ prev.get_absolute_url }}{% else %}#{% endif %}" class="button left{% if not prev %} disabled{% endif %}"></a>
+	<a href="{% if next %}{{ next.get_absolute_url }}{% else %}#{% endif %}" class="button right{% if not next %} disabled {% endif %}"></a>
 {% endblock %}

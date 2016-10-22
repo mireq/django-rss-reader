@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
-{% block head_title %}{% trans "New entries" %} | {{ block.super }}{% endblock %}
-{% block title %}{% trans "New entries" %}{% endblock %}
+{% block title %}{% trans "RSS reader" %}{% endblock %}
 
 {% block content %}
 	<ul class="entries">
@@ -27,4 +26,9 @@
 			{% endif %}
 		</div>
 	{% endif %}
+{% endblock %}
+
+{% block top_navigation %}
+	<a href="#" class="button">{% trans "Old first" %}</a>
+	<a href="#" class="button">{% trans "New first" %}</a>
 {% endblock %}
