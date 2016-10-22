@@ -48,10 +48,13 @@
 				</div>
 				<ul>
 					{% if user.is_authenticated %}
-						<li><a href="{% url "accounts:logout" %}">Logout</a></li>
+						<li><a href="{% url "entry_list" %}?list_type=new&amp;t=0">{% trans "Home" %}</a></li>
+					{% endif %}
+					{% if user.is_authenticated %}
+						<li><a href="{% url "accounts:logout" %}">{% trans "Log out" %}</a></li>
 					{% else %}
 						{% url "home" as next_url %}
-						<li><a href="{% url "accounts:login" %}?next={{ next_url|urlencode:"" }}">Login</a></li>
+						<li><a href="{% url "accounts:login" %}?next={{ next_url|urlencode:"" }}">{% trans "Log in" %}</a></li>
 					{% endif %}
 				</ul>
 			</nav>
