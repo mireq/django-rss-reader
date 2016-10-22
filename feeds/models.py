@@ -170,7 +170,11 @@ class EntryManager(models.Manager):
 		)
 		return (self.get_queryset()
 			.filter(status__user=user, feed__userfeed__user=user)
-			.annotate(feed_name=feed_name)
+			.annotate(
+				feed_name=feed_name,
+				is_unread=F('status__is_unread'),
+				is_favorite=F('status__is_favorite')
+			)
 			.select_related('feed'))
 
 

@@ -631,7 +631,7 @@ label {
 			display: block;
 			font-weight: bold;
 			text-decoration: none;
-			color: mix($text-color, $background-color, 80%);
+			color: mix($text-color, $background-color, 40%);
 		}
 		.feed {
 			display: none;
@@ -641,15 +641,26 @@ label {
 			}
 			font-size: 14px;
 			padding-left: $base-margin;
-			color: mix($text-color, $background-color, 50%);
+			color: mix($text-color, $background-color, 20%);
 		}
 		.summary {
 			font-size: 14px;
 			line-height: 18px;
 			height: 36px;
 			overflow: hidden;
-			color: mix($text-color, $background-color, 60%);
+			color: mix($text-color, $background-color, 25%);
 			margin-top: $base-margin-reduced;
+		}
+		&.new {
+			.title {
+				color: mix($text-color, $background-color, 80%);
+			}
+			.feed {
+				color: mix($text-color, $background-color, 50%);
+			}
+			.summary {
+				color: mix($text-color, $background-color, 60%);
+			}
 		}
 		&:hover {
 			background: $active-color;
