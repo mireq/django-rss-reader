@@ -80,8 +80,7 @@ class UserEntriesMixin(LoginRequiredMixin):
 
 class EntryList(UserEntriesMixin, ListView):
 	def get(self, request, *args, **kwargs):
-		if self.request.session.get('saved_filters') != self.saved_filters:
-			self.request.session['saved_filters'] = self.saved_filters
+		self.request.session['saved_filters'] = self.saved_filters
 		return super(EntryList, self).get(request, *args, **kwargs)
 
 
