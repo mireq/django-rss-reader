@@ -13,6 +13,12 @@
 				<span class="date">
 					{{ entry.created|date:"SHORT_DATETIME_FORMAT" }}
 				</span>
+				{% if entry.author_name %}
+					|
+					<span class="user">
+						{{ entry.author_name }}
+					</span>
+				{% endif %}
 			</div>
 		</div>
 		<div class="summary">
