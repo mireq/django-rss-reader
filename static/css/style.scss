@@ -577,13 +577,21 @@ label {
 	@include base-margin-cancel-top;
 }
 
-.submit-row, .pagination {
+.submit-row, .pagination, .bottom-actions {
 	@include base-padding;
 	padding-bottom: $base-margin - $input-spacing;
 	overflow: hidden;
 	background: mix($background-color, $text-color, 98%);
 	border-top: 1px solid mix($background-color, $text-color, 90%);
 	box-shadow: inset 0px 4px 3px -3px rgba(0, 0, 0, 0.02);
+}
+
+.bottom-actions {
+	text-align: right;
+	.button {
+		display: inline-block;
+		@include button(mix($background-color, $primary-color, 90%), $text-color, $only-color: true);
+	}
 }
 
 .pagination {
