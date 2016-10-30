@@ -16,6 +16,16 @@ from web.models import TimestampModelMixin
 from web.ordering import get_next_order
 
 
+try:
+	from html import unescape  # python 3.4+
+except ImportError:
+	try:
+		from html.parser import HTMLParser  # python 3.x (<3.4)
+	except ImportError:
+		from HTMLParser import HTMLParser  # python 2.x
+	unescape = HTMLParser().unescape
+
+
 @python_2_unicode_compatible
 class Category(models.Model):
 	user = models.ForeignKey(
@@ -232,7 +242,7 @@ class Entry(models.Model):
 
 	@property
 	def short_summary(self):
-		return Truncator(strip_tags(self.summary).replace('&shy;', '')).words(100, truncate="...")
+		return Truncator(unescape(strip_tags(self.summary).replace('&shy;', ''))).words(100, truncate="...")
 
 	@models.permalink
 	def get_absolute_url(self):
