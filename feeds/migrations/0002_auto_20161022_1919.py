@@ -3,21 +3,6 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-from django.utils import timezone
-
-
-def forwards_func(apps, schema_editor):
-	db_alias = schema_editor.connection.alias
-	UserEntryStatus = apps.get_model('feeds', 'UserEntryStatus')
-	for status in UserEntryStatus.objects.using(db_alias).all():
-		status.is_read = not status.is_unread
-		status.save()
-	UserEntryStatus.objects.using(db_alias).filter(is_read=True).update(
-		read_time=timezone.now()
-	)
-
-def reverse_func(apps, schema_editor): #pylint: disable=unused-argument
-	pass
 
 
 class Migration(migrations.Migration):
@@ -36,10 +21,5 @@ class Migration(migrations.Migration):
 			model_name='userentrystatus',
 			name='read_time',
 			field=models.DateTimeField(blank=True, db_index=True, null=True, verbose_name='last read time'),
-		),
-		migrations.RunPython(forwards_func, reverse_func),
-		migrations.RemoveField(
-			model_name='userentrystatus',
-			name='is_unread',
 		),
 	]
