@@ -48,7 +48,8 @@
 				</div>
 				<ul>
 					{% if user.is_authenticated %}
-						<li><a href="{% url "entry_list" %}?all=">{% trans "Home" %}</a></li>
+						<li><a href="{% url "entry_list" %}?all=&amp;favorite=">{% trans "Home" %}</a></li>
+						<li><a href="{% url "entry_list" %}?all=&amp;favorite=1">{% trans "Favorite" %}</a></li>
 					{% endif %}
 					{% if user.is_authenticated %}
 						<li><a href="{% url "accounts:logout" %}">{% trans "Log out" %}</a></li>

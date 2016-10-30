@@ -35,9 +35,10 @@ class UserEntriesMixin(LoginRequiredMixin):
 		qs = Entry.objects.for_user(self.request.user)
 		if self.saved_filters.get('all'):
 			return qs
+		elif self.saved_filters.get('favorite'):
+			return qs.filter(is_favorite=True)
 		else:
 			display_time = timestamp_to_datetime(self.saved_filters['ts'])
-			print(self.saved_filters, display_time)
 			return qs.filter(Q(is_read=False) | (Q(status__read_time__gt=display_time)))
 
 	def get_reverse_queryset(self):
@@ -89,8 +90,8 @@ class UserEntriesMixin(LoginRequiredMixin):
 		filters = self.request.session.get('saved_filters', {})
 		if 'list_ordering' in self.request.GET:
 			filters['list_ordering'] = self.request.GET['list_ordering']
-		if 'all' in self.request.GET:
-			filters['all'] = self.request.GET.get('all')
+		filters['all'] = self.request.GET.get('all', filters.get('all'))
+		filters['favorite'] = self.request.GET.get('favorite', filters.get('favorite'))
 		try:
 			filters['ts'] = float(self.request.GET.get('ts', ''))
 		except ValueError:
