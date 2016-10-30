@@ -591,7 +591,9 @@ label {
 	text-align: right;
 	.button {
 		display: inline-block;
-		@include button(mix($background-color, $primary-color, 90%), $text-color, $only-color: true);
+		&.secondary {
+			@include button(mix($background-color, $primary-color, 90%), $text-color, $only-color: true);
+		}
 	}
 }
 
