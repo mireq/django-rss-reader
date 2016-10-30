@@ -8,7 +8,7 @@ from django.utils import timezone
 
 
 def timestamp_to_datetime(timestamp):
-	return python_datetime.fromtimestamp(timestamp, timezone.utc)
+	return python_datetime.fromtimestamp(timestamp).replace(tzinfo=timezone.utc)
 
 
 def datetime_to_timestamp(datetime=None):
