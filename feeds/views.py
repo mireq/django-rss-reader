@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 import operator
 from functools import reduce
+from django.http.response import HttpResponseRedirect
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
@@ -120,6 +121,14 @@ class EntryDetail(UserEntriesMixin, DetailView):
 		obj = super(EntryDetail, self).get_object(**kwargs)
 		obj.mark_read(self.request.user)
 		return obj
+
+	def post(self, request, *args, **kwargs):
+		action = request.POST.get('action', '')
+		if action == 'favorite':
+			self.get_object().mark_favorite(request.user, True)
+		elif action == 'unfavorite':
+			self.get_object().mark_favorite(request.user, False)
+		return HttpResponseRedirect(self.request.get_full_path())
 
 
 entry_list = EntryList.as_view()

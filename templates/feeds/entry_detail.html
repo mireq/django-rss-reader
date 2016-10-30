@@ -25,7 +25,21 @@
 			{{ entry.summary|safe }}
 		</div>
 		<div class="bottom-actions">
-			<a class="button" href="{{ entry.link }}" target="_blank">{% trans "Open" %}</a>
+			<div class="secondary">
+				<form action="{{ request.path }}" method="post">
+					{% csrf_token %}
+					<button class="button" type="submit" name="action" value="{% if entry.is_favorite %}unfavorite{% else %}favorite{% endif %}">
+						{% if entry.is_favorite %}
+							{% trans "Unfavorite" %}
+						{% else %}
+							{% trans "Favorite" %}
+						{% endif %}
+					</button>
+				</form>
+			</div>
+			<div class="primary">
+				<a class="button" href="{{ entry.link }}" target="_blank">{% trans "Open" %}</a>
+			</div>
 		</div>
 	</div>
 {% endblock %}

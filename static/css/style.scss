@@ -445,6 +445,11 @@ button::-moz-focus-inner {
 	border: 0
 }
 
+#content .bottom-actions form {
+	padding: 0;
+	margin: 0;
+}
+
 .button-group {
 	overflow: hidden;
 	padding-left: 1px;
@@ -588,12 +593,18 @@ label {
 }
 
 .bottom-actions {
-	text-align: right;
-	.button {
-		display: inline-block;
-		&.secondary {
+	.primary {
+		text-align: right;
+	}
+	.secondary {
+		text-align: left;
+		float: left;
+		.button {
 			@include button(mix($background-color, $primary-color, 90%), $text-color, $only-color: true);
 		}
+	}
+	.button {
+		display: inline-block;
 	}
 }
 
