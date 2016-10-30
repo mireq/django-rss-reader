@@ -6,6 +6,16 @@ var openMenu = function(e) { _.addClass(document.body, 'visible-menu'); e.preven
 var closeMenu = function(e) { _.removeClass(document.body, 'visible-menu'); e.preventDefault(); };
 
 
+var registerEntryDetail = function() {
+	var entryDetail = _.id('entry_detail');
+	var summary = _.cls(entryDetail, 'summary')[0];
+	var links = _.tag(summary, 'A');
+	_.forEach(links, function(link) {
+		link.setAttribute('target', '_blank');
+	});
+};
+
+
 var register = function(element) {
 	_.forEach(_.cls(element, 'toggle-menu'), function(element) {
 		_.bindEvent(element, 'click', toggleMenu);
@@ -16,6 +26,9 @@ var register = function(element) {
 	_.forEach(_.cls(element, 'open-menu'), function(element) {
 		_.bindEvent(element, 'click', openMenu);
 	});
+	if (_.id('entry_detail') !== null) {
+		registerEntryDetail();
+	}
 };
 
 
