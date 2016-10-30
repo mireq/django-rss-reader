@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# pylint: disable=redefined-variable-type
 from __future__ import unicode_literals
 
 from django.conf import settings
@@ -169,12 +170,14 @@ class EntryManager(models.Manager):
 			F('feed__title'),
 			output_field=models.CharField()
 		)
+		is_read = F('status__is_read')
+		is_favorite = F('status__is_favorite')
 		return (self.get_queryset()
 			.filter(status__user=user, feed__userfeed__user=user)
 			.annotate(
 				feed_name=feed_name,
-				is_read=F('status__is_read'),
-				is_favorite=F('status__is_favorite')
+				is_read=is_read,
+				is_favorite=is_favorite
 			)
 			.select_related('feed'))
 

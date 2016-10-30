@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.views.generic import ListView, DetailView
 from django.utils.functional import cached_property
+from web.time_utils import datetime_to_timestamp, timestamp_to_datetime
 
 from .models import Entry
 
@@ -19,12 +20,12 @@ class UserEntriesMixin(LoginRequiredMixin):
 	}
 
 	paginate_by = 10
+	is_detail = False
 
 	def get_context_data(self, **kwargs):
 		ctx = super(UserEntriesMixin, self).get_context_data(**kwargs)
 		ctx['filters'] = self.saved_filters
 		return ctx
-
 
 	def get_queryset(self):
 		return self.get_filtered_queryset().order_by(*self.get_ordering())
@@ -34,7 +35,9 @@ class UserEntriesMixin(LoginRequiredMixin):
 		if self.saved_filters.get('all'):
 			return qs
 		else:
-			return qs.filter(is_read=False)
+			display_time = timestamp_to_datetime(self.saved_filters['ts'])
+			print(self.saved_filters, display_time)
+			return qs.filter(Q(is_read=False) | (Q(status__read_time__gt=display_time)))
 
 	def get_reverse_queryset(self):
 		return self.get_filtered_queryset().order_by(*self.get_reverse_ordering())
@@ -74,6 +77,12 @@ class UserEntriesMixin(LoginRequiredMixin):
 		qs =  self.get_filtered_queryset().order_by(*ordering)
 		return self.get_next_by_ordering(qs, ordering).first()
 
+	def get_last_view_ts(self, filters):
+		try:
+			return float(self.request.GET.get('ts', ''))
+		except ValueError:
+			return filters.get('ts', 0)
+
 	@cached_property
 	def saved_filters(self):
 		filters = self.request.session.get('saved_filters', {})
@@ -81,6 +90,11 @@ class UserEntriesMixin(LoginRequiredMixin):
 			filters['list_ordering'] = self.request.GET['list_ordering']
 		if 'all' in self.request.GET:
 			filters['all'] = self.request.GET.get('all')
+		try:
+			filters['ts'] = float(self.request.GET.get('ts', ''))
+		except ValueError:
+			if not self.is_detail:
+				filters['ts'] = datetime_to_timestamp(datetime=None)
 		return filters
 
 
@@ -91,6 +105,8 @@ class EntryList(UserEntriesMixin, ListView):
 
 
 class EntryDetail(UserEntriesMixin, DetailView):
+	is_detail = True
+
 	def get_queryset(self):
 		return Entry.objects.for_user(self.request.user)
 
@@ -102,7 +118,7 @@ class EntryDetail(UserEntriesMixin, DetailView):
 
 	def get_object(self, **kwargs):
 		obj = super(EntryDetail, self).get_object(**kwargs)
-		obj.mark_favorite(self.request.user)
+		obj.mark_read(self.request.user)
 		return obj
 
 
