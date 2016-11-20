@@ -39,7 +39,7 @@ class UserEntriesMixin(LoginRequiredMixin):
 			return qs.filter(is_favorite=True)
 		else:
 			display_time = timestamp_to_datetime(self.saved_filters['ts'])
-			return qs.filter(Q(is_read=False) | (Q(status__read_time__gt=display_time)))
+			return qs.filter(Q(is_read=False) | (Q(read_time__gt=display_time)))
 
 	def get_reverse_queryset(self):
 		return self.get_filtered_queryset().order_by(*self.get_reverse_ordering())

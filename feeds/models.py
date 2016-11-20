@@ -182,12 +182,14 @@ class EntryManager(models.Manager):
 		)
 		is_read = F('status__is_read')
 		is_favorite = F('status__is_favorite')
+		read_time = F('status__read_time')
 		return (self.get_queryset()
 			.filter(status__user=user, feed__userfeed__user=user)
 			.annotate(
 				feed_name=feed_name,
 				is_read=is_read,
-				is_favorite=is_favorite
+				is_favorite=is_favorite,
+				read_time=read_time
 			)
 			.select_related('feed'))
 
