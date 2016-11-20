@@ -757,6 +757,49 @@ label {
 	}
 }
 
+.message-box {
+	padding: 12px;
+	position: relative;
+	margin-bottom: 2px;
+
+	&.info {
+		border: 1px solid #0078a0;
+		background: #008cba;
+		color: white;
+	}
+
+	&.success {
+		border: 1px solid #3a945b;
+		background: #43ac6a;
+		color: white;
+	}
+
+	&.warning {
+		border: 1px solid #de770f;
+		background: #f08a24;
+		color: white;
+	}
+
+	&.error {
+		border: 1px solid #de2d0f;
+		background: #f04124;
+		color: white;
+	}
+
+	& .close-action {
+		position: absolute;
+		top: 50%;
+		right: 8px;
+		color: #333333;
+		font-size: 120%;
+		line-height: .9;
+		margin-top: -0.5em;
+		opacity: 0.3;
+		padding: 0 6px 4px;
+		text-decoration: none;
+	}
+}
+
 body.login {
 	#content {
 		@include base-margin;

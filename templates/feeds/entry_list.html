@@ -23,6 +23,10 @@
 				</div>
 				<a class="fullclickable-link" href="{{ entry.get_absolute_url }}"></a>
 			</li>
+		{% empty %}
+			<li class="message-box">
+				{% trans "No entries" %}
+			</li>
 		{% endfor %}
 	</ul>
 
