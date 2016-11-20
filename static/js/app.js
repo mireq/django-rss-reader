@@ -1,9 +1,24 @@
 (function(_) {
 
 
-var toggleMenu = function(e) { _.toggleClass(document.body, 'visible-menu'); e.preventDefault(); };
-var openMenu = function(e) { _.addClass(document.body, 'visible-menu'); e.preventDefault(); };
-var closeMenu = function(e) { _.removeClass(document.body, 'visible-menu'); e.preventDefault(); };
+var toggleMenu = function(e) {
+	_.toggleClass(document.body, 'visible-menu');
+	if (e) {
+		e.preventDefault();
+	}
+};
+var openMenu = function(e) {
+	_.addClass(document.body, 'visible-menu');
+	if (e) {
+		e.preventDefault();
+	}
+};
+var closeMenu = function(e) {
+	_.removeClass(document.body, 'visible-menu');
+	if (e) {
+		e.preventDefault();
+	}
+};
 
 
 var registerEntryDetail = function() {
@@ -51,6 +66,7 @@ _.pjax.autoRegister({
 		return true;
 	},
 	onLoaded: function(response, url) {
+		closeMenu();
 		var copyBlocks = ['site_title', 'top_navigation'];
 		_.forEach(copyBlocks, function(blockName) {
 			var block = _.id(blockName);
