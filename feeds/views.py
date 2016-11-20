@@ -38,9 +38,9 @@ class UserEntriesMixin(LoginRequiredMixin):
 		elif self.saved_filters.get('favorite'):
 			return qs.filter(is_favorite=True)
 		else:
-			display_time = timestamp_to_datetime(self.saved_filters.get('ts'))
+			display_time = self.saved_filters.get('ts')
 			if display_time:
-				return qs.filter(Q(is_read=False) | (Q(read_time__gt=display_time)))
+				return qs.filter(Q(is_read=False) | (Q(read_time__gt=timestamp_to_datetime(display_time))))
 			else:
 				return qs.filter(Q(is_read=False))
 
