@@ -4,7 +4,7 @@
 #
 #    pip-compile --output-file requirements.dev.txt requirements.dev.in
 #
--e git+https://github.com/mireq/django-ajax-utils.git@6ec2737b5abe569e35e2d9ed843046b898c56020#egg=django_ajax_utils
+-e git+https://github.com/mireq/django-ajax-utils.git@5ee24dd43f5637841dc47af01ef83e1120fa4f21#egg=django_ajax_utils
 -e git+https://github.com/mireq/django-assets-manager.git@af4944e6f1def727b84f51583a911ef60e978d55#egg=django_assets_manager
 amqp==2.1.1               # via kombu
 argh==0.26.2              # via watchdog
@@ -19,7 +19,7 @@ django-debug-toolbar==1.6
 django-debugtools==1.7
 django-extensions==1.7.4
 django-libsass==0.7
-django==1.10.3
+Django==1.10.3            # via django-debug-toolbar
 docopt==0.6.2             # via ptpython
 feedparser==5.2.1
 first==2.0.1              # via pip-tools
@@ -34,7 +34,7 @@ mccabe==0.5.2             # via pylint
 pathtools==0.1.2          # via watchdog
 pexpect==4.2.1            # via ipython
 pickleshare==0.7.4        # via ipython
-pillow==3.4.2
+Pillow==3.4.2
 pip-tools==1.8.0
 prompt-toolkit==1.0.9     # via ipython, ptpython
 ptpython==0.36
@@ -45,7 +45,7 @@ pylint-django==0.7.2
 pylint-plugin-utils==0.2.4  # via pylint-django
 pylint==1.6.4             # via pylint-django, pylint-plugin-utils
 pytz==2016.7              # via celery
-pyyaml==3.12              # via watchdog
+PyYAML==3.12              # via watchdog
 rcssmin==1.0.6            # via django-compressor
 redis==2.10.5
 rjsmin==1.0.12            # via django-compressor
@@ -56,9 +56,8 @@ traitlets==4.3.1          # via ipython
 vine==1.1.3               # via amqp
 watchdog==0.8.3
 wcwidth==0.1.7            # via prompt-toolkit
-werkzeug==0.11.11
+Werkzeug==0.11.11
 wrapt==1.10.8             # via astroid
 
-# The following packages are commented out because they are
-# considered to be unsafe in a requirements file:
+# The following packages are considered to be unsafe in a requirements file:
 # setuptools                # via ipython

@@ -4,7 +4,7 @@
 #
 #    pip-compile --output-file requirements.txt requirements.in
 #
--e git+https://github.com/mireq/django-ajax-utils.git@6ec2737b5abe569e35e2d9ed843046b898c56020#egg=django_ajax_utils
+-e git+https://github.com/mireq/django-ajax-utils.git@5ee24dd43f5637841dc47af01ef83e1120fa4f21#egg=django_ajax_utils
 -e git+https://github.com/mireq/django-assets-manager.git@af4944e6f1def727b84f51583a911ef60e978d55#egg=django_assets_manager
 amqp==2.1.1               # via kombu
 billiard==3.5.0.2         # via celery
@@ -13,12 +13,12 @@ click==6.6                # via pip-tools
 django-appconf==1.0.2     # via django-compressor
 django-compressor==2.1    # via django-libsass
 django-libsass==0.7
-django==1.10.3
+Django==1.10.3
 feedparser==5.2.1
 first==2.0.1              # via pip-tools
 kombu==4.0.0              # via celery
 libsass==0.11.2           # via django-libsass
-pillow==3.4.2
+Pillow==3.4.2
 pip-tools==1.8.0
 pytz==2016.7              # via celery
 rcssmin==1.0.6            # via django-compressor
