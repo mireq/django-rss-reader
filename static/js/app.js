@@ -51,7 +51,12 @@ _.pjax.autoRegister({
 		return true;
 	},
 	onLoaded: function(response, url) {
-		_.id('site_title').innerHTML = response.blocks.site_title;
+		var copyBlocks = ['site_title', 'top_navigation'];
+		_.forEach(copyBlocks, function(blockName) {
+			var block = _.id(blockName);
+			block.innerHTML = response.blocks[blockName];
+			_.triggerLoad(block);
+		});
 	}
 });
 
