@@ -67,7 +67,7 @@ _.pjax.autoRegister({
 	},
 	onLoaded: function(response, url) {
 		closeMenu();
-		var copyBlocks = ['site_title', 'top_navigation'];
+		var copyBlocks = ['site_title', 'top_navigation', 'navigation'];
 		_.forEach(copyBlocks, function(blockName) {
 			var block = _.id(blockName);
 			block.innerHTML = response.blocks[blockName];

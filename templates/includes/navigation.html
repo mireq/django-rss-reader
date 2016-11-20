@@ -1,0 +1,33 @@
+{% load accounts_tags %}
+
+<div class="heading">
+	<div class="user">
+		<img class="avatar" src="{% gravatar_for_email request.user.email %}" alt="avatar" />
+		<div class="info">
+			{% if request.user.is_authenticated %}
+				<div class="username">{{ user.get_full_name }}</div>
+			{% else %}
+				<div class="username">{% trans "Anonymous user" %}</div>
+			{% endif %}
+			<div class="entries">
+				{% if request.user.is_authenticated %}
+					{% blocktrans count value=request.user.new_entries_count %}{{ value }} new entry{% plural %}{{ value }} new entries{% endblocktrans %}
+				{% else %}
+					{% trans "Please log in" %}
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>
+<ul>
+	{% if user.is_authenticated %}
+		<li><a href="{% url "entry_list" %}?all=&amp;favorite=">{% trans "Home" %}</a></li>
+		<li><a href="{% url "entry_list" %}?all=&amp;favorite=1">{% trans "Favorite" %}</a></li>
+	{% endif %}
+	{% if user.is_authenticated %}
+		<li><a href="{% url "accounts:logout" %}">{% trans "Log out" %}</a></li>
+	{% else %}
+		{% url "home" as next_url %}
+		<li><a href="{% url "accounts:login" %}?next={{ next_url|urlencode:"" }}">{% trans "Log in" %}</a></li>
+	{% endif %}
+</ul>
