@@ -38,8 +38,11 @@ class UserEntriesMixin(LoginRequiredMixin):
 		elif self.saved_filters.get('favorite'):
 			return qs.filter(is_favorite=True)
 		else:
-			display_time = timestamp_to_datetime(self.saved_filters['ts'])
-			return qs.filter(Q(is_read=False) | (Q(read_time__gt=display_time)))
+			display_time = timestamp_to_datetime(self.saved_filters.get('ts'))
+			if display_time:
+				return qs.filter(Q(is_read=False) | (Q(read_time__gt=display_time)))
+			else:
+				return qs.filter(Q(is_read=False))
 
 	def get_reverse_queryset(self):
 		return self.get_filtered_queryset().order_by(*self.get_reverse_ordering())
