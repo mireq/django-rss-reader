@@ -7,12 +7,17 @@ from django import template
 register = template.Library()
 
 
+def remove_dummy_parameters(get_data):
+	get_data.pop('_dummy', None)
+	get_data.pop('page', None)
+
+
 @register.simple_tag(takes_context=True)
 def link_add(context, url, **values):
 	if not values:
 		return url
 	get_data = context['request'].GET.copy()
-	get_data.pop('page', None)
+	remove_dummy_parameters(get_data)
 	for k, v in values.items():
 		get_data[k] = v
 	separator = '&' if '?' in url else '?'
@@ -24,7 +29,7 @@ def link_remove(context, url, *keys):
 	if not keys:
 		return url
 	get_data = context['request'].GET.copy()
-	get_data.pop('page', None)
+	remove_dummy_parameters(get_data)
 	for key in keys:
 		if key in get_data:
 			del get_data[key]
