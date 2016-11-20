@@ -5,6 +5,14 @@
 {% block site_title %}{% trans "RSS reader" %}{% endblock %}
 
 {% block content %}
+	<div class="list-navigation">
+		{% if filters.list_ordering == "old" %}
+			<a href="{% current_link_add list_ordering="new" %}" class="button">{% trans "New first" %}</a>
+		{% else %}
+			<a href="{% current_link_add list_ordering="old" %}" class="button">{% trans "Old first" %}</a>
+		{% endif %}
+	</div>
+
 	<ul class="entries">
 		{% for entry in object_list %}
 			<li class="{% if not entry.is_read %} new{% endif %}{% if entry.is_favorite %} favorite{% endif %}">
@@ -27,13 +35,5 @@
 				<a class="next button" href="{{ request.path }}?page={{ page_obj.next_page_number }}">{% trans "Next" %}</a>
 			{% endif %}
 		</div>
-	{% endif %}
-{% endblock %}
-
-{% block top_navigation %}
-	{% if filters.list_ordering == "old" %}
-		<a href="{% current_link_add list_ordering="new" %}" class="button">{% trans "New first" %}</a>
-	{% else %}
-		<a href="{% current_link_add list_ordering="old" %}" class="button">{% trans "Old first" %}</a>
 	{% endif %}
 {% endblock %}

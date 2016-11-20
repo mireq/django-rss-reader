@@ -152,6 +152,18 @@ $rem-base: 16px !default;
 	}
 }
 
+@mixin button-reset {
+	background: transparent;
+	font-weight: normal;
+	display: inline-block;
+	padding: 0;
+	margin: 0;
+	border-radius: 0;
+	border: none;
+	box-shadow: none;
+	color: $text-color;
+}
+
 @mixin text-ellipsis {
 	white-space: nowrap;
 	text-overflow: ellipsis;
@@ -581,6 +593,21 @@ label {
 
 .errors:first-child {
 	@include base-margin-cancel-top;
+}
+
+.list-navigation {
+	background: mix($background-color, $text-color, 98%);
+	border-bottom: 1px solid $light-border-color;
+	text-align: right;
+
+	.button {
+		@include button-reset;
+		@include input-padding;
+		font-size: 80%;
+		text-transform: uppercase;
+		color: mix($text-color, $background-color, 40%);
+		border-left: 1px solid $light-border-color;
+	}
 }
 
 .submit-row, .pagination, .bottom-actions {
