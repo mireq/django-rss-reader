@@ -35,4 +35,25 @@ var register = function(element) {
 _.onLoad(function(e) { register(e.memo); });
 
 
+_.pjax.autoRegister({
+	bodyLoadingCls: 'loading',
+	pjaxContainerId: 'content',
+	extrajsBlock: 'extrajs',
+	extrastyleBlock: 'extrastyle',
+	titleBlock: 'head_title',
+	checkUrlSupported: function(url) {
+		if (url[0] !== '/') {
+			return false;
+		}
+		if (url.match(/^\/media\/.*$/) || url.match(/^\/static\/.*$/) || url.match(/^\/admin\/.*$/)) {
+			return false;
+		}
+		return true;
+	},
+	onLoaded: function(response, url) {
+		_.id('site_title').innerHTML = response.blocks.site_title;
+	}
+});
+
+
 }(_utils));

@@ -3,15 +3,15 @@ from __future__ import unicode_literals
 
 import operator
 from functools import reduce
-from django.http.response import HttpResponseRedirect
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
-from django.views.generic import ListView, DetailView
+from django.http.response import HttpResponseRedirect
 from django.utils.functional import cached_property
-from web.time_utils import datetime_to_timestamp, timestamp_to_datetime
+from django.views.generic import ListView, DetailView
 
 from .models import Entry
+from web.time_utils import datetime_to_timestamp, timestamp_to_datetime
 
 
 class UserEntriesMixin(LoginRequiredMixin):

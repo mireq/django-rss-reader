@@ -42,7 +42,7 @@ INSTALLED_APPS = [
 	'web',
 ]
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
 	'django.middleware.security.SecurityMiddleware',
 	'django.contrib.sessions.middleware.SessionMiddleware',
 	'django.middleware.common.CommonMiddleware',
@@ -51,6 +51,7 @@ MIDDLEWARE_CLASSES = [
 	'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	'django_ajax_utils.pjax.Middleware',
 ]
 
 ROOT_URLCONF = 'web.urls'
@@ -74,6 +75,7 @@ TEMPLATES = [
 				'django.contrib.messages.context_processors.messages',
 			],
 			'loaders': [
+				'django_ajax_utils.pjax.Loader',
 				'django.template.loaders.filesystem.Loader',
 				'django.template.loaders.app_directories.Loader',
 			],
@@ -129,6 +131,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
+
+PJAX_INCLUDE_URLPATTERNS = [r'.*']
+PJAX_EXCLUDE_URLPATTERNS = [r'^admin:.*$']
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, '..', 'static_assets', 'static')
