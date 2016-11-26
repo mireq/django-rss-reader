@@ -57,11 +57,27 @@ def import_entries(feed, entries):
 			'updated': timestruct_to_utctime(entry.get('updated_parsed')),
 			'author_name': entry.get('author', ''),
 		}
-		Entry.objects.update_or_create(
-			guid=entry.get('guid', entry.get('link')),
-			feed=feed,
-			defaults=entry_data,
-		)
+		try:
+			entry = Entry.objects.get(
+				guid=entry.get('guid', entry.get('link')),
+				feed=feed
+			)
+			changed = False
+			for key, value in entry_data.items():
+				if key == 'updated':
+					continue
+				if getattr(entry, key) != value:
+					setattr(entry, key, value)
+					changed = True
+			if changed:
+				entry.save()
+		except Entry.DoesNotExist:
+			entry = Entry(
+				guid=entry.get('guid', entry.get('link')),
+				feed=feed,
+				**entry_data
+			)
+			entry.save()
 
 
 @app.task
