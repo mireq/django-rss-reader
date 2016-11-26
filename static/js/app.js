@@ -73,6 +73,7 @@ _.pjax.autoRegister({
 			block.innerHTML = response.blocks[blockName];
 			_.triggerLoad(block);
 		});
+		document.body.className = response.blocks.bodyclass;
 	}
 });
 

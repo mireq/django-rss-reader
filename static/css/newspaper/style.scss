@@ -1,0 +1,175 @@
+$rem-base: 16px !default;
+$base-margin: 32px;
+$base-margin-reduced: 16px;
+
+$background-color: white;
+$text-color: black;
+$gray-color: mix($background-color, $text-color, 90%);
+
+$menu-width: 260px;
+
+@mixin button-reset {
+	background: transparent;
+	font-weight: normal;
+	display: inline-block;
+	padding: 0;
+	margin: 0;
+	border-radius: 0;
+	border: none;
+	box-shadow: none;
+	color: $text-color;
+}
+
+@import '../utils';
+
+
+html, body {
+	background: $background-color;
+	color: $text-color;
+	font-family: "Bookerly";
+	margin: 0;
+	padding: 0;
+}
+
+a {
+	color: $text-color;
+	text-decoration: underline;
+}
+
+#menu {
+	background: $background-color;
+	position: fixed;
+	z-index: 10;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	width: $menu-width;
+	margin-left: -($menu-width + 16px);
+	transition: all 0.2s;
+}
+
+#header {
+	padding: 0 $base-margin;
+
+	h1 {
+		padding: $base-margin-reduced 0;
+		margin: 0;
+		font-weight: normal;
+		font-style: italic;
+		font-size: 200%;
+		border-bottom: 1px solid $text-color;
+	}
+}
+
+#content {
+	padding: 0 $base-margin $base-margin-reduced $base-margin;
+}
+
+.button {
+	@include button-reset;
+	font-style: italic;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.list-navigation {
+	background: $gray-color;
+	border-bottom: 1px solid $text-color;
+	text-align: right;
+	padding: $base-margin-reduced;
+}
+
+.submit-row, .pagination, .bottom-actions {
+	@include base-padding-content;
+	overflow: auto;
+	border-top: 1px solid mix($text-color, $background-color);
+}
+
+.bottom-actions {
+	.primary {
+		text-align: right;
+	}
+	.secondary {
+		text-align: left;
+		float: left;
+	}
+	.button {
+		display: inline-block;
+	}
+}
+
+.pagination {
+	.previous {
+		float: left;
+	}
+
+	.next {
+		float: right;
+	}
+}
+
+
+.entries {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+
+	li {
+		@include base-padding-horizontal-content;
+		@include base-padding-vertical-content;
+		border-top: 1px solid mix($text-color, $background-color);
+
+		&:first-child {
+			border-top: none;
+		}
+
+		.title {
+			@include text-ellipsis;
+			display: block;
+			font-style: italic;
+			font-size: 140%;
+			text-decoration: none;
+		}
+
+		.feed {
+			float: right;
+			display: block;
+			font-size: 80%;
+			padding-left: $base-margin;
+		}
+		.summary {
+			font-size: 90%;
+			line-height: 1.5em;
+			height: 3em;
+			overflow: hidden;
+			margin-top: $base-margin-reduced;
+		}
+	}
+}
+
+body.entry-detail #site_title {
+	display: none;
+}
+
+#entry_detail .summary {
+	@include base-padding-vertical-content;
+}
+
+.entry .info {
+	padding-bottom: $base-margin-reduced;
+	border-bottom: 1px solid $text-color;
+
+	.extra-info {
+		color: $background-color;
+	}
+
+	.feed, .date, .user {
+		margin-right: 1em;
+		color: $text-color;
+	}
+
+	a {
+		text-decoration: none;
+	}
+}
+

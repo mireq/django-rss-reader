@@ -1,4 +1,5 @@
 {% load pjax_tags %}
+{% pjaxblock bodyclass %}{% block bodyclass %}{% endblock %}{% endpjaxblock %}
 {% pjaxblock extrastyle %}{% block extrastyle %}{% endblock %}{% endpjaxblock %}
 {% pjaxblock extrajs %}{% block extrajs %}{% endblock %}{% endpjaxblock %}
 {% pjaxblock site_title %}{% block site_title %}{% trans "RSS reader" %}{% endblock %}&nbsp;{% endpjaxblock %}

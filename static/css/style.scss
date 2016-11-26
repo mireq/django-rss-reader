@@ -36,56 +36,6 @@ $rem-base: 16px !default;
 	@return $remValues;
 }
 
-@mixin base-margin {
-	margin: $base-margin;
-}
-
-@mixin base-margin-horizontal {
-	margin-left: $base-margin;
-	margin-right: $base-margin;
-}
-
-@mixin base-margin-vertical {
-	margin-top: $base-margin;
-	margin-bottom: $base-margin;
-}
-
-@mixin base-margin-cancel-horizontal {
-	margin-left: -$base-margin;
-	margin-right: -$base-margin;
-}
-
-@mixin base-margin-cancel-bottom {
-	margin-left: -$base-margin;
-	margin-right: -$base-margin;
-	margin-bottom: -$base-margin;
-}
-
-@mixin base-margin-cancel-top {
-	margin-top: -$base-margin;
-	margin-left: -$base-margin;
-	margin-right: -$base-margin;
-}
-
-@mixin base-padding {
-	padding: $base-margin;
-}
-
-@mixin base-padding-horizontal {
-	padding-left: $base-margin;
-	padding-right: $base-margin;
-}
-
-@mixin base-padding-vertical {
-	padding-top: $base-margin;
-	padding-bottom: $base-margin;
-}
-
-@mixin base-padding-vertical-content {
-	padding-top: $base-margin / 2;
-	padding-bottom: $base-margin / 2;
-}
-
 @mixin input-margin {
 	margin-bottom: $input-spacing;
 }
@@ -164,12 +114,6 @@ $rem-base: 16px !default;
 	color: $text-color;
 }
 
-@mixin text-ellipsis {
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
-}
-
 $screen: "only screen";
 
 $xsmall-range: (0, 30em);
@@ -209,6 +153,7 @@ $xxlarge-only: "#{$screen} and (min-width:#{lower-bound($xxlarge-range)}) and (m
 $hdpi: "(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 3/2), (min-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx)";
 
 @import 'constants_white';
+@import 'utils';
 
 html, body {
 	background: $body-background-color;

@@ -52,6 +52,8 @@ MIDDLEWARE = [
 	'django.contrib.messages.middleware.MessageMiddleware',
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
 	'django_ajax_utils.pjax.Middleware',
+	'web.middlewares.ThreadLocalMiddleware',
+	'template_dynamicloader.middleware.TemplateSwitchMiddleware',
 ]
 
 ROOT_URLCONF = 'web.urls'
@@ -76,6 +78,7 @@ TEMPLATES = [
 			],
 			'loaders': [
 				'django_ajax_utils.pjax.Loader',
+				'template_dynamicloader.loader.Loader',
 				'django.template.loaders.filesystem.Loader',
 				'django.template.loaders.app_directories.Loader',
 			],
@@ -174,3 +177,5 @@ CELERYBEAT_SCHEDULE = {
 		'schedule': timedelta(seconds=1800),
 	},
 }
+
+DYNAMIC_TEMPLATES = ('default', 'newspaper',)

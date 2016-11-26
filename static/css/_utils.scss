@@ -1,0 +1,64 @@
+@mixin base-margin {
+	margin: $base-margin;
+}
+
+@mixin base-margin-horizontal {
+	margin-left: $base-margin;
+	margin-right: $base-margin;
+}
+
+@mixin base-margin-vertical {
+	margin-top: $base-margin;
+	margin-bottom: $base-margin;
+}
+
+@mixin base-margin-cancel-horizontal {
+	margin-left: -$base-margin;
+	margin-right: -$base-margin;
+}
+
+@mixin base-margin-cancel-bottom {
+	margin-left: -$base-margin;
+	margin-right: -$base-margin;
+	margin-bottom: -$base-margin;
+}
+
+@mixin base-margin-cancel-top {
+	margin-top: -$base-margin;
+	margin-left: -$base-margin;
+	margin-right: -$base-margin;
+}
+
+@mixin base-padding {
+	padding: $base-margin;
+}
+
+@mixin base-padding-horizontal {
+	padding-left: $base-margin;
+	padding-right: $base-margin;
+}
+
+@mixin base-padding-vertical {
+	padding-top: $base-margin;
+	padding-bottom: $base-margin;
+}
+
+@mixin base-padding-content {
+	padding: $base-margin-reduced $base-margin;
+}
+
+@mixin base-padding-vertical-content {
+	padding-top: $base-margin / 2;
+	padding-bottom: $base-margin / 2;
+}
+
+@mixin base-padding-horizontal-content {
+	padding-left: $base-margin / 2;
+	padding-right: $base-margin / 2;
+}
+
+@mixin text-ellipsis {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
