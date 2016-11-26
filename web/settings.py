@@ -167,10 +167,10 @@ CELERY_TIMEZONE = 'UTC'
 CELERYBEAT_SCHEDULE = {
 	'synchronize-feeds': {
 		'task': 'feeds.tasks.synchronize',
-		'schedule': timedelta(seconds=300),
+		'schedule': timedelta(seconds=1800),
 	},
 	'clean-remember-tokens': {
 		'task': 'accounts.tasks.clean_remember_tokens',
-		'schedule': timedelta(seconds=300),
+		'schedule': timedelta(seconds=1800),
 	},
 }
