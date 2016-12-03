@@ -30,6 +30,31 @@ var registerEntryDetail = function() {
 	});
 };
 
+var transformToSelect = function(element) {
+	var select = _.elem('select');
+
+	var links = [];
+	_.forEach(_.tag(element, 'a'), function(link, num) {
+		var option = _.elem('option');
+		if (_.hasClass(link, 'active')) {
+			option.setAttribute('selected', 'selected');
+		}
+		option.setAttribute('value', num);
+		option.innerHTML = link.innerHTML;
+		links.push(link.getAttribute('href'));
+		select.appendChild(option);
+	});
+
+	var onChange = function() {
+		var link = links[parseInt(select.value, 10)];
+		_.pjax.load(link);
+	};
+	_.bindEvent(select, 'change', onChange);
+
+	element.innerHTML = '';
+	element.appendChild(select);
+};
+
 
 var register = function(element) {
 	_.forEach(_.cls(element, 'toggle-menu'), function(element) {
@@ -40,6 +65,9 @@ var register = function(element) {
 	});
 	_.forEach(_.cls(element, 'open-menu'), function(element) {
 		_.bindEvent(element, 'click', openMenu);
+	});
+	_.forEach(_.cls(element, 'select-link'), function(element) {
+		transformToSelect(element);
 	});
 	if (_.id('entry_detail') !== null) {
 		registerEntryDetail();

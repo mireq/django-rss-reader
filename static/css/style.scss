@@ -550,8 +550,33 @@ label {
 		@include input-padding;
 		font-size: 80%;
 		text-transform: uppercase;
-		color: mix($text-color, $background-color, 40%);
+		color: mix($text-color, $background-color, 20%);
 		border-left: 1px solid $light-border-color;
+
+		&.active {
+			color: mix($text-color, $background-color, 60%);
+		}
+	}
+
+	.select-link {
+		@include input-padding;
+		display: inline-block;
+		border-left: 1px solid $light-border-color;
+		padding-top: 0;
+		padding-bottom: 0;
+		select {
+			@include button-reset;
+			display: inline-block;
+			padding: 0;
+			margin: 0;
+			background: mix($background-color, $text-color, 98%);
+			font-size: 80%;
+			text-transform: uppercase;
+			color: mix($text-color, $background-color, 40%);
+			border: none;
+			box-shadow: none;
+			width: auto;
+		}
 	}
 }
 
