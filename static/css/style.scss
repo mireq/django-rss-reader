@@ -639,7 +639,7 @@ label {
 	padding: 0;
 	margin: 0;
 
-	li {
+	.entry {
 		@include base-padding-horizontal;
 		@include base-padding-vertical;
 		border-top: 1px solid $light-border-color;
@@ -696,7 +696,7 @@ label {
 	}
 }
 
-.entry {
+#entry_detail {
 	.info {
 		background: $background-color;
 		color: $primary-color;
