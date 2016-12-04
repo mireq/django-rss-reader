@@ -17,9 +17,9 @@ django-appconf==1.0.2     # via django-compressor
 django-compressor==2.1    # via django-libsass
 django-debug-toolbar==1.6
 django-debugtools==1.7
-django-extensions==1.7.4
+django-extensions==1.7.5
 django-libsass==0.7
-Django==1.10.3            # via django-debug-toolbar
+Django==1.10.4            # via django-debug-toolbar
 docopt==0.6.2             # via ptpython
 feedparser==5.2.1
 first==2.0.1              # via pip-tools

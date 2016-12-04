@@ -21,13 +21,13 @@
 </div>
 <ul>
 	{% if user.is_authenticated %}
-		<li><a href="{% url "entry_list" %}?all=&amp;favorite=">{% trans "Home" %}</a></li>
-		<li><a href="{% url "entry_list" %}?all=&amp;favorite=1">{% trans "Favorite" %}</a></li>
+		<li class="home"><a href="{% url "entry_list" %}?all=&amp;favorite=">{% trans "Home" %}</a></li>
+		<li class="favorite"><a href="{% url "entry_list" %}?all=&amp;favorite=1">{% trans "Favorite" %}</a></li>
 	{% endif %}
 	{% if user.is_authenticated %}
-		<li><a href="{% url "accounts:logout" %}">{% trans "Log out" %}</a></li>
+		<li class="logout"><a href="{% url "accounts:logout" %}">{% trans "Log out" %}</a></li>
 	{% else %}
 		{% url "home" as next_url %}
-		<li><a href="{% url "accounts:login" %}?next={{ next_url|urlencode:"" }}">{% trans "Log in" %}</a></li>
+		<li class="login"><a href="{% url "accounts:login" %}?next={{ next_url|urlencode:"" }}">{% trans "Log in" %}</a></li>
 	{% endif %}
 </ul>

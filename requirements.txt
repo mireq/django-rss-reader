@@ -13,7 +13,7 @@ click==6.6                # via pip-tools
 django-appconf==1.0.2     # via django-compressor
 django-compressor==2.1    # via django-libsass
 django-libsass==0.7
-Django==1.10.3
+Django==1.10.4
 feedparser==5.2.1
 first==2.0.1              # via pip-tools
 kombu==4.0.0              # via celery
