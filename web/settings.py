@@ -2,10 +2,11 @@
 import os
 from datetime import timedelta
 
-from .assets import ASSETS
+from .assets import ASSETS, SPRITES
 
 
 ASSETS_MANAGER_FILES = ASSETS
+ASSETS_MANAGER_SPRITES = SPRITES
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
