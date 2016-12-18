@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% load text_tags url_tags %}
+
+{% block site_title %}{% trans "Feeds" %}{% endblock %}
+
+{% block content %}
+	<ul class="entries">
+		{% for feed in object_list %}
+			<li class="entry">
+				<span class="status {% if feed.update_status == feed.UPDATE_STATUS_UPDATED %}ok{% else %}error{% endif %}">{{ feed.get_update_status_display }}</span>
+				<a class="title" href="">{{ feed.title }}</a>
+				<div class="summary small">
+					{{ feed.description|short_summary }}
+				</div>
+				<a class="fullclickable-link" href=""></a>
+			</li>
+		{% endfor %}
+	</ul>
+	{% include "includes/pagination.html" %}
+{% endblock %}

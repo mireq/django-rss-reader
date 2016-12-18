@@ -28,15 +28,5 @@
 			</li>
 		{% endfor %}
 	</ul>
-
-	{% if is_paginated %}
-		<div class="pagination">
-			{% if page_obj.has_previous %}
-				<a class="previous button" href="{{ request.path }}?page={{ page_obj.previous_page_number }}">{% trans "Previous" %}</a>
-			{% endif %}
-			{% if page_obj.has_next %}
-				<a class="next button" href="{{ request.path }}?page={{ page_obj.next_page_number }}">{% trans "Next" %}</a>
-			{% endif %}
-		</div>
-	{% endif %}
+	{% include "includes/pagination.html" %}
 {% endblock %}

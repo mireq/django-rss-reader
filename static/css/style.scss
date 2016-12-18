@@ -292,21 +292,27 @@ html, body {
 	}
 
 	ul {
+		@mixin menu-icon($icon-name) {
+			&:before { @include sprite($icon-name); };
+			&:hover:before,&:active:before { @include sprite_position($icon-name); }
+		}
+		a {
+			@include menu-icon(black_folder);
+		}
 		.home a {
-			&:before { @include sprite(black_home); };
-			&:hover:before,&:active:before { @include sprite_position(white_home); }
+			@include menu-icon(black_home);
 		}
 		.favorite a {
-			&:before { @include sprite(black_favorite); };
-			&:hover:before,&:active:before { @include sprite_position(white_favorite); }
+			@include menu-icon(black_favorite);
 		}
 		.login a {
-			&:before { @include sprite(black_user); };
-			&:hover:before,&:active:before { @include sprite_position(white_user); }
+			@include menu-icon(black_user);
 		}
 		.logout a {
-			&:before { @include sprite(black_exit); };
-			&:hover:before,&:active:before { @include sprite_position(white_exit); }
+			@include menu-icon(black_exit);
+		}
+		.settings a {
+			@include menu-icon(black_settings);
 		}
 	}
 
@@ -658,7 +664,7 @@ label {
 			display: block;
 			font-weight: bold;
 			text-decoration: none;
-			color: mix($text-color, $background-color, 40%);
+			color: mix($text-color, $background-color, 80%);
 		}
 		.feed {
 			display: none;
@@ -668,25 +674,40 @@ label {
 			}
 			font-size: 14px;
 			padding-left: $base-margin;
-			color: mix($text-color, $background-color, 20%);
+			color: mix($text-color, $background-color, 50%);
 		}
 		.summary {
 			font-size: 14px;
 			line-height: 18px;
 			height: 36px;
 			overflow: hidden;
-			color: mix($text-color, $background-color, 25%);
+			color: mix($text-color, $background-color, 60%);
 			margin-top: $base-margin-reduced;
+			&.small {
+				height: 18px;
+			}
 		}
-		&.new {
+		.status {
+			float: right;
+			display: block;
+			font-size: 14px;
+			padding-left: $base-margin;
+			&.ok {
+				color: $success-color;
+			}
+			&.error {
+				color: $error-color;
+			}
+		}
+		&.old {
 			.title {
-				color: mix($text-color, $background-color, 80%);
+				color: mix($text-color, $background-color, 40%);
 			}
 			.feed {
-				color: mix($text-color, $background-color, 50%);
+				color: mix($text-color, $background-color, 20%);
 			}
 			.summary {
-				color: mix($text-color, $background-color, 60%);
+				color: mix($text-color, $background-color, 25%);
 			}
 		}
 		&:hover {
@@ -696,6 +717,10 @@ label {
 			}
 			.feed, .summary {
 				color: mix($primary-complement, $primary-color, 75%);
+			}
+			.status {
+				&.ok { color: mix($primary-complement, $success-color, 75%); }
+				&.error { color: mix($primary-complement, $error-color, 75%); }
 			}
 		}
 	}

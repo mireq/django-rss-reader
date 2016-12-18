@@ -11,6 +11,7 @@ from django.utils.functional import cached_property
 from django.views.generic import ListView, DetailView
 
 from .models import Entry
+from feeds.models import Feed
 from web.time_utils import datetime_to_timestamp, timestamp_to_datetime
 
 
@@ -135,5 +136,14 @@ class EntryDetail(UserEntriesMixin, DetailView):
 		return HttpResponseRedirect(self.request.get_full_path())
 
 
+class UserFeedList(LoginRequiredMixin, ListView):
+	paginate_by = 1
+
+	def get_queryset(self):
+		return (Feed.objects
+			.filter(userfeed__user=self.request.user))
+
+
 entry_list = EntryList.as_view()
 entry_detail = EntryDetail.as_view()
+user_feed_list = UserFeedList.as_view()
