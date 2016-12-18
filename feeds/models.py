@@ -8,22 +8,10 @@ from django.db.models import F, Case, When
 from django.db.models.functions import Coalesce
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
-from django.utils.html import strip_tags
-from django.utils.text import Truncator
 from django.utils.translation import ugettext_lazy as _
 
 from web.models import TimestampModelMixin
 from web.ordering import get_next_order
-
-
-try:
-	from html import unescape  # python 3.4+
-except ImportError:
-	try:
-		from html.parser import HTMLParser  # python 3.x (<3.4)
-	except ImportError:
-		from HTMLParser import HTMLParser  # python 2.x
-	unescape = HTMLParser().unescape
 
 
 @python_2_unicode_compatible
@@ -241,10 +229,6 @@ class Entry(models.Model):
 
 	def __str__(self):
 		return self.title
-
-	@property
-	def short_summary(self):
-		return Truncator(unescape(strip_tags(self.summary).replace('&shy;', ''))).words(100, truncate="...")
 
 	@models.permalink
 	def get_absolute_url(self):
