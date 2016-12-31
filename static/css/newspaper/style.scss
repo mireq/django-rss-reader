@@ -1,23 +1,70 @@
 $rem-base: 16px !default;
 $base-margin: 32px;
 $base-margin-reduced: 16px;
+$input-spacing: $base-margin / 2;
+$primary-color: #444444;
+$primary-complement: white;
+$invalid-color: #ee5555;
 
 $background-color: white;
 $text-color: black;
 $gray-color: mix($background-color, $text-color, 90%);
 
+$input-border-color: mix($background-color, $text-color, 80%);
+
 $menu-width: 260px;
+
+@mixin button($button-background, $text-color, $only-color: false) {
+	background-color: $button-background;
+	font-size: 90%;
+	line-height: 1.2;
+	border-radius: 0;
+	cursor: pointer;
+	box-sizing: border-box;
+
+	@if ($only-color == false) {
+		font-weight: bold;
+	}
+
+	color: $text-color;
+	@if ($only-color == false) {
+		@include input-padding;
+	}
+	&:hover {
+		color: $text-color;
+		@if ($only-color == false) {
+			text-decoration: none;
+		}
+	}
+
+	&:active {
+		background-color: darken($button-background, 5%);
+	}
+
+	&:disabled {
+		background-color: mix($button-background, $background-color);
+	}
+
+	&:active  {
+		background-color: darken($button-background, 10%);
+	}
+}
+
 
 @mixin button-reset {
 	background: transparent;
 	font-weight: normal;
 	display: inline-block;
-	padding: 0;
-	margin: 0;
-	border-radius: 0;
 	border: none;
-	box-shadow: none;
 	color: $text-color;
+}
+
+@mixin input-margin {
+	margin-bottom: $input-spacing;
+}
+
+@mixin input-padding {
+	padding: 8px 10px;
 }
 
 @import '../sprites';
@@ -32,9 +79,17 @@ html, body {
 	padding: 0;
 }
 
+* {
+	font-family: "Bookerly";
+}
+
 a {
 	color: $text-color;
 	text-decoration: underline;
+}
+
+h1 a {
+	text-decoration: none;
 }
 
 #menu {
@@ -60,6 +115,41 @@ a {
 		font-size: 200%;
 		border-bottom: 1px solid $text-color;
 	}
+
+	.toggle-menu {
+		text-decoration: none;
+		font-size: 200%;
+		position: absolute;
+		top: $base-margin;
+		right: $base-margin;
+		margin-top: -0.8em;
+		margin-right: 0.25em;
+		&:before {
+			content: " ... "
+		}
+	}
+
+	.navigation {
+		position: absolute;
+		top: 4em;
+		right: $base-margin;
+		.button {
+			@include button-reset;
+		}
+	}
+
+	.button.left, .button.right {
+		font-size: 180%;
+	}
+	.button {
+		padding: 0 0.25em;
+		&.left:after {
+			content: "〈";
+		}
+		&.right:after {
+			content: "〉";
+		}
+	}
 }
 
 #content {
@@ -77,11 +167,22 @@ a {
 	background: $gray-color;
 	border-bottom: 1px solid $text-color;
 	text-align: right;
-	padding: $base-margin-reduced;
+	padding-left: $base-margin-reduced;
+	padding-right: $base-margin-reduced;
+
+	.select-link {
+		display: inline-block;
+	}
+
+	select {
+		margin-bottom: 0;
+		border: none;
+		background-color: transparent;
+	}
 }
 
 .submit-row, .pagination, .bottom-actions {
-	@include base-padding-content;
+	@include base-padding-vertical-content;
 	overflow: auto;
 	border-top: 1px solid mix($text-color, $background-color);
 }
@@ -174,3 +275,93 @@ body.entry-detail #site_title {
 	}
 }
 
+#entry_detail {
+	.extra-info {
+		font-style: italic;
+		font-size: 90%;
+		border-bottom: 1px solid mix($text-color, $background-color, 25%);
+		padding-bottom: $base-margin-reduced;
+	}
+	.info {
+		h1 {
+			a {
+				display: block;
+			}
+		}
+	}
+}
+
+input, button, textarea, select, a {
+	outline: 0px solid transparent;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="url"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="week"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+select,
+textarea {
+	@include input-margin;
+	@include input-padding;
+
+	display: block;
+	background: $background-color;
+	border: 1px solid $input-border-color;
+	box-sizing: border-box;
+	border-radius: 0;
+	width: 100%;
+
+	&:focus {
+		outline: 0;
+		border-color: $primary-color;
+	}
+
+	&:focus:invalid, .has-errors & {
+		border-color: $invalid-color;
+		color: $invalid-color;
+	}
+
+	&[disabled] {
+		cursor: not-allowed;
+		background-color: mix($background-color, $text-color, 80%);
+		color: mix($background-color, $text-color, 40%);;
+	}
+}
+
+input[type="file"]:focus,
+input[type="radio"]:focus,
+input[type="checkbox"]:focus {
+	outline: thin solid $primary-color;
+	outline: 1px auto $primary-color;
+}
+
+button, input[type=submit], .button {
+	@include input-margin;
+	@include button($primary-color, $primary-complement);
+}
+
+button::-moz-focus-inner {
+	padding: 0;
+	border: 0
+}
+
+select {
+	border: 1px solid $input-border-color;
+	background-color: $background-color;
+	color: $text-color;
+}
+
+select[multiple] {
+	@include input-padding;
+	background: $background-color;
+	height: auto;
+}
