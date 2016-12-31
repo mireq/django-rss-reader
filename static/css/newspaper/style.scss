@@ -1,5 +1,5 @@
 $rem-base: 16px !default;
-$base-margin: 32px;
+$base-margin: 24px;
 $base-margin-reduced: 16px;
 $input-spacing: $base-margin / 2;
 $primary-color: #444444;
@@ -19,11 +19,14 @@ $menu-width: 260px;
 	font-size: 90%;
 	line-height: 1.2;
 	border-radius: 0;
+	border: none;
 	cursor: pointer;
 	box-sizing: border-box;
 
 	@if ($only-color == false) {
 		font-weight: bold;
+		padding: 0;
+		margin: 0;
 	}
 
 	color: $text-color;
@@ -94,39 +97,121 @@ h1 a {
 
 #menu {
 	background: $background-color;
-	position: fixed;
+	display: none;
 	z-index: 10;
-	top: 0px;
-	left: 0px;
-	bottom: 0px;
-	width: $menu-width;
-	margin-left: -($menu-width + 16px);
-	transition: all 0.2s;
+	padding: $base-margin;
+	//position: fixed;
+	//z-index: 10;
+	//top: 0px;
+	//left: 0px;
+	//bottom: 0px;
+	//width: $menu-width;
+	//margin-left: -($menu-width + 16px);
+	//transition: all 0.2s;
+
+	body.visible-menu & {
+		display: block
+	}
+
+	.avatar {
+		float: left;
+		width: 44px;
+		height: 44px;
+		border: 1px solid $primary-complement;
+		margin-right: $base-margin-reduced;
+	}
+
+	.user {
+		overflow: hidden;
+		padding-bottom: $base-margin-reduced;
+		border-bottom: 1px solid $text-color;
+		@include base-padding-horizontal-content;
+
+		.username {
+			font-weight: bold;
+			@include text-ellipsis;
+		}
+
+		.entries {
+			font-style: italic;
+			@include text-ellipsis;
+		}
+	}
+
+	ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	li {
+		margin: 0;
+		border-bottom: 1px solid $text-color;
+		@include base-padding-horizontal-content;
+
+		a {
+			display: block;
+			text-decoration: none;
+			@include text-ellipsis;
+			@include base-padding-vertical-content;
+		}
+	}
+}
+
+body.visible-menu {
+	#content, #header {
+		display: none;
+	}
+}
+
+
+#menu_shadow {
+	/*
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: black;
+	opacity: 0.5;
+	z-index: 9;
+	display: none;
+	*/
+
+	body.visible-menu & {
+	}
+}
+
+.toggle-menu {
+	text-decoration: none;
+	font-size: 200%;
+	position: absolute;
+	top: $base-margin;
+	right: $base-margin;
+	margin-top: -0.8em;
+	margin-right: 0.75em;
+	&:before {
+		content: " ... "
+	}
+}
+
+#menu .toggle-menu {
+	margin-top: -0.5em;
+	&:before {
+		content: "<";
+	}
 }
 
 #header {
 	padding: 0 $base-margin;
 
 	h1 {
-		padding: $base-margin-reduced 0;
+		padding: $base-margin-reduced $base-margin-reduced;
 		margin: 0;
 		font-weight: normal;
 		font-style: italic;
 		font-size: 200%;
 		border-bottom: 1px solid $text-color;
-	}
-
-	.toggle-menu {
-		text-decoration: none;
-		font-size: 200%;
-		position: absolute;
-		top: $base-margin;
-		right: $base-margin;
-		margin-top: -0.8em;
-		margin-right: 0.25em;
-		&:before {
-			content: " ... "
-		}
 	}
 
 	.navigation {
@@ -154,21 +239,18 @@ h1 a {
 
 #content {
 	padding: 0 $base-margin $base-margin-reduced $base-margin;
-}
-
-.button {
-	@include button-reset;
-	font-style: italic;
-	text-decoration: none;
-	cursor: pointer;
+	form {
+		@include base-padding-vertical;
+		h1 {
+			display: none;
+		}
+	}
 }
 
 .list-navigation {
 	background: $gray-color;
 	border-bottom: 1px solid $text-color;
 	text-align: right;
-	padding-left: $base-margin-reduced;
-	padding-right: $base-margin-reduced;
 
 	.select-link {
 		display: inline-block;
@@ -179,6 +261,10 @@ h1 a {
 		border: none;
 		background-color: transparent;
 	}
+
+	button, .button, input {
+		margin-bottom: 0;
+	}
 }
 
 .submit-row, .pagination, .bottom-actions {
@@ -187,26 +273,48 @@ h1 a {
 	border-top: 1px solid mix($text-color, $background-color);
 }
 
-.bottom-actions {
+.submit-row {
+	margin-top: $base-margin;
+
+	.positive {
+		float: right;
+		padding-right: $base-margin-reduced;
+	}
+
+	.negative {
+		float: left;
+		padding-left: $base-margin-reduced;
+	}
+}
+
+#content .bottom-actions {
 	.primary {
 		text-align: right;
+		padding-right: $base-margin-reduced;
 	}
 	.secondary {
 		text-align: left;
 		float: left;
+		padding-left: $base-margin-reduced;
 	}
 	.button {
 		display: inline-block;
+	}
+	form {
+		padding: 0;
+		margin: 0;
 	}
 }
 
 .pagination {
 	.previous {
 		float: left;
+		margin-left: $base-margin-reduced;
 	}
 
 	.next {
 		float: right;
+		margin-right: $base-margin-reduced;
 	}
 }
 
@@ -216,10 +324,11 @@ h1 a {
 	padding: 0;
 	margin: 0;
 
-	li {
+	.entry {
 		@include base-padding-horizontal-content;
 		@include base-padding-vertical-content;
 		border-top: 1px solid mix($text-color, $background-color);
+		position: relative;
 
 		&:first-child {
 			border-top: none;
@@ -246,7 +355,20 @@ h1 a {
 			overflow: hidden;
 			margin-top: $base-margin-reduced;
 		}
+		.status {
+			float: right;
+			display: block;
+			font-size: 80%;
+		}
 	}
+}
+
+.fullclickable-link {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
 }
 
 body.entry-detail #site_title {
@@ -279,15 +401,19 @@ body.entry-detail #site_title {
 	.extra-info {
 		font-style: italic;
 		font-size: 90%;
-		border-bottom: 1px solid mix($text-color, $background-color, 25%);
 		padding-bottom: $base-margin-reduced;
 	}
 	.info {
+		@include base-padding-horizontal-content;
+		border-bottom: 1px solid mix($text-color, $background-color, 25%);
 		h1 {
 			a {
 				display: block;
 			}
 		}
+	}
+	.summary {
+		@include base-padding-horizontal-content;
 	}
 }
 
@@ -347,6 +473,10 @@ input[type="checkbox"]:focus {
 button, input[type=submit], .button {
 	@include input-margin;
 	@include button($primary-color, $primary-complement);
+	text-decoration: none;
+	font-style: italic;
+	cursor: pointer;
+	display: inline-block;
 }
 
 button::-moz-focus-inner {
@@ -364,4 +494,8 @@ select[multiple] {
 	@include input-padding;
 	background: $background-color;
 	height: auto;
+}
+
+.form-row {
+	@include base-padding-horizontal-content;
 }
