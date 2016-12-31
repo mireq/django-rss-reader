@@ -8,8 +8,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.http.response import HttpResponseRedirect
 from django.utils.functional import cached_property
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, FormView
 
+from .forms import FeedCreateForm
 from .models import Entry
 from feeds.models import Feed
 from web.time_utils import datetime_to_timestamp, timestamp_to_datetime
@@ -137,13 +138,21 @@ class EntryDetail(UserEntriesMixin, DetailView):
 
 
 class UserFeedList(LoginRequiredMixin, ListView):
-	paginate_by = 1
+	paginate_by = 100
+	template_name = 'feeds/user_feed_list.html'
 
 	def get_queryset(self):
 		return (Feed.objects
-			.filter(userfeed__user=self.request.user))
+			.filter(userfeed__user=self.request.user)
+			.order_by('-pk'))
+
+
+class UserFeedCreate(LoginRequiredMixin, FormView):
+	form_class = FeedCreateForm
+	template_name = 'feeds/user_feed_create.html'
 
 
 entry_list = EntryList.as_view()
 entry_detail = EntryDetail.as_view()
 user_feed_list = UserFeedList.as_view()
+user_feed_create = UserFeedCreate.as_view()

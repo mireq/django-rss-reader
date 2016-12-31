@@ -5,6 +5,9 @@
 {% block site_title %}{% trans "Feeds" %}{% endblock %}
 
 {% block content %}
+	<div class="list-navigation">
+		<a class="button" href="{% url "user_feed_create" %}">{% trans "Add new feed" %}</a>
+	</div>
 	<ul class="entries">
 		{% for feed in object_list %}
 			<li class="entry">

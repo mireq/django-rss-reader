@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load text_tags url_tags %}
+
+{% block site_title %}{% trans "Create feed" %}{% endblock %}
+
+{% block content %}
+	<form class="ajaxform" action="{{ request.path }}" method="post">
+		<h1>Create feed</h1>
+		{% csrf_token %}
+		{% include "includes/form_loop.html" %}
+		<input type="hidden" name="next" value="{{ next }}">
+		<div class="submit-row">
+			<div class="negative">
+				<a class="button secondary" href="{% url "user_feed_list" %}">{% trans "Back" %}</a>
+			</div>
+			<div class="positive">
+				<button type="submit">{% trans "Create" %}</button>
+			</div>
+		</div>
+	</form>
+{% endblock %}

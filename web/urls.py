@@ -16,6 +16,7 @@ urlpatterns = [
 	url(r'^entry/(?P<pk>\d+)/$', feeds.views.entry_detail, name='entry_detail'),
 	url(r'^$', feeds.views.entry_list, name='entry_list'),
 	url(r'^feeds/$', feeds.views.user_feed_list, name='user_feed_list'),
+	url(r'^feeds/create/$', feeds.views.user_feed_create, name='user_feed_create'),
 	url(r'^settings/$', web.views.settings_view, name='settings_view'),
 	url(r'^template-change/$', template_dynamicloader.views.change, name='template-change'),
 ]

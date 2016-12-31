@@ -5,11 +5,15 @@ from datetime import datetime
 from time import mktime
 
 import feedparser
+from django.contrib.auth import get_user_model
 from django.utils import timezone
 from django.utils.encoding import force_text
 
 from feeds.models import Feed, Entry
 from web.celery import app
+
+
+User = get_user_model()
 
 
 def timestruct_to_utctime(timestruct):
@@ -32,17 +36,24 @@ def fill_feed_info(feed, parser_data):
 
 
 @app.task
-def register_feed(url):
+def register_feed(url, user_id=None):
 	feed, _ = Feed.objects.update_or_create(xml_url=url)
+	user = None
+	if user_id is not None:
+		user = User.objects.get(pk=user_id)
 	try:
 		parser_data = feedparser.parse(feed.xml_url)
 		fill_feed_info(feed, parser_data)
 		feed.update_status = Feed.UPDATE_STATUS_UPDATED
 		feed.last_build_date = None
 		feed.save()
+		if user:
+			feed.subscribe(user)
 		return {'status': 'success', 'feed': feed}
 	except Exception as e: #pylint: disable=broad-except
 		feed.save()
+		if user:
+			feed.subscribe(user)
 		return {'status': 'error', 'error': force_text(e), 'feed': feed}
 
 
