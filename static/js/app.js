@@ -55,6 +55,19 @@ var transformToSelect = function(element) {
 	element.appendChild(select);
 };
 
+var formOptions = {
+	onResponse: function(data, formElement) {
+		if (_.has(data, 'redirect') && _.has(_, 'pjax')) {
+			_.pjax.load(data.redirect);
+			return false;
+		}
+		if (_.has(data, 'celery_result_url')) {
+			var opts = {};
+			opts.waitingText = _.getData(formElement, 'celeryWaiting') || 'Loading ...';
+			celery.waitForResult(data.celery_result_url, opts);
+		}
+	}
+};
 
 var register = function(element) {
 	_.forEach(_.cls(element, 'toggle-menu'), function(element) {
@@ -68,6 +81,9 @@ var register = function(element) {
 	});
 	_.forEach(_.cls(element, 'select-link'), function(element) {
 		transformToSelect(element);
+	});
+	_.forEach(_.cls(element, 'ajaxform'), function(formElement) {
+		_.ajaxform(formElement, formOptions);
 	});
 	if (_.id('entry_detail') !== null) {
 		registerEntryDetail();

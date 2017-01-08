@@ -9,6 +9,7 @@ from django.db.models import Q
 from django.http.response import HttpResponseRedirect
 from django.utils.functional import cached_property
 from django.views.generic import ListView, DetailView, FormView
+from django_ajax_utils.views import AjaxFormMixin
 
 from .forms import FeedCreateForm
 from .models import Entry
@@ -147,7 +148,7 @@ class UserFeedList(LoginRequiredMixin, ListView):
 			.order_by('-pk'))
 
 
-class UserFeedCreate(LoginRequiredMixin, FormView):
+class UserFeedCreate(LoginRequiredMixin, AjaxFormMixin, FormView):
 	form_class = FeedCreateForm
 	template_name = 'feeds/user_feed_create.html'
 
