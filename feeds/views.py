@@ -134,7 +134,8 @@ class EntryDetail(UserEntriesMixin, DetailView):
 
 	def get(self, request, *args, **kwargs):
 		response = super(EntryDetail, self).get(request, *args, **kwargs)
-		self.object.mark_read(self.request.user)
+		if not 'cache' in self.request.GET:
+			self.object.mark_read(self.request.user)
 		return response
 
 

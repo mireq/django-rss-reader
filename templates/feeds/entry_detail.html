@@ -4,7 +4,7 @@
 {% block bodyclass %}entry-detail{% endblock %}
 
 {% block content %}
-	<div id="entry_detail">
+	<div id="entry_detail" data-id="{{ entry.pk|unlocalize }}">
 		<div class="info">
 			<h1><a href="{{ entry.link }}" target="_blank">{{ entry }}&nbsp;</a></h1>
 			<div class="extra-info">
@@ -46,6 +46,6 @@
 {% endblock %}
 
 {% block top_navigation %}
-	<a href="{% if prev %}{{ prev.get_absolute_url }}{% else %}#{% endif %}" class="button left{% if not prev %} disabled{% endif %}"></a>
-	<a href="{% if next %}{{ next.get_absolute_url }}{% else %}#{% endif %}" class="button right{% if not next %} disabled {% endif %}"></a>
+	<a id="prev_item_link" href="{% if prev %}{{ prev.get_absolute_url }}{% else %}#{% endif %}" class="button left{% if not prev %} disabled{% endif %}"></a>
+	<a  id="next_item_link" href="{% if next %}{{ next.get_absolute_url }}{% else %}#{% endif %}" class="button right{% if not next %} disabled {% endif %}"></a>
 {% endblock %}
