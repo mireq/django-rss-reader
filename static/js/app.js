@@ -1,6 +1,10 @@
 (function(_) {
 
 
+var preloaderNext;
+var preloaderPrev;
+
+
 var toggleMenu = function(e) {
 	_.toggleClass(document.body, 'visible-menu');
 	if (e) {
@@ -20,7 +24,6 @@ var closeMenu = function(e) {
 	}
 };
 
-
 var registerEntryDetail = function() {
 	var entryDetail = _.id('entry_detail');
 	var summary = _.cls(entryDetail, 'summary')[0];
@@ -33,13 +36,18 @@ var registerEntryDetail = function() {
 var registerPreloader = function() {
 	var nextItemLink = _.id('next_item_link');
 	if (nextItemLink !== null && nextItemLink.getAttribute('href') !== '#') {
-		var preload = preloadUrl(nextItemLink.getAttribute('href'));
+		var preloaderNext = preloadUrl(nextItemLink.getAttribute('href'));
 		var clone = nextItemLink.cloneNode(false);
 		nextItemLink.parentNode.replaceChild(clone, nextItemLink);
 		nextItemLink = clone;
 		_.bindEvent(nextItemLink, 'click', function(e) {
 			e.preventDefault();
-			preload.open();
+			preloaderNext.open();
+			_.xhrSend({
+				url: nextItemLink.getAttribute('href') + '?mark',
+				successFn: function(response, res, opts) {
+				}
+			});
 		});
 	}
 };
@@ -52,10 +60,6 @@ var preloadUrl = function(url) {
 
 	self.open = function() {
 		opened = true;
-		//_.xhrSend({
-		//	url: window.location + '?mark',
-		//});
-		console.log(window.location + '?mark');
 		if (responseData !== undefined) {
 			if (responseData === null) {
 				_.pjax.load(url);
@@ -146,6 +150,9 @@ var register = function(element) {
 	if (_.id(element, 'entry_detail') !== null) {
 		registerEntryDetail();
 	}
+	if (element === document.body) {
+		registerPreloader();
+	}
 };
 
 
@@ -173,7 +180,7 @@ _.pjax.autoRegister({
 			_.triggerLoad(block);
 		});
 		document.body.className = response.blocks.bodyclass;
-		if (_.id('entry_detail')) {
+		if (_.id('entry_detail') !== null) {
 			registerPreloader();
 		}
 	}
