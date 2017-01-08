@@ -124,11 +124,6 @@ class EntryDetail(UserEntriesMixin, DetailView):
 		ctx['prev'] = self.get_prev()
 		return ctx
 
-	def get_object(self, **kwargs):
-		obj = super(EntryDetail, self).get_object(**kwargs)
-		obj.mark_read(self.request.user)
-		return obj
-
 	def post(self, request, *args, **kwargs):
 		action = request.POST.get('action', '')
 		if action == 'favorite':
@@ -136,6 +131,11 @@ class EntryDetail(UserEntriesMixin, DetailView):
 		elif action == 'unfavorite':
 			self.get_object().mark_favorite(request.user, False)
 		return HttpResponseRedirect(self.request.get_full_path())
+
+	def get(self, request, *args, **kwargs):
+		response = super(EntryDetail, self).get(request, *args, **kwargs)
+		self.object.mark_read(self.request.user)
+		return response
 
 
 class UserFeedList(LoginRequiredMixin, ListView):
