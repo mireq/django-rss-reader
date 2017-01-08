@@ -6,7 +6,7 @@ from functools import reduce
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
-from django.http.response import HttpResponseRedirect
+from django.http.response import HttpResponse, HttpResponseRedirect
 from django.utils.functional import cached_property
 from django.views.generic import ListView, DetailView, FormView
 from django_ajax_utils.views import AjaxFormMixin
@@ -133,6 +133,9 @@ class EntryDetail(UserEntriesMixin, DetailView):
 		return HttpResponseRedirect(self.request.get_full_path())
 
 	def get(self, request, *args, **kwargs):
+		if 'mark' in self.request.GET:
+			self.get_object().mark_read(self.request.user)
+			return HttpResponse('')
 		response = super(EntryDetail, self).get(request, *args, **kwargs)
 		if not 'cache' in self.request.GET:
 			self.object.mark_read(self.request.user)

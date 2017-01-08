@@ -25,14 +25,15 @@ var registerEntryDetail = function() {
 	var entryDetail = _.id('entry_detail');
 	var summary = _.cls(entryDetail, 'summary')[0];
 	var links = _.tag(summary, 'A');
-	var objectId = _.getData(entryDetail, 'id');
 	_.forEach(links, function(link) {
 		link.setAttribute('target', '_blank');
 	});
+};
 
+var registerPreloader = function() {
 	var nextItemLink = _.id('next_item_link');
 	if (nextItemLink !== null && nextItemLink.getAttribute('href') !== '#') {
-		var preload = preloadUrl(nextItemLink);
+		var preload = preloadUrl(nextItemLink.getAttribute('href'));
 		var clone = nextItemLink.cloneNode(false);
 		nextItemLink.parentNode.replaceChild(clone, nextItemLink);
 		nextItemLink = clone;
@@ -51,12 +52,16 @@ var preloadUrl = function(url) {
 
 	self.open = function() {
 		opened = true;
+		//_.xhrSend({
+		//	url: window.location + '?mark',
+		//});
+		console.log(window.location + '?mark');
 		if (responseData !== undefined) {
 			if (responseData === null) {
 				_.pjax.load(url);
 			}
 			else {
-				_.pjax.processPjax(responseData, url);
+				_.pjax.load(url, { response: responseData });
 			}
 		}
 	};
@@ -69,7 +74,7 @@ var preloadUrl = function(url) {
 		successFn: function(response) {
 			responseData = response;
 			if (opened) {
-				_.pjax.processPjax(response, url);
+				_.pjax.load(url, { response: responseData });
 			}
 		},
 		failFn: function() {
@@ -138,7 +143,7 @@ var register = function(element) {
 	_.forEach(_.cls(element, 'ajaxform'), function(formElement) {
 		_.ajaxform(formElement, formOptions);
 	});
-	if (_.id('entry_detail') !== null) {
+	if (_.id(element, 'entry_detail') !== null) {
 		registerEntryDetail();
 	}
 };
@@ -168,6 +173,9 @@ _.pjax.autoRegister({
 			_.triggerLoad(block);
 		});
 		document.body.className = response.blocks.bodyclass;
+		if (_.id('entry_detail')) {
+			registerPreloader();
+		}
 	}
 });
 
