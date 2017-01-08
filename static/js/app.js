@@ -131,6 +131,43 @@ var formOptions = {
 	}
 };
 
+var registerKeyEvents = function() {
+	var leftPressed = function() {
+		var link = _.cls('left-key-link')[0];
+		if (link === undefined) {
+			return;
+		}
+		link.click();
+	};
+
+	var rightPressed = function() {
+		var link = _.cls('right-key-link')[0];
+		if (link === undefined) {
+			return;
+		}
+		link.click();
+	};
+
+	var openPressed = function() {
+		var link = _.cls('open-key-link')[0];
+		if (link === undefined) {
+			return;
+		}
+		link.click();
+	};
+
+	var keyDown = function(e) {
+		switch (e.which) {
+			case 37: leftPressed(); break;
+			case 39: rightPressed(); break;
+			case 79: openPressed(); break;
+			case 13: openPressed(); break;
+		}
+	};
+
+	_.bindEvent(document, 'keydown', keyDown);
+};
+
 var register = function(element) {
 	_.forEach(_.cls(element, 'toggle-menu'), function(element) {
 		_.bindEvent(element, 'click', toggleMenu);
@@ -152,6 +189,7 @@ var register = function(element) {
 	}
 	if (element === document.body) {
 		registerPreloader();
+		registerKeyEvents();
 	}
 };
 
