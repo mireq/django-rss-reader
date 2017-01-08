@@ -6,7 +6,7 @@
 {% block head_title %}{% trans "Log in" %} | {{ block.super }}{% endblock %}
 
 {% block content %}
-	<form class="ajaxform" action="{{ request.path }}" method="post">
+	<form action="{{ request.path }}" method="post">
 		{% csrf_token %}
 		{% include "includes/form_loop.html" %}
 		<input type="hidden" name="next" value="{{ next }}">
