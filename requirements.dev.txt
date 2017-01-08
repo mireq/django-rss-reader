@@ -4,22 +4,22 @@
 #
 #    pip-compile --output-file requirements.dev.txt requirements.dev.in
 #
--e git+https://github.com/mireq/django-ajax-utils.git@5ee24dd43f5637841dc47af01ef83e1120fa4f21#egg=django_ajax_utils
+-e git+https://github.com/mireq/django-ajax-utils.git@88bac2b1fcd30ac7589539dd711cd5f0740d114e#egg=django_ajax_utils
 -e git+https://github.com/mireq/django-assets-manager.git@af4944e6f1def727b84f51583a911ef60e978d55#egg=django_assets_manager
-amqp==2.1.1               # via kombu
+amqp==2.1.4               # via kombu
 argh==0.26.2              # via watchdog
-astroid==1.4.8            # via pylint, pylint-plugin-utils
+astroid==1.4.9            # via pylint, pylint-plugin-utils
 billiard==3.5.0.2         # via celery
-celery==4.0.0
-click==6.6                # via pip-tools
+celery==4.0.2
+click==6.7                # via pip-tools
 decorator==4.0.10         # via ipython, traitlets
 django-appconf==1.0.2     # via django-compressor
 django-compressor==2.1    # via django-libsass
 django-debug-toolbar==1.6
-django-debugtools==1.7
+django-debugtools==1.7.1
 django-extensions==1.7.5
 django-libsass==0.7
-Django==1.10.4            # via django-debug-toolbar
+Django==1.10.5            # via django-debug-toolbar
 docopt==0.6.2             # via ptpython
 feedparser==5.2.1
 first==2.0.1              # via pip-tools
@@ -27,14 +27,15 @@ ipython-genutils==0.1.0   # via traitlets
 ipython==5.1.0
 isort==4.2.5              # via pylint
 jedi==0.9.0               # via ptpython
-kombu==4.0.0              # via celery
+kombu==4.0.2              # via celery
 lazy-object-proxy==1.2.2  # via astroid
-libsass==0.11.2
-mccabe==0.5.2             # via pylint
+libsass==0.12.3
+mccabe==0.5.3             # via pylint
+olefile==0.44             # via pillow
 pathtools==0.1.2          # via watchdog
 pexpect==4.2.1            # via ipython
 pickleshare==0.7.4        # via ipython
-Pillow==3.4.2
+Pillow==4.0.0
 pip-tools==1.8.0
 prompt-toolkit==1.0.9     # via ipython, ptpython
 ptpython==0.36
@@ -44,7 +45,7 @@ pyinotify==0.9.6
 pylint-django==0.7.2
 pylint-plugin-utils==0.2.4  # via pylint-django
 pylint==1.6.4             # via pylint-django, pylint-plugin-utils
-pytz==2016.7              # via celery
+pytz==2016.10             # via celery
 PyYAML==3.12              # via watchdog
 rcssmin==1.0.6            # via django-compressor
 redis==2.10.5
@@ -56,7 +57,7 @@ traitlets==4.3.1          # via ipython
 vine==1.1.3               # via amqp
 watchdog==0.8.3
 wcwidth==0.1.7            # via prompt-toolkit
-Werkzeug==0.11.11
+Werkzeug==0.11.15
 wrapt==1.10.8             # via astroid
 
 # The following packages are considered to be unsafe in a requirements file:

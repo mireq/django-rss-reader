@@ -6,4 +6,4 @@ feedparser
 pip-tools
 redis
 -e git+https://github.com/mireq/django-assets-manager.git@af4944e6f1def727b84f51583a911ef60e978d55#egg=django_assets_manager
--e git+https://github.com/mireq/django-ajax-utils.git@5ee24dd43f5637841dc47af01ef83e1120fa4f21#egg=django_ajax_utils
+-e git+https://github.com/mireq/django-ajax-utils.git@88bac2b1fcd30ac7589539dd711cd5f0740d114e#egg=django_ajax_utils
