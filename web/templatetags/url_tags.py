@@ -21,7 +21,7 @@ def link_add(context, url, **values):
 	for k, v in values.items():
 		get_data[k] = v
 	separator = '&' if '?' in url else '?'
-	return url + separator + get_data.urlencode()
+	return url + separator + get_data.urlencode('')
 
 
 @register.simple_tag(takes_context=True)
@@ -33,7 +33,7 @@ def link_remove(context, url, *keys):
 	for key in keys:
 		if key in get_data:
 			del get_data[key]
-	encoded = get_data.urlencode()
+	encoded = get_data.urlencode('')
 	if encoded:
 		separator = '&' if '?' in url else '?'
 		return url + separator + encoded

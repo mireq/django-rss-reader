@@ -37,7 +37,7 @@ def fill_feed_info(feed, parser_data):
 
 @app.task
 def register_feed(url, user_id=None):
-	feed, _ = Feed.objects.update_or_create(xml_url=url)
+	feed, _ = Feed.objects.get_or_create(xml_url=url)
 	user = None
 	if user_id is not None:
 		user = User.objects.get(pk=user_id)
