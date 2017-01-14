@@ -140,16 +140,21 @@ class EntryDetail(UserEntriesMixin, DetailView):
 			self.object.mark_read(self.request.user)
 		return response
 
-
-class UserFeedList(LoginRequiredMixin, ListView):
-	paginate_by = 100
-	template_name = 'feeds/user_feed_list.html'
-
+class UserFeedMixin(object):
 	def get_queryset(self):
 		return (UserFeed.objects
 			.filter(user=self.request.user)
 			.order_by('order')
 			.select_related('feed', 'category'))
+
+
+class UserFeedList(LoginRequiredMixin, UserFeedMixin, ListView):
+	paginate_by = 100
+	template_name = 'feeds/user_feed_list.html'
+
+
+class UserFeedDetail(LoginRequiredMixin, UserFeedMixin, DetailView):
+	template_name = 'feeds/user_feed_detail.html'
 
 
 class UserFeedCreate(LoginRequiredMixin, AjaxFormMixin, FormView):
@@ -160,4 +165,5 @@ class UserFeedCreate(LoginRequiredMixin, AjaxFormMixin, FormView):
 entry_list = EntryList.as_view()
 entry_detail = EntryDetail.as_view()
 user_feed_list = UserFeedList.as_view()
+user_feed_detail = UserFeedDetail.as_view()
 user_feed_create = UserFeedCreate.as_view()

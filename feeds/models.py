@@ -154,6 +154,10 @@ class UserFeed(models.Model):
 		unique_together = (('user', 'feed'),)
 		ordering = ('order',)
 
+	@models.permalink
+	def get_absolute_url(self):
+		return ('user_feed_detail', (self.pk,), {})
+
 
 class EntryManager(models.Manager):
 	def for_user(self, user):
