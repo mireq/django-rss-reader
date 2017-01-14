@@ -6,7 +6,7 @@ feedparser
 pip-tools
 redis
 -e git+https://github.com/mireq/django-assets-manager.git@af4944e6f1def727b84f51583a911ef60e978d55#egg=django_assets_manager
--e git+https://github.com/mireq/django-ajax-utils.git@7be053522e95b72a72a37fb878942f09421d2aa9#egg=django_ajax_utils
+-e git+https://github.com/mireq/django-ajax-utils.git@13acbbf45b8d6df41b97fcd2ef7198927c8e618b#egg=django_ajax_utils
 Werkzeug
 django-debug-toolbar
 django-debugtools
