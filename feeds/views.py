@@ -12,8 +12,7 @@ from django.views.generic import ListView, DetailView, FormView
 from django_ajax_utils.views import AjaxFormMixin
 
 from .forms import FeedCreateForm
-from .models import Entry
-from feeds.models import Feed
+from .models import Entry, UserFeed
 from web.time_utils import datetime_to_timestamp, timestamp_to_datetime
 
 
@@ -147,9 +146,10 @@ class UserFeedList(LoginRequiredMixin, ListView):
 	template_name = 'feeds/user_feed_list.html'
 
 	def get_queryset(self):
-		return (Feed.objects
-			.filter(userfeed__user=self.request.user)
-			.order_by('-pk'))
+		return (UserFeed.objects
+			.filter(user=self.request.user)
+			.order_by('order')
+			.select_related('feed', 'category'))
 
 
 class UserFeedCreate(LoginRequiredMixin, AjaxFormMixin, FormView):
