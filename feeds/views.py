@@ -105,20 +105,20 @@ class UserEntriesMixin(LoginRequiredMixin):
 		return filters
 
 
-class EntryList(UserEntriesMixin, ListView):
+class EntryListView(UserEntriesMixin, ListView):
 	def get(self, request, *args, **kwargs):
 		self.request.session['saved_filters'] = self.saved_filters
-		return super(EntryList, self).get(request, *args, **kwargs)
+		return super(EntryListView, self).get(request, *args, **kwargs)
 
 
-class EntryDetail(UserEntriesMixin, DetailView):
+class EntryDetailView(UserEntriesMixin, DetailView):
 	is_detail = True
 
 	def get_queryset(self):
 		return Entry.objects.for_user(self.request.user)
 
 	def get_context_data(self, **kwargs):
-		ctx = super(EntryDetail, self).get_context_data(**kwargs)
+		ctx = super(EntryDetailView, self).get_context_data(**kwargs)
 		ctx['next'] = self.get_next()
 		ctx['prev'] = self.get_prev()
 		return ctx
@@ -135,10 +135,11 @@ class EntryDetail(UserEntriesMixin, DetailView):
 		if 'mark' in self.request.GET:
 			self.get_object().mark_read(self.request.user)
 			return HttpResponse('')
-		response = super(EntryDetail, self).get(request, *args, **kwargs)
+		response = super(EntryDetailView, self).get(request, *args, **kwargs)
 		if not 'cache' in self.request.GET:
 			self.object.mark_read(self.request.user)
 		return response
+
 
 class UserFeedMixin(object):
 	def get_queryset(self):
@@ -148,22 +149,22 @@ class UserFeedMixin(object):
 			.select_related('feed', 'category'))
 
 
-class UserFeedList(LoginRequiredMixin, UserFeedMixin, ListView):
+class UserFeedListView(LoginRequiredMixin, UserFeedMixin, ListView):
 	paginate_by = 100
 	template_name = 'feeds/user_feed_list.html'
 
 
-class UserFeedDetail(LoginRequiredMixin, UserFeedMixin, DetailView):
+class UserFeedDetailView(LoginRequiredMixin, UserFeedMixin, DetailView):
 	template_name = 'feeds/user_feed_detail.html'
 
 
-class UserFeedCreate(LoginRequiredMixin, AjaxFormMixin, FormView):
+class UserFeedCreateView(LoginRequiredMixin, AjaxFormMixin, FormView):
 	form_class = FeedCreateForm
 	template_name = 'feeds/user_feed_create.html'
 
 
-entry_list = EntryList.as_view()
-entry_detail = EntryDetail.as_view()
-user_feed_list = UserFeedList.as_view()
-user_feed_detail = UserFeedDetail.as_view()
-user_feed_create = UserFeedCreate.as_view()
+entry_list_view = EntryListView.as_view()
+entry_detail_view = EntryDetailView.as_view()
+user_feed_list_view = UserFeedListView.as_view()
+user_feed_detail_view = UserFeedDetailView.as_view()
+user_feed_create_view = UserFeedCreateView.as_view()
