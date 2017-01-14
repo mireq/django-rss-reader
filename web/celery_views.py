@@ -86,7 +86,7 @@ class TaskRunMixin(TaskStatusMixin):
 		return HttpResponseRedirect(result_url)
 
 
-class TaskStatus(AjaxRedirectMixin, TaskStatusMixin, TemplateView):
+class TaskStatusView(AjaxRedirectMixin, TaskStatusMixin, TemplateView):
 	template_name = 'task_status.html'
 
 	def get_redirect_url(self):
@@ -105,7 +105,7 @@ class TaskStatus(AjaxRedirectMixin, TaskStatusMixin, TemplateView):
 		if request.is_ajax():
 			return self.render_task_status()
 		else:
-			return super(TaskStatus, self).get(request, **kwargs)
+			return super(TaskStatusView, self).get(request, **kwargs)
 
 
-task_status = TaskStatus.as_view()
+task_status_view = TaskStatusView.as_view()

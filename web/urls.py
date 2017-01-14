@@ -8,6 +8,7 @@ from django.contrib import admin
 import feeds.views
 import template_dynamicloader.views
 import web.views
+import web.celery_views
 
 
 urlpatterns = [
@@ -20,6 +21,7 @@ urlpatterns = [
 	url(r'^feeds/detail/(?P<pk>\d+)/$', feeds.views.user_feed_detail, name='user_feed_detail'),
 	url(r'^settings/$', web.views.settings_view, name='settings_view'),
 	url(r'^template-change/$', template_dynamicloader.views.change, name='template-change'),
+	url(r'^task-status/$', web.celery_views.task_status_view, name='celery_task_status'),
 ]
 
 if settings.DEBUG:
