@@ -157,6 +157,11 @@ class UserFeedListView(LoginRequiredMixin, UserFeedMixin, ListView):
 class UserFeedDetailView(LoginRequiredMixin, UserFeedMixin, DetailView):
 	template_name = 'feeds/user_feed_detail.html'
 
+	def get_context_data(self, **kwargs):
+		ctx = super(UserFeedDetailView, self).get_context_data(**kwargs)
+		ctx['feed'] = ctx['object'].feed
+		return ctx
+
 
 class UserFeedCreateView(LoginRequiredMixin, AjaxFormMixin, FormView):
 	form_class = FeedCreateForm

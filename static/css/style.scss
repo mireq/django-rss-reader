@@ -653,6 +653,16 @@ label {
 	bottom: 0;
 }
 
+.feed-status {
+	font-size: 14px;
+	&.ok {
+		color: $success-color;
+	}
+	&.error {
+		color: $error-color;
+	}
+}
+
 .entries {
 	list-style: none;
 	padding: 0;
@@ -695,17 +705,10 @@ label {
 				height: 18px;
 			}
 		}
-		.status {
+		.feed-status {
 			float: right;
 			display: block;
-			font-size: 14px;
 			padding-left: $base-margin;
-			&.ok {
-				color: $success-color;
-			}
-			&.error {
-				color: $error-color;
-			}
 		}
 		&.old {
 			.title {
@@ -734,8 +737,8 @@ label {
 	}
 }
 
-#entry_detail {
-	.info {
+.content-page {
+	.title {
 		background: $background-color;
 		color: $primary-color;
 		padding-bottom: $base-margin;
@@ -760,7 +763,7 @@ label {
 		}
 	}
 
-	.summary {
+	.content {
 		@include base-padding;
 	}
 }

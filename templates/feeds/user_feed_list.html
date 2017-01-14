@@ -12,7 +12,7 @@
 		{% for userfeed in object_list %}
 			{% with feed=userfeed.feed %}
 				<li class="entry">
-					<span class="status {% if feed.update_status == feed.UPDATE_STATUS_UPDATED %}ok{% else %}error{% endif %}">{{ feed.get_update_status_display }}</span>
+					<span class="feed-status {% if feed.update_status == feed.UPDATE_STATUS_UPDATED %}ok{% else %}error{% endif %}">{{ feed.get_update_status_display }}</span>
 					<a class="title" href="{{ userfeed.get_absolute_url }}">{{ feed.title }}</a>
 					<div class="summary small">
 						{{ feed.description|short_summary }}

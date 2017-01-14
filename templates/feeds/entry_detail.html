@@ -4,8 +4,8 @@
 {% block bodyclass %}entry-detail{% endblock %}
 
 {% block content %}
-	<div id="entry_detail">
-		<div class="info">
+	<div id="entry_detail" class="content-page">
+		<div class="title">
 			<h1><a href="{{ entry.link }}" class="open-key-link" target="_blank">{{ entry }}&nbsp;</a></h1>
 			<div class="extra-info">
 				<span class="feed">
@@ -22,7 +22,7 @@
 				{% endif %}
 			</div>
 		</div>
-		<div class="summary">
+		<div class="summary content">
 			{{ entry.summary|safe }}
 		</div>
 		<div class="bottom-actions">

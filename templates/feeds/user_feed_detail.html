@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block site_title %}{{ feed }} | {{ block.super }}{% endblock %}
+{% block bodyclass %}feed-detail{% endblock %}
+
+{% block content %}
+	<div class="content-page">
+		<div class="title">
+			<h1>{{ feed }}&nbsp;</h1>
+			<div class="extra-info">
+				<span class="feed-status {% if feed.update_status == feed.UPDATE_STATUS_UPDATED %}ok{% else %}error{% endif %}">{{ feed.get_update_status_display }}</span>
+				<span class="date">
+					{{ feed.last_update_date|date:"SHORT_DATETIME_FORMAT" }}
+				</span>
+			</div>
+		</div>
+		<div class="summary content">
+			{{ feed.description }}
+		</div>
+	</div>
+{% endblock %}
