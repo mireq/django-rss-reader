@@ -72,7 +72,7 @@ class TaskRunMixin(TaskStatusMixin):
 		return self.task.delay(*self.get_task_args(), **self.get_task_kwargs())
 
 	def get_task_success_url(self):
-		return None
+		return self.request.get_full_path()
 
 	def get_task_status_response(self):
 		result = self.format_task_result(self.task_run())

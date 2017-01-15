@@ -21,8 +21,12 @@ ASSETS = {
 		'js': 'static://django_ajax_utils/js/ajaxform.js',
 		'depends': ['utils_ajax'],
 	},
+	'celery': {
+		'js': 'static://js/celery.js',
+		'depends': ['utils_ajax', 'pjax'],
+	},
 	'app': {
-		'depends': ['utils', 'utils_ajax', 'pjax', 'messages', 'ajaxform'],
+		'depends': ['utils', 'utils_ajax', 'pjax', 'messages', 'ajaxform', 'celery'],
 		'js': [
 			'static://js/app.js',
 		]

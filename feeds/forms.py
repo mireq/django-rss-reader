@@ -2,11 +2,8 @@
 from __future__ import unicode_literals
 
 from django import forms
+from django.utils.translation import ugettext_lazy as _
 
-from .models import Feed
 
-
-class FeedCreateForm(forms.ModelForm):
-	class Meta:
-		model = Feed
-		fields = ['xml_url']
+class FeedCreateForm(forms.Form):
+	xml_url = forms.URLField(label=_("URL"))

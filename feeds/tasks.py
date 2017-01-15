@@ -49,12 +49,12 @@ def register_feed(url, user_id=None):
 		feed.save()
 		if user:
 			feed.subscribe(user)
-		return {'status': 'success', 'feed': feed}
+		return {'status': 'success', 'feed': feed.pk}
 	except Exception as e: #pylint: disable=broad-except
 		feed.save()
 		if user:
 			feed.subscribe(user)
-		return {'status': 'error', 'error': force_text(e), 'feed': feed}
+		return {'status': 'error', 'error': force_text(e), 'feed': feed.pk}
 
 
 def import_entries(feed, entries):

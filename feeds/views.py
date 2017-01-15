@@ -13,6 +13,8 @@ from django_ajax_utils.views import AjaxFormMixin
 
 from .forms import FeedCreateForm
 from .models import Entry, UserFeed
+from feeds.tasks import register_feed
+from web.celery_views import TaskRunMixin
 from web.time_utils import datetime_to_timestamp, timestamp_to_datetime
 
 
@@ -163,9 +165,30 @@ class UserFeedDetailView(LoginRequiredMixin, UserFeedMixin, DetailView):
 		return ctx
 
 
-class UserFeedCreateView(LoginRequiredMixin, AjaxFormMixin, FormView):
+class UserFeedCreateView(LoginRequiredMixin, AjaxFormMixin, TaskRunMixin, FormView):
 	form_class = FeedCreateForm
 	template_name = 'feeds/user_feed_create.html'
+	form_instance = None
+	task = register_feed
+
+	def form_valid(self, form):
+		self.form_instance = form
+		if self.only_validate_form:
+			return self.render_to_response(self.get_context_data(form=form))
+		return self.get_task_status_response()
+
+	def get_task_kwargs(self):
+		xml_url = self.form_instance.cleaned_data['xml_url']
+		return {'url': xml_url, 'user_id': self.request.user.pk}
+
+	def get(self, request, *args, **kwargs):
+		if self.celery_task_parsed['status'] == 'SUCCESS':
+			user_feed = UserFeed.objects.get(
+				user=self.request.user,
+				feed__pk=self.celery_task_parsed['data']['feed']
+			)
+			return HttpResponseRedirect(user_feed.get_absolute_url())
+		return super(UserFeedCreateView, self).get(request, *args, **kwargs)
 
 
 entry_list_view = EntryListView.as_view()

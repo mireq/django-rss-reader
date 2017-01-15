@@ -125,8 +125,31 @@ var formOptions = {
 		}
 		if (_.has(data, 'celery_result_url')) {
 			var opts = {};
-			opts.waitingText = _.getData(formElement, 'celeryWaiting') || 'Loading ...';
-			celery.waitForResult(data.celery_result_url, opts);
+			var text;
+			var resultRow = _.cls(formElement, 'result-row')[0];
+			if (resultRow !== undefined) {
+				opts.onStart = function() {
+					resultRow.style.display = 'block';
+					text = _.getData(formElement, 'waitingText');
+					if (text) {
+						resultRow.innerHTML = text;
+					}
+				};
+				opts.onFinish = function() {
+					resultRow.style.display = 'none';
+					resultRow.innerHTML = '';
+				};
+				opts.onFail = function() {
+					text = _.getData(formElement, 'errorText');
+					if (text) {
+						resultRow.style.display = 'block';
+						resultRow.innerHTML = text;
+					}
+				};
+			}
+			//opts.waitingText = _.getData(formElement, 'celeryWaiting') || 'Loading ...';
+			//celery.waitForResult(data.celery_result_url, opts);
+			_.celeryTask(data.celery_result_url, opts);
 		}
 	}
 };

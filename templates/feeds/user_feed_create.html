@@ -5,11 +5,11 @@
 {% block site_title %}{% trans "Create feed" %}{% endblock %}
 
 {% block content %}
-	<form class="ajaxform" action="{{ request.path }}" method="post">
-		<h1>Create feed</h1>
+	<form class="ajaxform" action="{{ request.path }}" method="post" data-waiting-text="{% trans "Importing" %}" data-error-text="{% trans "Import error" %}">
 		{% csrf_token %}
 		{% include "includes/form_loop.html" %}
-		<input type="hidden" name="next" value="{{ next }}">
+		<p class="result-row" style="display: none">
+		</p>
 		<div class="submit-row">
 			<div class="negative">
 				<a class="button secondary" href="{% url "user_feed_list" %}">{% trans "Back" %}</a>
