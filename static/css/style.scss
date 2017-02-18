@@ -635,6 +635,10 @@ label {
 	@include button(mix($background-color, $primary-color, 90%), $text-color, $only-color: true);
 }
 
+.button.danger {
+	@include button($danger-color, $danger-text-color, $only-color: true);
+}
+
 .bottom-actions {
 	.primary {
 		text-align: right;

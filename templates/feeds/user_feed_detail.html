@@ -5,6 +5,13 @@
 {% block bodyclass %}feed-detail{% endblock %}
 
 {% block content %}
+	<div class="list-navigation">
+		<ul class="breadcrumb">
+			<li><a href="{% url "settings_view" %}">{% trans "Settings" %}</a></li>
+			<li><a href="{% url "user_feed_list" %}">{% trans "Feeds" %}</a></li>
+			<li>{{ feed }}</li>
+		</ul>
+	</div>
 	<div class="content-page">
 		<div class="title">
 			<h1>{{ feed }}&nbsp;</h1>
@@ -17,6 +24,14 @@
 		</div>
 		<div class="summary content">
 			{{ feed.description }}
+		</div>
+		<div class="bottom-actions">
+			<div class="negative">
+				<a class="button secondary" href="{% url "user_feed_list" %}">{% trans "Back" %}</a>
+			</div>
+			<div class="primary">
+				<a class="button danger" href="">{% trans "Delete" %}</a>
+			</div>
 		</div>
 	</div>
 {% endblock %}
