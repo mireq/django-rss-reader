@@ -2,18 +2,19 @@
 
 {% load text_tags url_tags %}
 
-{% block site_title %}{% trans "Create feed" %}{% endblock %}
+{% block site_title %}{% trans "Add feed" %}{% endblock %}
 
 {% block content %}
 	<div class="list-navigation">
 		<ul class="breadcrumb">
 			<li><a href="{% url "settings_view" %}">{% trans "Settings" %}</a></li>
 			<li><a href="{% url "user_feed_list" %}">{% trans "Feeds" %}</a></li>
-			<li>{% trans "Create feed" %}</li>
+			<li>{% trans "Add feed" %}</li>
 		</ul>
 	</div>
 	<form class="ajaxform" action="{{ request.path }}" method="post" data-waiting-text="{% trans "Importing" %}" data-error-text="{% trans "Import error" %}">
 		{% csrf_token %}
+		<h1>{% trans "Add feed" %}</h1>
 		{% include "includes/form_loop.html" %}
 		<p class="result-row" style="display: none">
 		</p>
@@ -22,7 +23,7 @@
 				<a class="button secondary" href="{% url "user_feed_list" %}">{% trans "Back" %}</a>
 			</div>
 			<div class="positive">
-				<button type="submit">{% trans "Create" %}</button>
+				<button type="submit">{% trans "Add" %}</button>
 			</div>
 		</div>
 	</form>
