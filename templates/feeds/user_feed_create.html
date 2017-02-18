@@ -14,7 +14,6 @@
 	</div>
 	<form class="ajaxform" action="{{ request.path }}" method="post" data-waiting-text="{% trans "Importing" %}" data-error-text="{% trans "Import error" %}">
 		{% csrf_token %}
-		<h1>{% trans "Add feed" %}</h1>
 		{% include "includes/form_loop.html" %}
 		<p class="result-row" style="display: none">
 		</p>

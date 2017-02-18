@@ -10,6 +10,7 @@ register = template.Library()
 def remove_dummy_parameters(get_data):
 	get_data.pop('_dummy', None)
 	get_data.pop('page', None)
+	get_data.pop('visible_menu', None)
 
 
 @register.simple_tag(takes_context=True)

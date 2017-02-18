@@ -1,4 +1,4 @@
-{% load assets_manager %}<!DOCTYPE html>
+{% load assets_manager url_tags %}<!DOCTYPE html>
 <html>
 <head>
 	<title>{% block head_title %}{% trans "RSS reader" %}{% endblock %}</title>
@@ -9,11 +9,11 @@
 		<link rel="stylesheet" type="text/x-scss" href="{% static "css/style.scss" %}" />
 	{% endcompress %}
 </head>
-<body class="{% block bodyclass %}{% endblock %}{% if "visible-menu" in request.GET %} visible-menu{% endif %}">
+<body class="{% block bodyclass %}{% endblock %}{% if "visible_menu" in request.GET %} visible-menu{% endif %}">
 {% block body %}
 	<div id="header">
 		<header>
-			<a class="toggle-menu" href="#"></a>
+			<a class="toggle-menu" href="{% if "visible_menu" in request.GET %}{% current_link_remove "visible_menu" %}{% else %}{% current_link_add visible_menu=1 %}{% endif %}"></a>
 			<div id="top_navigation" class="button-group navigation">
 				{% block top_navigation %}
 				{% endblock %}
