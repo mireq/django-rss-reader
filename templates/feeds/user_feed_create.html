@@ -5,6 +5,13 @@
 {% block site_title %}{% trans "Create feed" %}{% endblock %}
 
 {% block content %}
+	<div class="list-navigation">
+		<ul class="breadcrumb">
+			<li><a href="{% url "settings_view" %}">{% trans "Settings" %}</a></li>
+			<li><a href="{% url "user_feed_list" %}">{% trans "Feeds" %}</a></li>
+			<li>{% trans "Create feed" %}</li>
+		</ul>
+	</div>
 	<form class="ajaxform" action="{{ request.path }}" method="post" data-waiting-text="{% trans "Importing" %}" data-error-text="{% trans "Import error" %}">
 		{% csrf_token %}
 		{% include "includes/form_loop.html" %}
