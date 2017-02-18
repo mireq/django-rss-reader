@@ -24,7 +24,13 @@ var celeryTask = function(url, opts) {
 				}
 				if (result.redirect !== undefined) {
 					onFinish();
-					_.pjax.load(result.redirect);
+					_.xhrSend({
+						method: 'GET',
+						url: result.redirect,
+						successFn: function(result) {
+							_.pjax.load(result.redirect);
+						}
+					});
 				}
 			}
 		});
