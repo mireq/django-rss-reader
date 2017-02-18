@@ -223,6 +223,12 @@ _.pjax.autoRegister({
 	extrajsBlock: 'extrajs',
 	extrastyleBlock: 'extrastyle',
 	titleBlock: 'head_title',
+	checkLinkSupported: function(link) {
+		if (_.hasClass(link, 'toggle-menu')) {
+			return false;
+		}
+		return true;
+	},
 	checkUrlSupported: function(url) {
 		if (url[0] !== '/') {
 			return false;
