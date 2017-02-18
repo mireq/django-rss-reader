@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
-{% block site_title %}{{ feed }} | {{ block.super }}{% endblock %}
+{% block head_title %}{{ feed }} | {{ block.super }}{% endblock %}
+{% block site_title %}{% trans "Feed" %}{% endblock %}
 {% block bodyclass %}feed-detail{% endblock %}
 
 {% block content %}

@@ -51,6 +51,7 @@ def register_feed(url, user_id=None):
 			feed.subscribe(user)
 		return {'status': 'success', 'feed': feed.pk}
 	except Exception as e: #pylint: disable=broad-except
+		feed.title = url
 		feed.save()
 		if user:
 			feed.subscribe(user)
