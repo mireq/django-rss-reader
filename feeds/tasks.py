@@ -9,6 +9,7 @@ from django.contrib.auth import get_user_model
 from django.utils import timezone
 from django.utils.encoding import force_text
 
+from .exceptions import URLIsNotFeedException
 from feeds.models import Feed, Entry
 from web.celery import app
 
@@ -43,19 +44,23 @@ def register_feed(url, user_id=None):
 		user = User.objects.get(pk=user_id)
 	try:
 		parser_data = feedparser.parse(feed.xml_url)
-		fill_feed_info(feed, parser_data)
-		feed.update_status = Feed.UPDATE_STATUS_UPDATED
-		feed.last_build_date = None
-		feed.save()
-		if user:
-			feed.subscribe(user)
-		return {'status': 'success', 'feed': feed.pk}
+		if parser_data['version']:
+			fill_feed_info(feed, parser_data)
+			feed.update_status = Feed.UPDATE_STATUS_UPDATED
+			feed.last_build_date = None
+			feed.save()
+			if user:
+				feed.subscribe(user)
+			return {'status': 'success', 'feed': feed.pk}
+		else:
+			raise URLIsNotFeedException("URL %s is not feed" % url)
 	except Exception as e: #pylint: disable=broad-except
 		feed.title = url
 		feed.save()
 		if user:
 			feed.subscribe(user)
-		return {'status': 'error', 'error': force_text(e), 'feed': feed.pk}
+		status = {'status': 'error', 'error': force_text(e), 'feed': feed.pk}
+		return status
 
 
 def import_entries(feed, entries):
