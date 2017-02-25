@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block bodyclass %}dialog {{ block.super }}{% endblock %}
+
+{% block content %}
+	<div class="content-navigation">
+		<ul class="breadcrumb">
+			{% block breadcrumb %}{% endblock %}
+		</ul>
+	</div>
+	<div class="content-page">
+		<div class="content">
+			{% trans "feed" as object_name %}
+			{% blocktrans with escaped_object=object %}Are you sure you want to delete the {{ object_name }} "{{ escaped_object }}"?{% endblocktrans %}
+		</div>
+		<div class="bottom-actions">
+			<form class="ajaxform" action="{{ request.path }}" method="post">
+				{% csrf_token %}
+				<div class="negative">
+					<a class="button secondary" href="{{ object.get_absolute_url }}">{% trans "Back" %}</a>
+				</div>
+				<div class="primary">
+					<button class="button danger" type="submit" href="{% url "user_feed_delete" object.pk %}">{% trans "Delete" %}</button>
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}

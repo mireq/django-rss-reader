@@ -161,6 +161,14 @@ html, body {
 	margin: 0;
 }
 
+html {
+	height: 100%;
+}
+
+body {
+	min-height: 100%;
+}
+
 #content {
 	margin-top: -$base-margin;
 	background: $background-color;
@@ -555,7 +563,7 @@ label {
 	@include base-margin-cancel-top;
 }
 
-.list-navigation {
+.content-navigation {
 	background: mix($background-color, $text-color, 98%);
 	border-bottom: 1px solid $light-border-color;
 	text-align: right;
@@ -860,3 +868,24 @@ body.login {
 		}
 	}
 }
+
+/*
+body.dialog {
+	@media #{$large-up} {
+		#content {
+			max-width: 90%;
+			margin-left: auto;
+			margin-right: auto;
+			margin-top: $base-margin * 2;
+		}
+		#header {
+			padding: ($base-margin-reduced / 2) $base-margin-reduced;
+		}
+	}
+	@media #{$xlarge-up} {
+		#content {
+			max-width: 60%;
+		}
+	}
+}
+*/

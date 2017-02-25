@@ -1,0 +1,11 @@
+{% extends "dialog.html" %}
+
+{% block site_title %}{% trans "Delete" %} {{ object }}{% endblock %}
+{% block head_title %}{% trans "Delete" %} {{ object }} | {{ block.super }}{% endblock %}
+
+{% block breadcrumb %}
+	<li><a href="{% url "settings_view" %}">{% trans "Settings" %}</a></li>
+	<li><a href="{% url "user_feed_list" %}">{% trans "Feeds" %}</a></li>
+	<li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+	<li>{% trans "Delete" %}</li>
+{% endblock %}

@@ -5,11 +5,12 @@ import operator
 from functools import reduce
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.http.response import HttpResponse, HttpResponseRedirect
 from django.utils.functional import cached_property
-from django.views.generic import ListView, DetailView, FormView
-from django_ajax_utils.views import AjaxFormMixin
+from django.views.generic import ListView, DetailView, FormView, DeleteView
+from django_ajax_utils.views import AjaxFormMixin, AjaxRedirectMixin
 
 from .forms import FeedCreateForm
 from .models import Entry, UserFeed
@@ -191,8 +192,19 @@ class UserFeedCreateView(LoginRequiredMixin, AjaxFormMixin, TaskRunMixin, FormVi
 		return super(UserFeedCreateView, self).get(request, *args, **kwargs)
 
 
+class UserFeedDeleteView(LoginRequiredMixin, AjaxRedirectMixin, DeleteView):
+	template_name = 'feeds/user_feed_confirm_delete.html'
+
+	def get_queryset(self):
+		return UserFeed.objects.filter(user=self.request.user)
+
+	def get_success_url(self):
+		return reverse('user_feed_list')
+
+
 entry_list_view = EntryListView.as_view()
 entry_detail_view = EntryDetailView.as_view()
 user_feed_list_view = UserFeedListView.as_view()
 user_feed_detail_view = UserFeedDetailView.as_view()
 user_feed_create_view = UserFeedCreateView.as_view()
+user_feed_delete_view = UserFeedDeleteView.as_view()

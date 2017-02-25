@@ -5,7 +5,7 @@
 {% block site_title %}{% trans "RSS reader" %}{% endblock %}
 
 {% block content %}
-	<div class="list-navigation">
+	<div class="content-navigation">
 		<div class="select-link">
 			<a href="{% current_link_add list_ordering="new" %}" class="button{% if filters.list_ordering == "new" %} active{% endif %}">{% trans "New first" %}</a>
 			<a href="{% current_link_add list_ordering="old" %}" class="button{% if filters.list_ordering == "old" %} active{% endif %}">{% trans "Old first" %}</a>

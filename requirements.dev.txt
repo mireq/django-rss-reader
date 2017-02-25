@@ -7,6 +7,7 @@
 -e git+https://github.com/mireq/django-ajax-utils.git@17047fc873ef22d811b5115cde8d470f3560ea24#egg=django_ajax_utils
 -e git+https://github.com/mireq/django-assets-manager.git@af4944e6f1def727b84f51583a911ef60e978d55#egg=django_assets_manager
 amqp==2.1.4               # via kombu
+appdirs==1.4.2            # via setuptools
 argh==0.26.2              # via watchdog
 astroid==1.4.9            # via pylint, pylint-plugin-utils
 billiard==3.5.0.2         # via celery
@@ -14,46 +15,48 @@ celery==4.0.2
 click==6.7                # via pip-tools
 decorator==4.0.11         # via ipython, traitlets
 django-appconf==1.0.2     # via django-compressor
-django-compressor==2.1    # via django-libsass
+django-compressor==2.1.1  # via django-libsass
 django-debug-toolbar==1.6
-django-debugtools==1.7.1
-django-extensions==1.7.5
+django-debugtools==1.7.2
+django-extensions==1.7.7
 django-libsass==0.7
 Django==1.10.5            # via django-debug-toolbar
 docopt==0.6.2             # via ptpython
 feedparser==5.2.1
 first==2.0.1              # via pip-tools
 ipython-genutils==0.1.0   # via traitlets
-ipython==5.1.0
+ipython==5.3.0
 isort==4.2.5              # via pylint
-jedi==0.9.0               # via ptpython
+jedi==0.10.0              # via ptpython
 kombu==4.0.2              # via celery
 lazy-object-proxy==1.2.2  # via astroid
 libsass==0.12.3
-mccabe==0.5.3             # via pylint
+mccabe==0.6.1             # via pylint
 olefile==0.44             # via pillow
+packaging==16.8           # via setuptools
 pathtools==0.1.2          # via watchdog
 pexpect==4.2.1            # via ipython
 pickleshare==0.7.4        # via ipython
 Pillow==4.0.0
 pip-tools==1.8.0
-prompt-toolkit==1.0.9     # via ipython, ptpython
+prompt-toolkit==1.0.13    # via ipython, ptpython
 ptpython==0.36
 ptyprocess==0.5.1         # via pexpect
-pygments==2.1.3           # via ipython, ptpython
+pygments==2.2.0           # via ipython, ptpython
 pyinotify==0.9.6
 pylint-django==0.7.2
 pylint-plugin-utils==0.2.4  # via pylint-django
-pylint==1.6.4             # via pylint-django, pylint-plugin-utils
+pylint==1.6.5             # via pylint-django, pylint-plugin-utils
+pyparsing==2.1.10         # via packaging
 pytz==2016.10             # via celery
 PyYAML==3.12              # via watchdog
 rcssmin==1.0.6            # via django-compressor
 redis==2.10.5
 rjsmin==1.0.12            # via django-compressor
 simplegeneric==0.8.1      # via ipython
-six==1.10.0               # via astroid, django-extensions, libsass, pip-tools, prompt-toolkit, pylint, traitlets
+six==1.10.0               # via astroid, django-extensions, libsass, packaging, pip-tools, prompt-toolkit, pylint, setuptools, traitlets
 sqlparse==0.2.2           # via django-debug-toolbar
-traitlets==4.3.1          # via ipython
+traitlets==4.3.2          # via ipython
 vine==1.1.3               # via amqp
 watchdog==0.8.3
 wcwidth==0.1.7            # via prompt-toolkit
