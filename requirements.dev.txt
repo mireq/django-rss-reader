@@ -4,7 +4,7 @@
 #
 #    pip-compile --output-file requirements.dev.txt requirements.dev.in
 #
--e git+https://github.com/mireq/django-ajax-utils.git@17047fc873ef22d811b5115cde8d470f3560ea24#egg=django_ajax_utils
+-e git+https://github.com/mireq/django-ajax-utils.git@dc98709afdf30c47845f109c6ce760935d6ea54f#egg=django_ajax_utils
 -e git+https://github.com/mireq/django-assets-manager.git@af4944e6f1def727b84f51583a911ef60e978d55#egg=django_assets_manager
 amqp==2.1.4               # via kombu
 appdirs==1.4.2            # via setuptools
@@ -20,7 +20,7 @@ django-debug-toolbar==1.6
 django-debugtools==1.7.2
 django-extensions==1.7.7
 django-libsass==0.7
-Django==1.10.5            # via django-debug-toolbar
+Django==1.10.6            # via django-debug-toolbar
 docopt==0.6.2             # via ptpython
 feedparser==5.2.1
 first==2.0.1              # via pip-tools
@@ -55,7 +55,7 @@ redis==2.10.5
 rjsmin==1.0.12            # via django-compressor
 simplegeneric==0.8.1      # via ipython
 six==1.10.0               # via astroid, django-extensions, libsass, packaging, pip-tools, prompt-toolkit, pylint, setuptools, traitlets
-sqlparse==0.2.2           # via django-debug-toolbar
+sqlparse==0.2.3           # via django-debug-toolbar
 traitlets==4.3.2          # via ipython
 vine==1.1.3               # via amqp
 watchdog==0.8.3
