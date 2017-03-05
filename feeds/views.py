@@ -23,8 +23,8 @@ from web.time_utils import datetime_to_timestamp, timestamp_to_datetime
 
 class UserEntriesMixin(LoginRequiredMixin):
 	ORDERINGS = {
-		'default': ('-entry__created', '-pk'),
-		'old': ('entry__created', 'pk'),
+		'default': ('-created', '-pk'),
+		'old': ('created', 'pk'),
 	}
 
 	paginate_by = 10

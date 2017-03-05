@@ -248,6 +248,10 @@ class UserEntryStatus(models.Model):
 		null=True,
 		db_index=True
 	)
+	created = models.DateTimeField(
+		verbose_name = _("created date"),
+		db_index=True,
+	)
 
 	def __str__(self):
 		return self.entry.title
@@ -256,6 +260,7 @@ class UserEntryStatus(models.Model):
 		verbose_name = _("News entry status for user")
 		verbose_name_plural = _("News entry statuses for user")
 		unique_together = (('user', 'entry'),)
+		index_together = (('user', 'created', 'read_time', 'is_read'),)
 
 	def get_absolute_url(self):
 		return self.entry.get_absolute_url()
