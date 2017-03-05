@@ -260,7 +260,7 @@ class UserEntryStatus(models.Model):
 		verbose_name = _("News entry status for user")
 		verbose_name_plural = _("News entry statuses for user")
 		unique_together = (('user', 'entry'),)
-		index_together = (('user', 'created', 'read_time', 'is_read'),)
+		index_together = (('user', 'is_read', 'created',),)
 
 	def get_absolute_url(self):
 		return self.entry.get_absolute_url()
