@@ -13,16 +13,17 @@ from django.views.generic import ListView, DetailView, FormView, DeleteView
 from django_ajax_utils.views import AjaxFormMixin, AjaxRedirectMixin
 
 from .forms import FeedCreateForm
-from .models import Entry, UserFeed
+from .models import UserFeed, UserEntryStatus
 from feeds.tasks import register_feed
 from web.celery_views import TaskRunMixin
+from web.model_utils import query_model_attribute
 from web.time_utils import datetime_to_timestamp, timestamp_to_datetime
 
 
 class UserEntriesMixin(LoginRequiredMixin):
 	ORDERINGS = {
-		'default': ('-created', '-pk'),
-		'old': ('created', 'pk'),
+		'default': ('-entry__created', '-pk'),
+		'old': ('entry__created', 'pk'),
 	}
 
 	paginate_by = 10
@@ -37,7 +38,7 @@ class UserEntriesMixin(LoginRequiredMixin):
 		return self.get_filtered_queryset().order_by(*self.get_ordering())
 
 	def get_filtered_queryset(self):
-		qs = Entry.objects.for_user(self.request.user)
+		qs = UserEntryStatus.objects.filter(user=self.request.user).select_related('entry', 'entry__feed')
 		if self.saved_filters.get('all'):
 			return qs
 		elif self.saved_filters.get('favorite'):
@@ -70,9 +71,9 @@ class UserEntriesMixin(LoginRequiredMixin):
 			negative = field[0] == '-'
 			if negative:
 				field = field[1:]
-			cond = {f: getattr(self.object, f) for f in prev_fields}
+			cond = {f: query_model_attribute(self.object, f) for f in prev_fields}
 			op = 'lt' if negative else 'gt'
-			cond[field + '__' + op] = getattr(self.object, field)
+			cond[field + '__' + op] = query_model_attribute(self.object, field)
 			conditions.append(Q(**cond))
 			prev_fields.append(field)
 		return queryset.filter(reduce(operator.or_, conditions, Q()))
@@ -118,7 +119,7 @@ class EntryDetailView(UserEntriesMixin, DetailView):
 	is_detail = True
 
 	def get_queryset(self):
-		return Entry.objects.for_user(self.request.user)
+		return UserEntryStatus.objects.filter(user=self.request.user).select_related('entry', 'entry__feed')
 
 	def get_context_data(self, **kwargs):
 		ctx = super(EntryDetailView, self).get_context_data(**kwargs)
@@ -136,11 +137,11 @@ class EntryDetailView(UserEntriesMixin, DetailView):
 
 	def get(self, request, *args, **kwargs):
 		if 'mark' in self.request.GET:
-			self.get_object().mark_read(self.request.user)
+			self.get_object().entry.mark_read(self.request.user)
 			return HttpResponse('')
 		response = super(EntryDetailView, self).get(request, *args, **kwargs)
 		if not 'cache' in self.request.GET:
-			self.object.mark_read(self.request.user)
+			self.object.entry.mark_read(self.request.user)
 		return response
 
 

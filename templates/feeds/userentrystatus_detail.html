@@ -6,31 +6,31 @@
 {% block content %}
 	<div id="entry_detail" class="content-page">
 		<div class="title">
-			<h1><a href="{{ entry.link }}" class="open-key-link" target="_blank">{{ entry }}&nbsp;</a></h1>
+			<h1><a href="{{ object.entry.link }}" class="open-key-link" target="_blank">{{ object }}&nbsp;</a></h1>
 			<div class="extra-info">
 				<span class="feed">
-					{{ entry.feed_name }}
+					{{ object.entry.feed.name }}
 				</span>
 				<span class="date">
-					{{ entry.created|date:"SHORT_DATETIME_FORMAT" }}
+					{{ object.entry.created|date:"SHORT_DATETIME_FORMAT" }}
 				</span>
-				{% if entry.author_name %}
+				{% if object.entry.author_name %}
 					|
 					<span class="user">
-						{{ entry.author_name }}
+						{{ object.entry.author_name }}
 					</span>
 				{% endif %}
 			</div>
 		</div>
 		<div class="summary content">
-			{{ entry.summary|safe }}
+			{{ object.entry.summary|safe }}
 		</div>
 		<div class="bottom-actions">
 			<div class="secondary">
 				<form action="{{ request.path }}" method="post">
 					{% csrf_token %}
-					<button class="button" type="submit" name="action" value="{% if entry.is_favorite %}unfavorite{% else %}favorite{% endif %}">
-						{% if entry.is_favorite %}
+					<button class="button" type="submit" name="action" value="{% if object.is_favorite %}unfavorite{% else %}favorite{% endif %}">
+						{% if object.is_favorite %}
 							{% trans "Unfavorite" %}
 						{% else %}
 							{% trans "Favorite" %}
@@ -39,7 +39,7 @@
 				</form>
 			</div>
 			<div class="primary">
-				<a class="button" href="{{ entry.link }}" target="_blank">{% trans "Open" %}</a>
+				<a class="button" href="{{ object.link }}" target="_blank">{% trans "Open" %}</a>
 			</div>
 		</div>
 	</div>

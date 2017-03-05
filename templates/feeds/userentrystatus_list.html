@@ -13,14 +13,14 @@
 	</div>
 
 	<ul class="entries">
-		{% for entry in object_list %}
-			<li class="entry {% if entry.is_read %} old{% endif %}{% if entry.is_favorite %} favorite{% endif %}">
-				<span class="feed">{{ entry.feed_name }}</span>
-				<a class="title" href="{{ entry.get_absolute_url }}">{{ entry }}</a>
+		{% for userentry in object_list %}
+			<li class="entry {% if userentry.is_read %} old{% endif %}{% if userentry.is_favorite %} favorite{% endif %}">
+				<span class="feed">{{ userentry.entry.feed.name }}</span>
+				<a class="title" href="{{ userentry.get_absolute_url }}">{{ userentry }}</a>
 				<div class="summary">
-					{{ entry.summary|short_summary }}
+					{{ userentry.entry.summary|short_summary }}
 				</div>
-				<a class="fullclickable-link" href="{{ entry.get_absolute_url }}"></a>
+				<a class="fullclickable-link" href="{{ userentry.get_absolute_url }}"></a>
 			</li>
 		{% empty %}
 			<li class="message-box">

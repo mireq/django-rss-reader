@@ -4,8 +4,6 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.db import models
-from django.db.models import F, Case, When
-from django.db.models.functions import Coalesce
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
@@ -159,37 +157,8 @@ class UserFeed(models.Model):
 		return ('user_feed_detail', (self.pk,), {})
 
 
-class EntryManager(models.Manager):
-	def for_user(self, user):
-		feed_name = Coalesce(
-			Case(
-				When(
-					feed__userfeed__user=user,
-					then=F('feed__userfeed__name')
-				),
-				output_field=models.CharField(null=True)
-			),
-			F('feed__title'),
-			output_field=models.CharField()
-		)
-		is_read = F('status__is_read')
-		is_favorite = F('status__is_favorite')
-		read_time = F('status__read_time')
-		return (self.get_queryset()
-			.filter(status__user=user, feed__userfeed__user=user)
-			.annotate(
-				feed_name=feed_name,
-				is_read=is_read,
-				is_favorite=is_favorite,
-				read_time=read_time
-			)
-			.select_related('feed'))
-
-
 @python_2_unicode_compatible
 class Entry(models.Model):
-	objects = EntryManager()
-
 	feed = models.ForeignKey(
 		Feed,
 		verbose_name=_("feed")
@@ -234,6 +203,11 @@ class Entry(models.Model):
 	def __str__(self):
 		return self.title
 
+	class Meta:
+		verbose_name = _("News entry")
+		verbose_name_plural = _("News entries")
+		unique_together = (('feed', 'guid'),)
+
 	@models.permalink
 	def get_absolute_url(self):
 		return ('entry_detail', (self.pk,), {})
@@ -243,11 +217,6 @@ class Entry(models.Model):
 
 	def mark_favorite(self, user, status=True):
 		self.status.filter(user=user).update(is_favorite=status)
-
-	class Meta:
-		verbose_name = _("News entry")
-		verbose_name_plural = _("News entries")
-		unique_together = (('feed', 'guid'),)
 
 
 @python_2_unicode_compatible
@@ -287,3 +256,6 @@ class UserEntryStatus(models.Model):
 		verbose_name = _("News entry status for user")
 		verbose_name_plural = _("News entry statuses for user")
 		unique_together = (('user', 'entry'),)
+
+	def get_absolute_url(self):
+		return self.entry.get_absolute_url()
