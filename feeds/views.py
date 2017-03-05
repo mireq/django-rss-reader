@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.http.response import HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 from django.utils.functional import cached_property
 from django.views.generic import ListView, DetailView, FormView, DeleteView
 from django_ajax_utils.views import AjaxFormMixin, AjaxRedirectMixin
@@ -120,6 +121,9 @@ class EntryDetailView(UserEntriesMixin, DetailView):
 
 	def get_queryset(self):
 		return UserEntryStatus.objects.filter(user=self.request.user).select_related('entry', 'entry__feed')
+
+	def get_object(self, **kwargs):
+		return get_object_or_404(self.get_queryset(), entry__pk=self.kwargs['pk'])
 
 	def get_context_data(self, **kwargs):
 		ctx = super(EntryDetailView, self).get_context_data(**kwargs)
