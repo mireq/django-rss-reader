@@ -127,8 +127,13 @@ class EntryDetailView(UserEntriesMixin, DetailView):
 
 	def get_context_data(self, **kwargs):
 		ctx = super(EntryDetailView, self).get_context_data(**kwargs)
+		obj = ctx['object']
 		ctx['next'] = self.get_next()
 		ctx['prev'] = self.get_prev()
+		try:
+			ctx['feed'] = UserFeed.objects.get(user=self.request.user, feed=obj.entry.feed)
+		except UserFeed.DoesNotExist:
+			ctx['feed'] = obj.entry.feed
 		return ctx
 
 	def post(self, request, *args, **kwargs):
