@@ -212,12 +212,6 @@ class Entry(models.Model):
 	def get_absolute_url(self):
 		return ('entry_detail', (self.pk,), {})
 
-	def mark_read(self, user, status=True):
-		self.status.filter(user=user).update(is_read=status, read_time=timezone.now() if status else None)
-
-	def mark_favorite(self, user, status=True):
-		self.status.filter(user=user).update(is_favorite=status)
-
 
 @python_2_unicode_compatible
 class UserEntryStatus(models.Model):
@@ -265,6 +259,13 @@ class UserEntryStatus(models.Model):
 	def get_absolute_url(self):
 		return self.entry.get_absolute_url()
 
+	def mark_read(self, status=True):
+		self.is_read = status
+		self.read_time = timezone.now() if status else None
+		self.save()
+	mark_read.alters_data = True
+
 	def mark_favorite(self, favorite=True):
 		self.is_favorite = favorite
 		self.save()
+	mark_favorite.alters_data = True

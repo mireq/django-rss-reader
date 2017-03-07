@@ -146,11 +146,11 @@ class EntryDetailView(UserEntriesMixin, DetailView):
 
 	def get(self, request, *args, **kwargs):
 		if 'mark' in self.request.GET:
-			self.get_object().entry.mark_read(self.request.user)
+			self.get_object().mark_read()
 			return HttpResponse('')
 		response = super(EntryDetailView, self).get(request, *args, **kwargs)
 		if not 'cache' in self.request.GET:
-			self.object.entry.mark_read(self.request.user)
+			self.object.mark_read()
 		return response
 
 
