@@ -264,3 +264,7 @@ class UserEntryStatus(models.Model):
 
 	def get_absolute_url(self):
 		return self.entry.get_absolute_url()
+
+	def mark_favorite(self, favorite=True):
+		self.is_favorite = favorite
+		self.save()

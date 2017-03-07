@@ -139,9 +139,9 @@ class EntryDetailView(UserEntriesMixin, DetailView):
 	def post(self, request, *args, **kwargs):
 		action = request.POST.get('action', '')
 		if action == 'favorite':
-			self.get_object().mark_favorite(request.user, True)
+			self.get_object().mark_favorite(True)
 		elif action == 'unfavorite':
-			self.get_object().mark_favorite(request.user, False)
+			self.get_object().mark_favorite(False)
 		return HttpResponseRedirect(self.request.get_full_path())
 
 	def get(self, request, *args, **kwargs):
