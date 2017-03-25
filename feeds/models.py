@@ -254,6 +254,15 @@ class UserEntryStatus(models.Model):
 			'is_read': self.is_read,
 			'is_favorite': self.is_favorite,
 			'read_time': self.read_time,
+			'feed__name': self.entry.feed.title,
+			'guid': self.entry.guid,
+			'link': self.entry.link,
+			'title': self.entry.title,
+			'summary': self.entry.summary,
+			'content': self.entry.content,
+			'created': self.entry.created,
+			'updated': self.entry.updated,
+			'author_name': self.entry.author_name,
 		}
 
 	def __str__(self):
