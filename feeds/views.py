@@ -40,7 +40,10 @@ class UserEntriesMixin(LoginRequiredMixin):
 		return self.get_filtered_queryset().order_by(*self.get_ordering())
 
 	def get_filtered_queryset(self):
-		qs = UserEntryStatus.objects.filter(user=self.request.user).select_related('entry', 'entry__feed')
+		qs = (UserEntryStatus.objects
+			.filter(user=self.request.user)
+			.prefetch_user_feed(self.request.user)
+			.select_related('entry'))
 		if self.saved_filters.get('all'):
 			return qs
 		elif self.saved_filters.get('favorite'):

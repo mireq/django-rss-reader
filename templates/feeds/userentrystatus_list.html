@@ -15,7 +15,7 @@
 	<ul class="entries">
 		{% for userentry in object_list %}
 			<li class="entry {% if userentry.is_read %} old{% endif %}{% if userentry.is_favorite %} favorite{% endif %}">
-				<span class="feed">{{ userentry.entry.feed.title }}</span>
+				<span class="feed">{{ userentry.entry.feed.user_feed.0.name }}</span>
 				<a class="title" href="{{ userentry.get_absolute_url }}">{{ userentry }}</a>
 				<div class="summary">
 					{{ userentry.entry.summary|short_summary }}

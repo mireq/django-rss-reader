@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.db import models
+from django.db.models import Prefetch
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
@@ -213,8 +214,17 @@ class Entry(models.Model):
 		return ('entry_detail', (self.pk,), {})
 
 
+class UserEntryStatusQuerySet(models.QuerySet):
+	def prefetch_user_feed(self, user):
+		qs = UserFeed.objects.filter(user=user).only('name')
+		prefetch = Prefetch('entry__feed__userfeed_set', queryset=qs, to_attr='user_feed')
+		return self.prefetch_related(prefetch)
+
+
 @python_2_unicode_compatible
 class UserEntryStatus(models.Model):
+	objects = UserEntryStatusQuerySet.as_manager()
+
 	user = models.ForeignKey(
 		settings.AUTH_USER_MODEL,
 		verbose_name=_("user")
@@ -254,7 +264,7 @@ class UserEntryStatus(models.Model):
 			'is_read': self.is_read,
 			'is_favorite': self.is_favorite,
 			'read_time': self.read_time,
-			'feed__name': self.entry.feed.title,
+			'feed_name': self.entry.feed.title if len(self.entry.feed.user_feed) == 0 else self.entry.feed.user_feed[0].name,
 			'guid': self.entry.guid,
 			'link': self.entry.link,
 			'title': self.entry.title,
