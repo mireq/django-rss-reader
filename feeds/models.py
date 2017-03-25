@@ -247,6 +247,15 @@ class UserEntryStatus(models.Model):
 		db_index=True,
 	)
 
+	def serialize(self):
+		return {
+			'id': self.entry.id,
+			'url': self.entry.get_absolute_url(),
+			'is_read': self.is_read,
+			'is_favorite': self.is_favorite,
+			'read_time': self.read_time,
+		}
+
 	def __str__(self):
 		return self.entry.title
 

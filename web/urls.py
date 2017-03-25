@@ -15,6 +15,7 @@ urlpatterns = [
 	url(r'^admin/', admin.site.urls),
 	url(r'^accounts/', include('accounts.urls', namespace='accounts')),
 	url(r'^entry/(?P<pk>\d+)/$', feeds.views.entry_detail_view, name='entry_detail'),
+	url(r'^entry/list-api/$', feeds.views.entry_list_api, name='entry_list_api'),
 	url(r'^$', feeds.views.entry_list_view, name='entry_list'),
 	url(r'^feeds/$', feeds.views.user_feed_list_view, name='user_feed_list'),
 	url(r'^feeds/create/$', feeds.views.user_feed_create_view, name='user_feed_create'),

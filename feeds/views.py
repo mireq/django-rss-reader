@@ -10,13 +10,14 @@ from django.db.models import Q
 from django.http.response import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.functional import cached_property
-from django.views.generic import ListView, DetailView, FormView, DeleteView
+from django.views.generic import ListView, DetailView, FormView, DeleteView, View
 from django_ajax_utils.views import AjaxFormMixin, AjaxRedirectMixin
 
 from .forms import FeedCreateForm
 from .models import UserFeed, UserEntryStatus
 from feeds.tasks import register_feed
 from web.celery_views import TaskRunMixin
+from web.generic_views import ApiEndpointMixin
 from web.model_utils import query_model_attribute
 from web.time_utils import datetime_to_timestamp, timestamp_to_datetime
 
@@ -28,7 +29,7 @@ class UserEntriesMixin(LoginRequiredMixin):
 	}
 
 	paginate_by = 10
-	is_detail = False
+	update_time = True
 
 	def get_context_data(self, **kwargs):
 		ctx = super(UserEntriesMixin, self).get_context_data(**kwargs)
@@ -72,10 +73,11 @@ class UserEntriesMixin(LoginRequiredMixin):
 			negative = field[0] == '-'
 			if negative:
 				field = field[1:]
-			cond = {f: query_model_attribute(self.object, f) for f in prev_fields}
-			op = 'lt' if negative else 'gt'
-			cond[field + '__' + op] = query_model_attribute(self.object, field)
-			conditions.append(Q(**cond))
+			if hasattr(self, 'object') and self.object:
+				cond = {f: query_model_attribute(self.object, f) for f in prev_fields}
+				op = 'lt' if negative else 'gt'
+				cond[field + '__' + op] = query_model_attribute(self.object, field)
+				conditions.append(Q(**cond))
 			prev_fields.append(field)
 		return queryset.filter(reduce(operator.or_, conditions, Q()))
 
@@ -104,6 +106,7 @@ class UserEntriesMixin(LoginRequiredMixin):
 	@cached_property
 	def saved_filters(self):
 		filters = self.request.session.get('saved_filters', {})
+		print(filters)
 		if 'list_ordering' in self.request.GET:
 			filters['list_ordering'] = self.request.GET['list_ordering']
 		filters['all'] = self.request.GET.get('all', filters.get('all'))
@@ -111,7 +114,7 @@ class UserEntriesMixin(LoginRequiredMixin):
 		try:
 			filters['ts'] = float(self.request.GET.get('ts', ''))
 		except ValueError:
-			if not self.is_detail:
+			if self.update_time:
 				filters['ts'] = datetime_to_timestamp(datetime=None)
 		return filters
 
@@ -122,8 +125,26 @@ class EntryListView(UserEntriesMixin, ListView):
 		return super(EntryListView, self).get(request, *args, **kwargs)
 
 
+class EntryListApi(UserEntriesMixin, ApiEndpointMixin, View):
+	ENTRIES_COUNT = 20
+
+	update_time = False
+
+	def get(self, request, *args, **kwargs):
+		if 'from' in request.GET:
+			try:
+				entry_id = int(self.request.GET['from'])
+				self.object = UserEntryStatus.objects.get(user=self.request.user, entry__id=entry_id)
+			except (UserEntryStatus.DoesNotExist, ValueError):
+				return self.render_error('Entry does not exist')
+		entries = self.get_prev_entries() if 'prev' in request.GET else self.get_next_entries()
+		entries = entries.select_related('entry', 'entry__feed')
+		result = [entry.serialize() for entry in entries[:self.ENTRIES_COUNT]]
+		return self.render_result(result)
+
+
 class EntryDetailView(UserEntriesMixin, DetailView):
-	is_detail = True
+	update_time = False
 
 	def get_queryset(self):
 		return UserEntryStatus.objects.filter(user=self.request.user).select_related('entry', 'entry__feed')
@@ -219,6 +240,7 @@ class UserFeedDeleteView(LoginRequiredMixin, AjaxRedirectMixin, DeleteView):
 
 
 entry_list_view = EntryListView.as_view()
+entry_list_api = EntryListApi.as_view()
 entry_detail_view = EntryDetailView.as_view()
 user_feed_list_view = UserFeedListView.as_view()
 user_feed_detail_view = UserFeedDetailView.as_view()
