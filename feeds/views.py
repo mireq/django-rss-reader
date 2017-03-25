@@ -79,15 +79,21 @@ class UserEntriesMixin(LoginRequiredMixin):
 			prev_fields.append(field)
 		return queryset.filter(reduce(operator.or_, conditions, Q()))
 
-	def get_next(self):
+	def get_next_entries(self):
 		ordering = self.get_ordering()
 		qs = self.get_filtered_queryset().order_by(*ordering)
-		return self.get_next_by_ordering(qs, ordering).first()
+		return self.get_next_by_ordering(qs, ordering)
+
+	def get_prev_entries(self):
+		ordering = self.get_reverse_ordering()
+		qs = self.get_filtered_queryset().order_by(*ordering)
+		return self.get_next_by_ordering(qs, ordering)
+
+	def get_next(self):
+		return self.get_next_entries().first()
 
 	def get_prev(self):
-		ordering = self.get_reverse_ordering()
-		qs =  self.get_filtered_queryset().order_by(*ordering)
-		return self.get_next_by_ordering(qs, ordering).first()
+		return self.get_prev_entries().first()
 
 	def get_last_view_ts(self, filters):
 		try:
