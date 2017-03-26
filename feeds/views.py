@@ -136,12 +136,16 @@ class EntryListApi(UserEntriesMixin, ApiEndpointMixin, View):
 		if 'from' in request.GET:
 			try:
 				entry_id = int(self.request.GET['from'])
-				self.object = UserEntryStatus.objects.get(user=self.request.user, entry__id=entry_id)
+				self.object = (UserEntryStatus.objects
+					.prefetch_user_feed(user=self.request.user)
+					.get(user=self.request.user, entry__id=entry_id))
 			except (UserEntryStatus.DoesNotExist, ValueError):
 				return self.render_error('Entry does not exist')
 		entries = self.get_prev_entries() if 'prev' in request.GET else self.get_next_entries()
-		entries = entries.select_related('entry', 'entry__feed')
-		result = [entry.serialize() for entry in entries[:self.ENTRIES_COUNT]]
+		entries = list(entries.select_related('entry', 'entry__feed')[:self.ENTRIES_COUNT])
+		result = [entry.serialize() for entry in entries]
+		if not 'prev' in request.GET:
+			result.insert(0, self.object.serialize())
 		return self.render_result(result)
 
 
