@@ -109,7 +109,6 @@ class UserEntriesMixin(LoginRequiredMixin):
 	@cached_property
 	def saved_filters(self):
 		filters = self.request.session.get('saved_filters', {})
-		print(filters)
 		if 'list_ordering' in self.request.GET:
 			filters['list_ordering'] = self.request.GET['list_ordering']
 		filters['all'] = self.request.GET.get('all', filters.get('all'))
