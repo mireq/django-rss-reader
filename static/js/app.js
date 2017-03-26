@@ -5,6 +5,15 @@ var preloaderNext;
 var preloaderPrev;
 
 
+var setNewEntries = function(count) {
+	var element = _.id('new_entries_count');
+	element.innerHTML = '';
+	var message = interpolate(ngettext('%s new entry', '%s new entries', count), [count]);
+	var elementText = document.createTextNode(message);
+	element.appendChild(elementText);
+};
+
+
 var toggleMenu = function(e) {
 	_.toggleClass(document.body, 'visible-menu');
 	if (e) {
@@ -46,6 +55,7 @@ var registerPreloader = function() {
 			_.xhrSend({
 				url: nextItemLink.getAttribute('href') + '?mark',
 				successFn: function(response, res, opts) {
+					setNewEntries(response.new_entries_count);
 				}
 			});
 		});
