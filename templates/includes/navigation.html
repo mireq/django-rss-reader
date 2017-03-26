@@ -11,7 +11,7 @@
 			{% endif %}
 			<div class="entries">
 				{% if request.user.is_authenticated %}
-					{% blocktrans count value=request.user.new_entries_count %}{{ value }} new entry{% plural %}{{ value }} new entries{% endblocktrans %}
+					<span id="new_entries_count">{% blocktrans count value=request.user.new_entries_count %}{{ value }} new entry{% plural %}{{ value }} new entries{% endblocktrans %}</span>
 				{% else %}
 					{% trans "Please log in" %}
 				{% endif %}
