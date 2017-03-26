@@ -10,14 +10,13 @@ from django.db.models import Q
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.functional import cached_property
-from django.views.generic import ListView, DetailView, FormView, DeleteView, View
+from django.views.generic import ListView, DetailView, FormView, DeleteView
 from django_ajax_utils.views import JsonResponseMixin, AjaxFormMixin, AjaxRedirectMixin
 
 from .forms import FeedCreateForm
 from .models import UserFeed, UserEntryStatus
 from feeds.tasks import register_feed
 from web.celery_views import TaskRunMixin
-from web.generic_views import ApiEndpointMixin
 from web.model_utils import query_model_attribute
 from web.time_utils import datetime_to_timestamp, timestamp_to_datetime
 
@@ -29,7 +28,6 @@ class UserEntriesMixin(LoginRequiredMixin):
 	}
 
 	paginate_by = 10
-	update_time = True
 
 	def get_context_data(self, **kwargs):
 		ctx = super(UserEntriesMixin, self).get_context_data(**kwargs)
@@ -41,8 +39,7 @@ class UserEntriesMixin(LoginRequiredMixin):
 
 	def get_filtered_queryset(self):
 		qs = (UserEntryStatus.objects
-			.filter(user=self.request.user)
-			.prefetch_user_feed(self.request.user)
+			.for_user(self.request.user)
 			.select_related('entry'))
 		if self.saved_filters.get('all'):
 			return qs
@@ -116,44 +113,22 @@ class UserEntriesMixin(LoginRequiredMixin):
 		try:
 			filters['ts'] = float(self.request.GET.get('ts', ''))
 		except ValueError:
-			if self.update_time:
-				filters['ts'] = datetime_to_timestamp(datetime=None)
+			pass
 		return filters
 
 
 class EntryListView(UserEntriesMixin, ListView):
 	def get(self, request, *args, **kwargs):
-		self.request.session['saved_filters'] = self.saved_filters
+		filters = self.saved_filters
+		if not 'ts' in self.request.GET:
+			filters['ts'] = datetime_to_timestamp(datetime=None)
+		self.request.session['saved_filters'] = filters
 		return super(EntryListView, self).get(request, *args, **kwargs)
 
 
-class EntryListApi(UserEntriesMixin, ApiEndpointMixin, View):
-	ENTRIES_COUNT = 20
-
-	update_time = False
-
-	def get(self, request, *args, **kwargs):
-		if 'from' in request.GET:
-			try:
-				entry_id = int(self.request.GET['from'])
-				self.object = (UserEntryStatus.objects
-					.prefetch_user_feed(user=self.request.user)
-					.get(user=self.request.user, entry__id=entry_id))
-			except (UserEntryStatus.DoesNotExist, ValueError):
-				return self.render_error('Entry does not exist')
-		entries = self.get_prev_entries() if 'prev' in request.GET else self.get_next_entries()
-		entries = list(entries.select_related('entry', 'entry__feed')[:self.ENTRIES_COUNT])
-		result = [entry.serialize() for entry in entries]
-		if not 'prev' in request.GET:
-			result.insert(0, self.object.serialize())
-		return self.render_result(result)
-
-
 class EntryDetailView(UserEntriesMixin, JsonResponseMixin, DetailView):
-	update_time = False
-
 	def get_queryset(self):
-		return UserEntryStatus.objects.filter(user=self.request.user).select_related('entry', 'entry__feed')
+		return UserEntryStatus.objects.for_user(self.request.user).select_related('entry')
 
 	def get_object(self, **kwargs):
 		return get_object_or_404(self.get_queryset(), entry__pk=self.kwargs['pk'])
@@ -182,8 +157,7 @@ class EntryDetailView(UserEntriesMixin, JsonResponseMixin, DetailView):
 			self.get_object().mark_read()
 			return self.render_json_response({'new_entries_count': request.user.new_entries_count})
 		response = super(EntryDetailView, self).get(request, *args, **kwargs)
-		if not 'cache' in self.request.GET:
-			self.object.mark_read()
+		self.object.mark_read()
 		return response
 
 
@@ -246,7 +220,6 @@ class UserFeedDeleteView(LoginRequiredMixin, AjaxRedirectMixin, DeleteView):
 
 
 entry_list_view = EntryListView.as_view()
-entry_list_api = EntryListApi.as_view()
 entry_detail_view = EntryDetailView.as_view()
 user_feed_list_view = UserFeedListView.as_view()
 user_feed_detail_view = UserFeedDetailView.as_view()

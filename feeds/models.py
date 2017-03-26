@@ -220,6 +220,9 @@ class UserEntryStatusQuerySet(models.QuerySet):
 		prefetch = Prefetch('entry__feed__userfeed_set', queryset=qs, to_attr='user_feed')
 		return self.prefetch_related(prefetch)
 
+	def for_user(self, user):
+		return self.filter(user=user).prefetch_user_feed(user)
+
 
 @python_2_unicode_compatible
 class UserEntryStatus(models.Model):
