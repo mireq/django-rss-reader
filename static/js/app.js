@@ -5,12 +5,17 @@ var preloaderNext;
 var preloaderPrev;
 
 
+var setEelemntText = function(element, text) {
+	element.innerHTML = '';
+	var elementText = document.createTextNode(text);
+	element.appendChild(elementText);
+};
+
+
 var setNewEntries = function(count) {
 	var element = _.id('new_entries_count');
-	element.innerHTML = '';
 	var message = interpolate(ngettext('%s new entry', '%s new entries', count), [count]);
-	var elementText = document.createTextNode(message);
-	element.appendChild(elementText);
+	setEelemntText(element, text);
 };
 
 
