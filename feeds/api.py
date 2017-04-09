@@ -21,10 +21,11 @@ class EntryListApi(UserEntriesMixin, ApiEndpointMixin, View):
 					.get(user=self.request.user, entry__id=entry_id))
 			except (UserEntryStatus.DoesNotExist, ValueError):
 				return self.render_error('Entry does not exist')
+
 		entries = self.get_prev_entries() if 'prev' in request.GET else self.get_next_entries()
 		entries = list(entries.select_related('entry', 'entry__feed')[:self.ENTRIES_COUNT])
 		result = [entry.serialize() for entry in entries]
-		if not 'prev' in request.GET:
+		if not 'prev' in request.GET and hasattr(self, 'object'):
 			result.insert(0, self.object.serialize())
 		return self.render_result(result)
 
