@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.db import models
 from django.db.models import Prefetch
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
@@ -157,9 +158,8 @@ class UserFeed(models.Model):
 		unique_together = (('user', 'feed'),)
 		ordering = ('order',)
 
-	@models.permalink
 	def get_absolute_url(self):
-		return ('user_feed_detail', (self.pk,), {})
+		reverse('user_feed_detail', args=(self.pk,))
 
 
 @python_2_unicode_compatible
@@ -214,9 +214,8 @@ class Entry(models.Model):
 		verbose_name_plural = _("News entries")
 		unique_together = (('feed', 'guid'),)
 
-	@models.permalink
 	def get_absolute_url(self):
-		return ('entry_detail', (self.pk,), {})
+		return reverse('entry_detail', args=(self.pk,))
 
 
 class UserEntryStatusQuerySet(models.QuerySet):
