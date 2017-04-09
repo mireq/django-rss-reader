@@ -17,7 +17,8 @@ from web.ordering import get_next_order
 class Category(models.Model):
 	user = models.ForeignKey(
 		settings.AUTH_USER_MODEL,
-		verbose_name=_("user")
+		verbose_name=_("user"),
+		on_delete=models.CASCADE
 	)
 	name = models.CharField(
 		verbose_name=_("category name"),
@@ -126,17 +127,20 @@ class UserFeed(models.Model):
 	)
 	user = models.ForeignKey(
 		settings.AUTH_USER_MODEL,
-		verbose_name=_("user")
+		verbose_name=_("user"),
+		on_delete=models.CASCADE
 	)
 	feed = models.ForeignKey(
 		Feed,
-		verbose_name=_("feed")
+		verbose_name=_("feed"),
+		on_delete=models.CASCADE
 	)
 	category = models.ForeignKey(
 		Category,
 		verbose_name=_("category"),
 		blank=True,
-		null=True
+		null=True,
+		on_delete=models.CASCADE
 	)
 	order = models.PositiveIntegerField(
 		verbose_name=_("order"),
@@ -162,7 +166,8 @@ class UserFeed(models.Model):
 class Entry(models.Model):
 	feed = models.ForeignKey(
 		Feed,
-		verbose_name=_("feed")
+		verbose_name=_("feed"),
+		on_delete=models.CASCADE
 	)
 	guid = models.CharField(
 		verbose_name=_("unique identifier"),
@@ -230,12 +235,14 @@ class UserEntryStatus(models.Model):
 
 	user = models.ForeignKey(
 		settings.AUTH_USER_MODEL,
-		verbose_name=_("user")
+		verbose_name=_("user"),
+		on_delete=models.CASCADE
 	)
 	entry = models.ForeignKey(
 		Entry,
 		verbose_name=_("news item"),
-		related_name='status'
+		related_name='status',
+		on_delete=models.CASCADE
 	)
 	is_read = models.BooleanField(
 		verbose_name=_("news is readed"),

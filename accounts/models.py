@@ -82,7 +82,8 @@ class RememberToken(models.Model):
 	)
 	user = models.ForeignKey(
 		settings.AUTH_USER_MODEL,
-		related_name='remember_me_tokens'
+		related_name='remember_me_tokens',
+		on_delete=models.CASCADE
 	)
 
 	def __str__(self):
