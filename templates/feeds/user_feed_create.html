@@ -8,7 +8,7 @@
 	<div class="content-navigation">
 		<ul class="breadcrumb">
 			<li><a href="{% url "settings_view" %}">{% trans "Settings" %}</a></li>
-			<li><a href="{% url "user_feed_list" %}">{% trans "Feeds" %}</a></li>
+			<li><a href="{% url "feeds:user_feed_list" %}">{% trans "Feeds" %}</a></li>
 			<li>{% trans "Add feed" %}</li>
 		</ul>
 	</div>
@@ -19,7 +19,7 @@
 		</p>
 		<div class="submit-row">
 			<div class="negative">
-				<a class="button secondary" href="{% url "user_feed_list" %}">{% trans "Back" %}</a>
+				<a class="button secondary" href="{% url "feeds:user_feed_list" %}">{% trans "Back" %}</a>
 			</div>
 			<div class="positive">
 				<button type="submit">{% trans "Add" %}</button>

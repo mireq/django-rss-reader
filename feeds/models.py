@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# pylint: disable=redefined-variable-type
 from __future__ import unicode_literals
 
 from django.conf import settings
@@ -159,7 +158,7 @@ class UserFeed(models.Model):
 		ordering = ('order',)
 
 	def get_absolute_url(self):
-		reverse('user_feed_detail', args=(self.pk,))
+		reverse('feeds:user_feed_detail', args=(self.pk,))
 
 
 @python_2_unicode_compatible
@@ -215,7 +214,7 @@ class Entry(models.Model):
 		unique_together = (('feed', 'guid'),)
 
 	def get_absolute_url(self):
-		return reverse('entry_detail', args=(self.pk,))
+		return reverse('feeds:entry_detail', args=(self.pk,))
 
 
 class UserEntryStatusQuerySet(models.QuerySet):

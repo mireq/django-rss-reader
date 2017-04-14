@@ -21,8 +21,8 @@
 </div>
 <ul>
 	{% if user.is_authenticated %}
-		<li class="home"><a href="{% url "entry_list" %}?all=&amp;favorite=">{% trans "Home" %}</a></li>
-		<li class="favorite"><a href="{% url "entry_list" %}?all=&amp;favorite=1">{% trans "Favorite" %}</a></li>
+		<li class="home"><a href="{% url "feeds:entry_list" %}?all=&amp;favorite=">{% trans "Home" %}</a></li>
+		<li class="favorite"><a href="{% url "feeds:entry_list" %}?all=&amp;favorite=1">{% trans "Favorite" %}</a></li>
 		<li class="settings"><a href="{% url "settings_view" %}">{% trans "Settings" %}</a></li>
 	{% endif %}
 	{% if user.is_authenticated %}

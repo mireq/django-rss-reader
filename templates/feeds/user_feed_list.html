@@ -6,7 +6,7 @@
 
 {% block content %}
 	<div class="content-navigation">
-		<a class="button" href="{% url "user_feed_create" %}">{% trans "Add new feed" %}</a>
+		<a class="button" href="{% url "feeds:user_feed_create" %}">{% trans "Add new feed" %}</a>
 		<ul class="breadcrumb">
 			<li><a href="{% url "settings_view" %}">{% trans "Settings" %}</a></li>
 			<li>{% trans "Feeds" %}</li>

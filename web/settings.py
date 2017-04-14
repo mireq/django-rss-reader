@@ -90,8 +90,9 @@ TEMPLATES = [
 
 AUTH_USER_MODEL = 'accounts.User'
 
+HOME_URL = 'feeds:entry_list'
 LOGIN_URL = 'accounts:login'
-LOGIN_REDIRECT_URL = 'entry_list'
+LOGIN_REDIRECT_URL = HOME_URL
 LOGOUT_REDIRECT_URL = 'accounts:login'
 
 WSGI_APPLICATION = 'web.wsgi.application'

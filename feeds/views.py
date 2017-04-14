@@ -216,7 +216,7 @@ class UserFeedDeleteView(LoginRequiredMixin, AjaxRedirectMixin, DeleteView):
 		return UserFeed.objects.filter(user=self.request.user)
 
 	def get_success_url(self):
-		return reverse('user_feed_list')
+		return reverse('feeds:user_feed_list')
 
 
 entry_list_view = EntryListView.as_view()

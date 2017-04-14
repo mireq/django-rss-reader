@@ -7,8 +7,8 @@
 {% block content %}
 	<ul class="entries">
 		<li class="entry">
-			<a class="title" href="{% url "user_feed_list" %}">{% trans "Feeds" %}</a>
-			<a class="fullclickable-link" href="{% url "user_feed_list" %}"></a>
+			<a class="title" href="{% url "feeds:user_feed_list" %}">{% trans "Feeds" %}</a>
+			<a class="fullclickable-link" href="{% url "feeds:user_feed_list" %}"></a>
 		</li>
 	</ul>
 {% endblock %}

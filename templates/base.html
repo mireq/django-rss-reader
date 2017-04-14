@@ -42,7 +42,7 @@
 
 <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
 <script type="text/javascript" charset="utf-8">
-	window._urls = {% js_urlpatterns "api_entry_list" "api_entry_detail" %};
+	window._urls = {% js_urlpatterns "feeds:api_entry_list" "feeds:api_entry_detail" %};
 </script>
 {% compress js %}
 {% assets_js "app" %}
