@@ -21,7 +21,7 @@ js_info_dict = {
 
 urlpatterns = [
 	url(r'^admin/', admin.site.urls),
-	url(r'^accounts/', include('accounts.urls', namespace='accounts')),
+	url(r'^accounts/', include('accounts.urls')),
 	url(r'^entry/(?P<pk>\d+)/$', feeds.views.entry_detail_view, name='entry_detail'),
 	url(r'^$', feeds.views.entry_list_view, name='entry_list'),
 	url(r'^feeds/$', feeds.views.user_feed_list_view, name='user_feed_list'),
