@@ -5,10 +5,10 @@ import operator
 from functools import reduce
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 from django.utils.functional import cached_property
 from django.views.generic import ListView, DetailView, FormView, DeleteView
 from django_ajax_utils.views import JsonResponseMixin, AjaxFormMixin, AjaxRedirectMixin
