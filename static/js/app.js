@@ -48,14 +48,6 @@ var registerEntryDetail = function() {
 };
 
 
-var loadFail = function(response, url) {
-	document.open();
-	document.write(response.responseText); // jshint ignore:line
-	document.close();
-	window.history.replaceState({is_pjax: true}, null, url);
-};
-
-
 var PreloadCache = function(feedListUrl) {
 	var self = {};
 
