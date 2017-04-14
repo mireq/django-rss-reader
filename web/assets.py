@@ -9,6 +9,10 @@ ASSETS = {
 		'js': 'static://django_ajax_utils/js/utils_ajax.js',
 		'depends': ['utils'],
 	},
+	'urls': {
+		'js': 'static://django_ajax_utils/js/urls.js',
+		'depends': ['utils'],
+	},
 	'pjax': {
 		'js': 'static://django_ajax_utils/js/pjax.js',
 		'depends': ['utils_ajax'],
@@ -26,7 +30,7 @@ ASSETS = {
 		'depends': ['utils_ajax', 'pjax'],
 	},
 	'app': {
-		'depends': ['utils', 'utils_ajax', 'pjax', 'messages', 'ajaxform', 'celery'],
+		'depends': ['utils', 'utils_ajax', 'urls', 'pjax', 'messages', 'ajaxform', 'celery'],
 		'js': [
 			'static://js/app.js',
 		]

@@ -1,10 +1,9 @@
 (function(_) {
 
+var urlresolver = _.urlresolver(window._urls);
+delete window._urls;
 
-//var preloaderNext;
-//var preloaderPrev;
 var preloadCache;
-
 
 var setEelemntText = function(element, text) {
 	element.innerHTML = '';
@@ -64,6 +63,13 @@ var registerPreloader = function() {
 	if (preloadCache === undefined) {
 		preloadCache = PreloadCache();
 	}
+
+	var feedsEntryListUrl = urlresolver.reverse("feeds:api_entry_list");
+	console.log(feedsEntryListUrl);
+};
+
+var unregisterPreloader = function() {
+	preloadCache = undefined;
 };
 
 //var registerPreloader = function() {
@@ -241,11 +247,17 @@ var register = function(element) {
 	_.forEach(_.cls(element, 'ajaxform'), function(formElement) {
 		_.ajaxform(formElement, formOptions);
 	});
-	if (_.id(element, 'entry_detail') !== null) {
-		registerEntryDetail();
-	}
 	if (element === document.body) {
 		registerKeyEvents();
+	}
+	if (element.getAttribute('id') === 'content' || element === document.body) {
+		if (_.id(element, 'entry_detail') !== null) {
+			registerEntryDetail();
+			registerPreloader();
+		}
+		else {
+			unregisterPreloader();
+		}
 	}
 };
 
