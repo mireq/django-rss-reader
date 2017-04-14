@@ -48,12 +48,58 @@ var registerEntryDetail = function() {
 };
 
 
-var PreloadCache = function() {
+var loadFail = function(response, url) {
+	document.open();
+	document.write(response.responseText); // jshint ignore:line
+	document.close();
+	window.history.replaceState({is_pjax: true}, null, url);
+};
+
+
+var PreloadCache = function(feedListUrl) {
 	var self = {};
 
 	var nextCache = [];
 	var prevCache = [];
 	var current;
+
+	var direction = 'next';
+	var requestedDirection;
+
+	var preloadNext = function() {
+		_.xhrSend({
+			url: feedListUrl,
+			successFn: function(response) {
+				console.log(response);
+			}
+		});
+	};
+
+	var preloadPrev = function() {
+	};
+
+	var preload = function() {
+		if (nextCache.length < 1) {
+			if (direction === 'next') {
+				preloadNext();
+			}
+		}
+		if (prevCache.lengt < 1) {
+			if (direction === 'prev') {
+				preloadPrev();
+			}
+		}
+	};
+
+	self.next = function() {
+		direction = 'next';
+	};
+
+	self.prev = function() {
+		direction = 'prev';
+	};
+
+	preload();
 
 	return self;
 };
@@ -61,11 +107,9 @@ var PreloadCache = function() {
 
 var registerPreloader = function() {
 	if (preloadCache === undefined) {
-		preloadCache = PreloadCache();
+		preloadCache = PreloadCache(urlresolver.reverse("feeds:api_entry_list"));
 	}
 
-	var feedsEntryListUrl = urlresolver.reverse("feeds:api_entry_list");
-	console.log(feedsEntryListUrl);
 };
 
 var unregisterPreloader = function() {
