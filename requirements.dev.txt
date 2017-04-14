@@ -4,10 +4,9 @@
 #
 #    pip-compile --output-file requirements.dev.txt requirements.dev.in
 #
--e git+https://github.com/mireq/django-ajax-utils.git@c11244e48b256209318e31584b5662cc49559fa4#egg=django_ajax_utils
+-e git+https://github.com/mireq/django-ajax-utils.git@84577c4f3d8ffbc74314da1b0ac8605fd352edd1#egg=django_ajax_utils
 -e git+https://github.com/mireq/django-assets-manager.git@af4944e6f1def727b84f51583a911ef60e978d55#egg=django_assets_manager
 amqp==2.1.4               # via kombu
-appdirs==1.4.3            # via setuptools
 argh==0.26.2              # via watchdog
 astroid==1.5.1            # via pylint, pylint-plugin-utils
 billiard==3.5.0.2         # via celery
@@ -34,7 +33,6 @@ lazy-object-proxy==1.2.2  # via astroid
 libsass==0.12.3
 mccabe==0.6.1             # via pylint
 olefile==0.44             # via pillow
-packaging==16.8           # via setuptools
 pathtools==0.1.2          # via watchdog
 pexpect==4.2.1            # via ipython
 pickleshare==0.7.4        # via ipython
@@ -48,14 +46,13 @@ pyinotify==0.9.6
 pylint-django==0.7.2
 pylint-plugin-utils==0.2.6  # via pylint-django
 pylint==1.7.0             # via pylint-django, pylint-plugin-utils
-pyparsing==2.2.0          # via packaging
 pytz==2017.2              # via celery, django
 pyyaml==3.12              # via watchdog
 rcssmin==1.0.6            # via django-compressor
 redis==2.10.5
 rjsmin==1.0.12            # via django-compressor
 simplegeneric==0.8.1      # via ipython
-six==1.10.0               # via astroid, django-extensions, libsass, packaging, pip-tools, prompt-toolkit, pylint, setuptools, traitlets
+six==1.10.0               # via astroid, django-extensions, libsass, pip-tools, prompt-toolkit, pylint, traitlets
 sqlparse==0.2.3           # via django-debug-toolbar
 traitlets==4.3.2          # via ipython
 vine==1.1.3               # via amqp
@@ -63,6 +60,3 @@ watchdog==0.8.3
 wcwidth==0.1.7            # via prompt-toolkit
 werkzeug==0.12.1
 wrapt==1.10.10            # via astroid
-
-# The following packages are considered to be unsafe in a requirements file:
-# setuptools                # via ipython
