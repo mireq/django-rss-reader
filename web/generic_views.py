@@ -10,8 +10,10 @@ class ApiEndpointMixin(JsonResponseMixin):
 		'post': {}
 	}
 
-	def render_result(self, result):
-		return self.render_json_response({'result': result})
+	def render_result(self, result, **kwargs):
+		result_data = {'result': result}
+		result_data.update(kwargs)
+		return self.render_json_response(result_data)
 
 	def render_error(self, error_code, errors=None):
 		response = {'error': {'code': error_code}}
