@@ -58,21 +58,55 @@ var PreloadCache = function(feedListUrl) {
 	var direction = 'next';
 	var requestedDirection;
 
-	var preloadNext = function() {
+	var getEntryId = function() {
+		return _.getData(_.id('entry_detail'), 'id');
+	};
+
+	var setEntryId = function(id) {
+		return _.setData(_.id('entry_detail'), 'id', id);
+	};
+
+	var buildFeedUrl = function(direction) {
 		var url  = feedListUrl;
-		url += '?from=' + _.getData(_.id('entry_detail'), 'id');
-		if (current === undefined) {
-			url += '&self';
+		url += '?from=' + getEntryId();
+		if (direction === 'next' && current === undefined) {
+			url += '&self=';
 		}
+		if (direction !== 'next') {
+			url += '&prev=';
+		}
+		return url;
+	};
+
+	var preloadCache = function(direction) {
+		var url = buildFeedUrl(direction);
 		_.xhrSend({
 			url: url,
 			successFn: function(response) {
-				console.log(response);
+				var nextList = response.result;
+				var entryId = getEntryId();
+				_.forEach(nextList, function(item) {
+					if (item.id == entryId) {
+						current = item;
+						return;
+					}
+					if (direction === 'next') {
+						nextCache.push(item);
+					}
+					else {
+						prevCache.push(item);
+					}
+				});
 			}
 		});
 	};
 
+	var preloadNext = function() {
+		preloadCache('next');
+	};
+
 	var preloadPrev = function() {
+		preloadCache('prev');
 	};
 
 	var preload = function() {
