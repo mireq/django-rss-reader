@@ -25,7 +25,7 @@ class EntryListApi(UserEntriesMixin, ApiEndpointMixin, View):
 		entries = self.get_prev_entries() if 'prev' in request.GET else self.get_next_entries()
 		entries = list(entries.select_related('entry', 'entry__feed')[:self.ENTRIES_COUNT])
 		result = [entry.serialize() for entry in entries]
-		if not 'prev' in request.GET and hasattr(self, 'object'):
+		if 'self' in request.GET and hasattr(self, 'object'):
 			result.insert(0, self.object.serialize())
 		return self.render_result(result)
 

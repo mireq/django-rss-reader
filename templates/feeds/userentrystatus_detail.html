@@ -4,7 +4,7 @@
 {% block bodyclass %}entry-detail{% endblock %}
 
 {% block content %}
-	<div id="entry_detail" class="content-page">
+	<div id="entry_detail" class="content-page" data-id="{{ object.entry.id|unlocalize }}">
 		<div class="title">
 			<h1><a href="{{ object.entry.link }}" class="open-key-link" target="_blank">{{ object }}&nbsp;</a></h1>
 			<div class="extra-info">

@@ -59,8 +59,13 @@ var PreloadCache = function(feedListUrl) {
 	var requestedDirection;
 
 	var preloadNext = function() {
+		var url  = feedListUrl;
+		url += '?from=' + _.getData(_.id('entry_detail'), 'id');
+		if (current === undefined) {
+			url += '&self';
+		}
 		_.xhrSend({
-			url: feedListUrl,
+			url: url,
 			successFn: function(response) {
 				console.log(response);
 			}
