@@ -1,7 +1,6 @@
 (function(_) {
 
-var urlresolver = _.urlresolver(window._urls);
-delete window._urls;
+var urlresolver = _.urlresolver(window._utils._urls);
 
 var preloadCache;
 
@@ -53,6 +52,8 @@ var PreloadCache = function(feedListUrl) {
 
 	var nextCache = [];
 	var prevCache = [];
+	var nextLink;
+	var prevLink;
 	var current;
 
 	var direction = 'next';
@@ -83,6 +84,12 @@ var PreloadCache = function(feedListUrl) {
 		_.xhrSend({
 			url: url,
 			successFn: function(response) {
+				if (direction == 'next') {
+					nextLink = response.next;
+				}
+				else {
+					prevLink = response.next;
+				}
 				var nextList = response.result;
 				var entryId = getEntryId();
 				_.forEach(nextList, function(item) {
@@ -122,11 +129,11 @@ var PreloadCache = function(feedListUrl) {
 		}
 	};
 
-	self.next = function() {
+	self.next = function(callback) {
 		direction = 'next';
 	};
 
-	self.prev = function() {
+	self.prev = function(callback) {
 		direction = 'prev';
 	};
 
