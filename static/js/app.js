@@ -139,8 +139,19 @@ var PreloadCache = function(feedListUrl) {
 var registerPreloader = function() {
 	if (preloadCache === undefined) {
 		preloadCache = PreloadCache(urlresolver.reverse("feeds:api_entry_list"));
-	}
 
+		var nextItemLink = _.id('next_item_link');
+		var prevItemLink = _.id('prev_item_link');
+		_.addClass(nextItemLink, 'nopjax');
+		_.addClass(prevItemLink, 'nopjax');
+
+		_.bindEvent(nextItemLink, 'click', function(e) {
+			e.preventDefault();
+		});
+		_.bindEvent(prevItemLink, 'click', function(e) {
+			e.preventDefault();
+		});
+	}
 };
 
 var unregisterPreloader = function() {
@@ -344,7 +355,7 @@ _.pjax.autoRegister({
 	extrastyleBlock: 'extrastyle',
 	titleBlock: 'head_title',
 	checkLinkSupported: function(link) {
-		if (_.hasClass(link, 'toggle-menu')) {
+		if (_.hasClass(link, 'nopjax')) {
 			return false;
 		}
 		return true;
