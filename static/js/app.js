@@ -55,7 +55,7 @@ var PreloadCache = function(feedListUrl) {
 	var nextLink;
 	var prevLink;
 	var current;
-	var callbacks = {prev: [], next: []};
+	var callbacks = {prev: undefined, next: undefined};
 
 	var requestedDirection;
 
@@ -122,10 +122,10 @@ var PreloadCache = function(feedListUrl) {
 	};
 
 	var triggerCallbacks = function(direction) {
-		_.forEach(callbacks[direction], function(callback) {
-			callback();
-		});
-		callbacks[direction] = [];
+		if (callbacks[direction] !== undefined) {
+			callbacks[direction]();
+		}
+		callbacks[direction] = undefined;
 	};
 
 	var preload = function(direction) {
@@ -144,12 +144,12 @@ var PreloadCache = function(feedListUrl) {
 	};
 
 	self.next = function(callback) {
-		callbacks.next.push(callback);
+		callbacks.next = callback;
 		preload('next');
 	};
 
 	self.prev = function(callback) {
-		callbacks.prev.push(callback);
+		callbacks.prev = callback;
 		preload('prev');
 	};
 
