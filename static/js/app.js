@@ -56,7 +56,6 @@ var PreloadCache = function(feedListUrl) {
 	var prevLink;
 	var current;
 
-	var direction = 'next';
 	var requestedDirection;
 
 	var getEntryId = function() {
@@ -79,8 +78,9 @@ var PreloadCache = function(feedListUrl) {
 		return url;
 	};
 
-	var preloadCache = function(direction) {
+	var preloadCache = function(direction, callback) {
 		var url = buildFeedUrl(direction);
+		firstRun = false;
 		_.xhrSend({
 			url: url,
 			successFn: function(response) {
@@ -104,40 +104,58 @@ var PreloadCache = function(feedListUrl) {
 						prevCache.unshift(item);
 					}
 				});
+				if (callback !== undefined) {
+					callback();
+				}
+			},
+			failFn: function(response) {
+				if (callback !== undefined) {
+					callback();
+				}
 			}
 		});
 	};
 
-	var preloadNext = function() {
-		preloadCache('next');
+	var preloadNext = function(callback) {
+		preloadCache('next', callback);
 	};
 
-	var preloadPrev = function() {
-		preloadCache('prev');
+	var preloadPrev = function(callback) {
+		preloadCache('prev', callback);
 	};
 
-	var preload = function() {
-		if (nextCache.length < 1) {
-			if (direction === 'next') {
-				preloadNext();
+	var preload = function(direction, callback) {
+		if (direction === 'next') {
+			if (nextCache.length < 1) {
+				preloadNext(callback);
+			}
+			else if (callback !== undefined) {
+				callback();
 			}
 		}
-		if (prevCache.lengt < 1) {
-			if (direction === 'prev') {
-				preloadPrev();
+		if (direction === 'prev') {
+			if (prevCache.length < 1) {
+				preloadPrev(callback);
+			}
+			else if (callback !== undefined) {
+				callback();
 			}
 		}
 	};
 
 	self.next = function(callback) {
-		direction = 'next';
+		preload('next', function() {
+			console.log("has next");
+		});
 	};
 
 	self.prev = function(callback) {
-		direction = 'prev';
+		preload('prev', function() {
+			console.log("has prev");
+		});
 	};
 
-	preload();
+	preload('next');
 
 	return self;
 };
