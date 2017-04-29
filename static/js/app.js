@@ -68,8 +68,20 @@ var PreloadCache = function(feedListUrl) {
 	};
 
 	var buildFeedUrl = function(direction) {
-		var url  = feedListUrl;
-		url += '?from=' + getEntryId();
+		var url;
+		if (direction === 'next') {
+			if (nextCache.length) {
+				url = feedListUrl + '?from=' + nextCache[nextCache.length - 1].id;
+			}
+		}
+		else {
+			if (prevCache.length) {
+				url = feedListUrl + '?from=' + prevCache[0].id;
+			}
+		}
+		if (url === undefined) {
+			url = feedListUrl + '?from=' + getEntryId();
+		}
 		if (direction === 'next' && current === undefined) {
 			url += '&self=';
 		}
@@ -151,7 +163,7 @@ var PreloadCache = function(feedListUrl) {
 
 	var preload = function(direction) {
 		if (direction === 'next') {
-			if (nextCache.length < 1) {
+			if (nextCache.length < 2) {
 				preloadNext();
 			}
 			else {
@@ -159,7 +171,7 @@ var PreloadCache = function(feedListUrl) {
 			}
 		}
 		if (direction === 'prev') {
-			if (prevCache.length < 1) {
+			if (prevCache.length < 2) {
 				preloadPrev();
 			}
 			else {
