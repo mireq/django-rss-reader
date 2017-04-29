@@ -105,10 +105,10 @@ var PreloadCache = function(feedListUrl) {
 						prevCache.unshift(item);
 					}
 				});
-				triggerCallbacks(direction);
+				triggerLoad(direction);
 			},
 			failFn: function(response) {
-				triggerCallbacks(direction);
+				triggerLoad(direction);
 			}
 		});
 	};
@@ -121,10 +121,29 @@ var PreloadCache = function(feedListUrl) {
 		preloadCache('prev');
 	};
 
-	var triggerCallbacks = function(direction) {
-		if (callbacks[direction] !== undefined) {
-			callbacks[direction]();
+	var triggerLoad = function(direction) {
+		if (callbacks[direction] === undefined) {
+			return;
 		}
+
+		var item;
+		if (direction === 'next') {
+			if (nextCache.length) {
+				if (current) {
+					prevCache.push(current);
+				}
+				current = nextCache.shift();
+			}
+		}
+		else {
+			if (prevCache.length) {
+				if (current) {
+					nextCache.unshift(current);
+				}
+				current = prevCache.pop();
+			}
+		}
+		callbacks[direction](current);
 		callbacks[direction] = undefined;
 	};
 
@@ -133,23 +152,29 @@ var PreloadCache = function(feedListUrl) {
 			if (nextCache.length < 1) {
 				preloadNext();
 			}
-			triggerCallbacks(direction);
+			else {
+				triggerLoad(direction);
+			}
 		}
 		if (direction === 'prev') {
 			if (prevCache.length < 1) {
 				preloadPrev();
 			}
-			triggerCallbacks(direction);
+			else {
+				triggerLoad(direction);
+			}
 		}
 	};
 
 	self.next = function(callback) {
 		callbacks.next = callback;
+		callbacks.prev = undefined;
 		preload('next');
 	};
 
 	self.prev = function(callback) {
 		callbacks.prev = callback;
+		callbacks.next = undefined;
 		preload('prev');
 	};
 
@@ -171,13 +196,13 @@ var registerPreloader = function() {
 		_.bindEvent(nextItemLink, 'click', function(e) {
 			e.preventDefault();
 			preloadCache.next(function(result) {
-				console.log("result");
+				console.log(result);
 			});
 		});
 		_.bindEvent(prevItemLink, 'click', function(e) {
 			e.preventDefault();
 			preloadCache.prev(function(result) {
-				console.log("result");
+				console.log(result);
 			});
 		});
 	}
