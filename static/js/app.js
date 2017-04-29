@@ -163,19 +163,19 @@ var PreloadCache = function(feedListUrl) {
 
 	var preload = function(direction) {
 		if (direction === 'next') {
-			if (nextCache.length < 2) {
-				preloadNext();
-			}
-			else {
+			if (nextCache.length) {
 				triggerLoad(direction);
+			}
+			if (nextCache.length < 5) {
+				preloadNext();
 			}
 		}
 		if (direction === 'prev') {
-			if (prevCache.length < 2) {
-				preloadPrev();
-			}
-			else {
+			if (prevCache.length) {
 				triggerLoad(direction);
+			}
+			if (prevCache.length < 5) {
+				preloadPrev();
 			}
 		}
 	};
