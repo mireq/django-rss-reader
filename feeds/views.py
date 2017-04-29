@@ -37,6 +37,9 @@ class UserEntriesMixin(LoginRequiredMixin):
 	def get_queryset(self):
 		return self.get_filtered_queryset().order_by(*self.get_ordering())
 
+	def get_reverse_queryset(self):
+		return self.get_filtered_queryset().order_by(*self.get_reverse_ordering())
+
 	def get_filtered_queryset(self):
 		qs = (UserEntryStatus.objects
 			.for_user(self.request.user)
@@ -51,9 +54,6 @@ class UserEntriesMixin(LoginRequiredMixin):
 				return qs.filter(Q(is_read=False) | (Q(read_time__gt=timestamp_to_datetime(display_time))))
 			else:
 				return qs.filter(Q(is_read=False))
-
-	def get_reverse_queryset(self):
-		return self.get_filtered_queryset().order_by(*self.get_reverse_ordering())
 
 	def get_ordering(self):
 		return self.ORDERINGS.get(self.saved_filters.get('list_ordering', 'new'), self.ORDERINGS['default'])
@@ -73,8 +73,8 @@ class UserEntriesMixin(LoginRequiredMixin):
 			negative = field[0] == '-'
 			if negative:
 				field = field[1:]
-			if hasattr(self, 'object') and self.object:
-				cond = {f: query_model_attribute(self.object, f) for f in prev_fields}
+			if hasattr(self, 'object') and self.object: # start from specific object
+				cond = {object_field: query_model_attribute(self.object, object_field) for object_field in prev_fields}
 				op = 'lt' if negative else 'gt'
 				cond[field + '__' + op] = query_model_attribute(self.object, field)
 				conditions.append(Q(**cond))
