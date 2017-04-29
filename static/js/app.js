@@ -101,7 +101,7 @@ var PreloadCache = function(feedListUrl) {
 						nextCache.push(item);
 					}
 					else {
-						prevCache.push(item);
+						prevCache.unshift(item);
 					}
 				});
 			}
@@ -154,9 +154,15 @@ var registerPreloader = function() {
 
 		_.bindEvent(nextItemLink, 'click', function(e) {
 			e.preventDefault();
+			preloadCache.next(function(result) {
+				console.log("result");
+			});
 		});
 		_.bindEvent(prevItemLink, 'click', function(e) {
 			e.preventDefault();
+			preloadCache.prev(function(result) {
+				console.log("result");
+			});
 		});
 	}
 };
@@ -344,12 +350,10 @@ var register = function(element) {
 		registerKeyEvents();
 	}
 	if (element.getAttribute('id') === 'content' || element === document.body) {
+		unregisterPreloader();
 		if (_.id(element, 'entry_detail') !== null) {
 			registerEntryDetail();
 			registerPreloader();
-		}
-		else {
-			unregisterPreloader();
 		}
 	}
 };
