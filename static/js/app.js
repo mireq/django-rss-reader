@@ -157,6 +157,33 @@ var PreloadCache = function(feedListUrl) {
 				setEntryId(current.id);
 			}
 		}
+		if (current) {
+			var link;
+
+			var nextLink = self.getNextLink() || '#';
+			var nextId = self.getNextId() || '';
+			link = _.id('next_item_link');
+			link.setAttribute('href', nextLink);
+			_.setData(link, 'id', nextId);
+			if (nextId === '') {
+				_.addClass(link, 'disabled');
+			}
+			else{
+				_.removeClass(link, 'disabled');
+			}
+
+			var prevLink = self.getPrevLink() || '#';
+			var prevId = self.getPrevId() || '';
+			link = _.id('prev_item_link');
+			link.setAttribute('href', prevLink);
+			_.setData(link, 'id', prevId);
+			if (prevId === '') {
+				_.addClass(link, 'disabled');
+			}
+			else{
+				_.removeClass(link, 'disabled');
+			}
+		}
 		callbacks[direction](current);
 		callbacks[direction] = undefined;
 	};
