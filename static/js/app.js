@@ -145,7 +145,6 @@ var PreloadCache = function(feedListUrl) {
 					prevCache.push(current);
 				}
 				current = nextCache.shift();
-				setEntryId(current.id);
 			}
 		}
 		else {
@@ -154,10 +153,11 @@ var PreloadCache = function(feedListUrl) {
 					nextCache.unshift(current);
 				}
 				current = prevCache.pop();
-				setEntryId(current.id);
 			}
 		}
 		if (current) {
+			setEntryId(current.id);
+
 			var link;
 
 			var nextLink = self.getNextLink() || '#';
