@@ -419,6 +419,9 @@ var register = function(element) {
 	if (element.getAttribute('id') === 'content' || element === document.body) {
 		if (_.id(element, 'entry_detail') !== null) {
 			registerEntryDetail();
+			if (_.id('next_item_link') !== null && preloadCache === undefined) {
+				registerPreloader();
+			}
 		}
 	}
 };
