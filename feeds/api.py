@@ -43,7 +43,7 @@ class EntryListApi(UserEntriesMixin, ApiEndpointMixin, View):
 			'feed': entry.entry.feed.title if len(entry.entry.feed.user_feed) == 0 else entry.entry.feed.user_feed[0].name,
 			'request': self.request,
 		}
-		data['rendered'] = render_to_string('feeds/userentrystatus_detail_ajax.html', ctx)
+		data['rendered'] = render_to_string('feeds/userentrystatus_detail_ajax.html', ctx, request=self.request)
 		return data
 
 
