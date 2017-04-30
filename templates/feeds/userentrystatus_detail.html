@@ -5,43 +5,7 @@
 
 {% block content %}
 	<div id="entry_detail" class="content-page" data-id="{{ object.entry.id|unlocalize }}">
-		<div class="title">
-			<h1><a id="main_entry_link" href="{{ object.entry.link }}" class="open-key-link" target="_blank">{{ object }}&nbsp;</a></h1>
-			<div class="extra-info">
-				<span class="feed">
-					{{ feed }}
-				</span>
-				<span class="date">
-					{{ object.entry.created|date:"SHORT_DATETIME_FORMAT" }}
-				</span>
-				{% if object.entry.author_name %}
-					|
-					<span class="user">
-						{{ object.entry.author_name }}
-					</span>
-				{% endif %}
-			</div>
-		</div>
-		<div class="summary content">
-			{{ object.entry.summary|safe }}
-		</div>
-		<div class="bottom-actions">
-			<div class="secondary">
-				<form action="{{ request.path }}" method="post">
-					{% csrf_token %}
-					<button class="button" type="submit" name="action" value="{% if object.is_favorite %}unfavorite{% else %}favorite{% endif %}">
-						{% if object.is_favorite %}
-							{% trans "Unfavorite" %}
-						{% else %}
-							{% trans "Favorite" %}
-						{% endif %}
-					</button>
-				</form>
-			</div>
-			<div class="primary">
-				<a class="button" href="{{ object.link }}" target="_blank">{% trans "Open" %}</a>
-			</div>
-		</div>
+		{% include "feeds/userentrystatus_detail_ajax.html" %}
 	</div>
 {% endblock %}
 

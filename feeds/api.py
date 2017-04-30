@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.http.response import HttpResponseBadRequest
 from django.views.generic import View, DetailView
+from django.template.loader import render_to_string
 
 from .models import UserEntryStatus
 from .views import UserEntriesMixin
@@ -27,13 +28,23 @@ class EntryListApi(UserEntriesMixin, ApiEndpointMixin, View):
 		next_entry = None
 		if len(entries) > self.ENTRIES_COUNT:
 			next_entry = entries.pop()
-		result = [entry.serialize() for entry in entries]
+		result = [self.serialize_entry(entry) for entry in entries]
 		if 'self' in request.GET and hasattr(self, 'object'):
-			result.insert(0, self.object.serialize())
+			result.insert(0, self.serialize_entry(self.object))
 		if next_entry:
 			return self.render_result(result, next=next_entry.pk)
 		else:
 			return self.render_result(result)
+
+	def serialize_entry(self, entry):
+		data = entry.serialize()
+		ctx = {
+			'object': entry,
+			'feed': entry.entry.feed.title if len(entry.entry.feed.user_feed) == 0 else entry.entry.feed.user_feed[0].name,
+			'request': self.request,
+		}
+		data['rendered'] = render_to_string('feeds/userentrystatus_detail_ajax.html', ctx)
+		return data
 
 
 class EntryDetailApi(UserEntriesMixin, ApiEndpointMixin, DetailView):

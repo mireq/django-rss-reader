@@ -44,13 +44,11 @@
 	window._utils = window._utils || {};
 	window._utils._urls = {% js_urlpatterns "feeds:api_entry_list" "feeds:api_entry_detail" "feeds:entry_detail" %};
 	window.template = {
-		entry: function(data, module) {
+		entry: function(data) {
 			(function(_) {
-				var mainEntryLink = _.id('main_entry_link');
-				mainEntryLink.setAttribute('href', data.link);
-				mainEntryLink.innerHTML = '';
-				mainEntryLink.appendChild(document.createTextNode(data.title + ' '));
-				console.log(data, module.getNextId(), module.getPrevId());
+				var entryDetail = _.id('entry_detail');
+				entryDetail.innerHTML = data.rendered;
+				_.triggerLoad(entryDetail);
 			}(_utils));
 		}
 	};
