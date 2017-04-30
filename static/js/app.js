@@ -56,6 +56,7 @@ var PreloadCache = function(feedListUrl) {
 	var prevId = _.getData(_.id('prev_item_link'), 'id') || undefined;
 	var current;
 	var callbacks = {prev: undefined, next: undefined};
+	var waiting = {prev: false, next: false};
 
 	var requestedDirection;
 
@@ -92,11 +93,16 @@ var PreloadCache = function(feedListUrl) {
 	};
 
 	var preloadCache = function(direction, callback) {
+		if (waiting[direction]) {
+			return;
+		}
+		waiting[direction] = true;
 		var url = buildFeedUrl(direction);
 		firstRun = false;
 		_.xhrSend({
 			url: url,
 			successFn: function(response) {
+				waiting[direction] = false;
 				if (direction == 'next') {
 					nextId = response.next;
 				}
@@ -120,6 +126,7 @@ var PreloadCache = function(feedListUrl) {
 				triggerLoad(direction);
 			},
 			failFn: function(response) {
+				waiting[direction] = false;
 				triggerLoad(direction);
 			}
 		});
