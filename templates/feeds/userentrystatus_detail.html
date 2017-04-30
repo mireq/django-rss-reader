@@ -6,7 +6,7 @@
 {% block content %}
 	<div id="entry_detail" class="content-page" data-id="{{ object.entry.id|unlocalize }}">
 		<div class="title">
-			<h1><a href="{{ object.entry.link }}" class="open-key-link" target="_blank">{{ object }}&nbsp;</a></h1>
+			<h1><a id="main_entry_link" href="{{ object.entry.link }}" class="open-key-link" target="_blank">{{ object }}&nbsp;</a></h1>
 			<div class="extra-info">
 				<span class="feed">
 					{{ feed }}

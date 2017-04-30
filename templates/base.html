@@ -45,7 +45,13 @@
 	window._utils._urls = {% js_urlpatterns "feeds:api_entry_list" "feeds:api_entry_detail" "feeds:entry_detail" %};
 	window.template = {
 		entry: function(data, module) {
-			console.log(data, module.getNextId(), module.getPrevId());
+			(function(_) {
+				var mainEntryLink = _.id('main_entry_link');
+				mainEntryLink.setAttribute('href', data.link);
+				mainEntryLink.innerHTML = '';
+				mainEntryLink.appendChild(document.createTextNode(data.title + ' '));
+				console.log(data, module.getNextId(), module.getPrevId());
+			}(_utils));
 		}
 	};
 </script>
