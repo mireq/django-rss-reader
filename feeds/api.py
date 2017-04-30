@@ -49,7 +49,7 @@ class EntryListApi(UserEntriesMixin, ApiEndpointMixin, View):
 class EntryDetailApi(UserEntriesMixin, ApiEndpointMixin, DetailView):
 	api_actions = {
 		'get': ['serialize'],
-		'post': ['mark'],
+		'post': ['mark_read'],
 	}
 
 	def get_queryset(self):
@@ -58,6 +58,13 @@ class EntryDetailApi(UserEntriesMixin, ApiEndpointMixin, DetailView):
 	def dispatch(self, request, *args, **kwargs):
 		self.object = self.get_object()
 		return super(EntryDetailApi, self).dispatch()
+
+	def serialize(self):
+		return self.render_result(self.object.serialize())
+
+	def mark_read(self):
+		self.object.mark_read()
+		return self.render_result('ok', new_entries_count=self.request.user.new_entries_count)
 
 
 entry_list_api = EntryListApi.as_view()
