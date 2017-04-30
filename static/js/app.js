@@ -417,10 +417,8 @@ var register = function(element) {
 		registerKeyEvents();
 	}
 	if (element.getAttribute('id') === 'content' || element === document.body) {
-		unregisterPreloader();
 		if (_.id(element, 'entry_detail') !== null) {
 			registerEntryDetail();
-			registerPreloader();
 		}
 	}
 };
@@ -456,11 +454,9 @@ _.pjax.autoRegister({
 			_.triggerLoad(block);
 		});
 		document.body.className = response.blocks.bodyclass;
+		unregisterPreloader();
 		if (_.id('entry_detail') !== null) {
 			registerPreloader();
-		}
-		else {
-			preloadCache = undefined;
 		}
 	}
 });
