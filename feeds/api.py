@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from django.views.generic import View, DetailView
 
@@ -53,7 +54,10 @@ class EntryDetailApi(UserEntriesMixin, ApiEndpointMixin, DetailView):
 	}
 
 	def get_queryset(self):
-		return UserEntryStatus.objects.for_user(self.request.user)
+		return UserEntryStatus.objects.for_user(self.request.user).select_related('entry')
+
+	def get_object(self, **kwargs):
+		return get_object_or_404(self.get_queryset(), entry__pk=self.kwargs['pk'])
 
 	def dispatch(self, request, *args, **kwargs):
 		self.object = self.get_object()
