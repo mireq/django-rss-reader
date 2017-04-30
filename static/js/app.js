@@ -52,8 +52,8 @@ var PreloadCache = function(feedListUrl) {
 
 	var nextCache = [];
 	var prevCache = [];
-	var nextLink;
-	var prevLink;
+	var nextId = _.getData(_.id('next_item_link'), 'id') || undefined;
+	var prevId = _.getData(_.id('prev_item_link'), 'id') || undefined;
 	var current;
 	var callbacks = {prev: undefined, next: undefined};
 
@@ -98,10 +98,10 @@ var PreloadCache = function(feedListUrl) {
 			url: url,
 			successFn: function(response) {
 				if (direction == 'next') {
-					nextLink = response.next;
+					nextId = response.next;
 				}
 				else {
-					prevLink = response.next;
+					prevId = response.next;
 				}
 				var nextList = response.result;
 				var entryId = getEntryId();
@@ -197,9 +197,41 @@ var PreloadCache = function(feedListUrl) {
 		callbacks.prev = undefined;
 	};
 
+	self.getNextLink = function() {
+		var id = nextId;
+		if (nextCache.length) {
+			id = nextCache[0].id;
+		}
+		if (id === undefined) {
+			return;
+		}
+		return urlresolver.reverse("feeds:entry_detail", [id]);
+	};
+
+	self.getPrevLink = function() {
+		var id = prevId;
+		if (prevCache.length) {
+			id = prevCache[prevCache.length - 1].id;
+		}
+		if (id === undefined) {
+			return;
+		}
+		return urlresolver.reverse("feeds:entry_detail", [id]);
+	};
+
 	preload('next');
 
 	return self;
+};
+
+
+var module = {
+	getNextLink: function() {
+		return preloadCache.getNextLink();
+	},
+	getPrevLink: function() {
+		return preloadCache.getPrevLink();
+	}
 };
 
 
@@ -219,7 +251,7 @@ var registerPreloader = function() {
 			e.preventDefault();
 			preloadCache.next(function(result) {
 				if (result) {
-					window.template.entry(result);
+					window.template.entry(result, module);
 				}
 			});
 		});
@@ -227,7 +259,7 @@ var registerPreloader = function() {
 			e.preventDefault();
 			preloadCache.prev(function(result) {
 				if (result) {
-					window.template.entry(result);
+					window.template.entry(result, module);
 				}
 			});
 		});

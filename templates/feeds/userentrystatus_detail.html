@@ -46,6 +46,6 @@
 {% endblock %}
 
 {% block top_navigation %}
-	<a id="prev_item_link" href="{% if prev %}{{ prev.get_absolute_url }}{% else %}#{% endif %}" class="button left left-key-link{% if not prev %} disabled{% endif %}"></a>
-	<a  id="next_item_link" href="{% if next %}{{ next.get_absolute_url }}{% else %}#{% endif %}" class="button right right-key-link{% if not next %} disabled {% endif %}"></a>
+	<a id="prev_item_link" data-id="{{ prev.pk }}" href="{% if prev %}{{ prev.get_absolute_url }}{% else %}#{% endif %}" class="button left left-key-link{% if not prev %} disabled{% endif %}"></a>
+	<a id="next_item_link" data-id="{{ next.pk }}" href="{% if next %}{{ next.get_absolute_url }}{% else %}#{% endif %}" class="button right right-key-link{% if not next %} disabled {% endif %}"></a>
 {% endblock %}

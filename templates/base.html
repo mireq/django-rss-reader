@@ -42,10 +42,10 @@
 <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
 <script type="text/javascript" charset="utf-8">
 	window._utils = window._utils || {};
-	window._utils._urls = {% js_urlpatterns "feeds:api_entry_list" "feeds:api_entry_detail" %};
+	window._utils._urls = {% js_urlpatterns "feeds:api_entry_list" "feeds:api_entry_detail" "feeds:entry_detail" %};
 	window.template = {
-		entry: function(data) {
-			console.log(data);
+		entry: function(data, module) {
+			console.log(data, module.getNextLink(), module.getPrevLink());
 		}
 	};
 </script>
