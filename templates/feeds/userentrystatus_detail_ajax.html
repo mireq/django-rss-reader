@@ -20,7 +20,7 @@
 </div>
 <div class="bottom-actions">
 	<div class="secondary">
-		<form action="{{ request.path }}" method="post">
+		<form action="{{ object.get_absolute_url }}" method="post">
 			{% csrf_token %}
 			<button class="button" type="submit" name="action" value="{% if object.is_favorite %}unfavorite{% else %}favorite{% endif %}">
 				{% if object.is_favorite %}
