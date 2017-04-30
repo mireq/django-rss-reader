@@ -494,8 +494,8 @@ var register = function(element) {
 	if (element === document.body) {
 		registerKeyEvents();
 	}
-	if (element.getAttribute('id') === 'content' || element === document.body) {
-		if (_.id(element, 'entry_detail') !== null) {
+	if (element.getAttribute('id') === 'content' || element === document.body || element.getAttribute('id') === 'entry_detail') {
+		if (_.id(element, 'entry_detail') !== null || element.getAttribute('id') === 'entry_detail') {
 			registerEntryDetail();
 			if (_.id('next_item_link') !== null && preloadCache === undefined) {
 				registerPreloader();
