@@ -4,11 +4,11 @@
 #
 #    pip-compile --output-file requirements.dev.txt requirements.dev.in
 #
--e git+https://github.com/mireq/django-ajax-utils.git@84577c4f3d8ffbc74314da1b0ac8605fd352edd1#egg=django_ajax_utils
+-e git+https://github.com/mireq/django-ajax-utils.git@cf0a150ee813c1fe9a090476fc94576156f7364d#egg=django_ajax_utils
 -e git+https://github.com/mireq/django-assets-manager.git@af4944e6f1def727b84f51583a911ef60e978d55#egg=django_assets_manager
 amqp==2.1.4               # via kombu
 argh==0.26.2              # via watchdog
-astroid==1.5.1            # via pylint, pylint-plugin-utils
+astroid==1.5.2            # via pylint, pylint-plugin-utils
 billiard==3.5.0.2         # via celery
 celery==4.0.2
 click==6.7                # via pip-tools
@@ -19,9 +19,8 @@ django-debug-toolbar==1.7
 django-debugtools==1.7.2
 django-extensions==1.7.8
 django-libsass==0.7
-django==1.11              # via django-debug-toolbar
+django==1.11
 docopt==0.6.2             # via ptpython
-editdistance==0.3.1       # via pylint
 feedparser==5.2.1
 first==2.0.1              # via pip-tools
 ipython-genutils==0.2.0   # via traitlets
@@ -36,7 +35,7 @@ olefile==0.44             # via pillow
 pathtools==0.1.2          # via watchdog
 pexpect==4.2.1            # via ipython
 pickleshare==0.7.4        # via ipython
-pillow==4.1.0
+pillow==4.1.1
 pip-tools==1.9.0
 prompt-toolkit==1.0.14    # via ipython, ptpython
 ptpython==0.39
@@ -45,7 +44,7 @@ pygments==2.2.0           # via ipython, ptpython
 pyinotify==0.9.6
 pylint-django==0.7.2
 pylint-plugin-utils==0.2.6  # via pylint-django
-pylint==1.7.0             # via pylint-django, pylint-plugin-utils
+pylint==1.7.1             # via pylint-django, pylint-plugin-utils
 pytz==2017.2              # via celery, django
 pyyaml==3.12              # via watchdog
 rcssmin==1.0.6            # via django-compressor
