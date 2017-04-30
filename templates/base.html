@@ -43,6 +43,11 @@
 <script type="text/javascript" charset="utf-8">
 	window._utils = window._utils || {};
 	window._utils._urls = {% js_urlpatterns "feeds:api_entry_list" "feeds:api_entry_detail" %};
+	window.template = {
+		entry: function(data) {
+			console.log(data);
+		}
+	};
 </script>
 {% compress js %}
 {% assets_js "app" %}

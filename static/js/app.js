@@ -204,7 +204,7 @@ var PreloadCache = function(feedListUrl) {
 
 
 var registerPreloader = function() {
-	if (preloadCache === undefined) {
+	if (preloadCache === undefined && window.template !== undefined && window.template.entry !== undefined) {
 		preloadCache = PreloadCache(urlresolver.reverse("feeds:api_entry_list"));
 
 		var nextItemLink = _.id('next_item_link');
@@ -215,13 +215,17 @@ var registerPreloader = function() {
 		_.bindEvent(nextItemLink, 'click', function(e) {
 			e.preventDefault();
 			preloadCache.next(function(result) {
-				console.log(result);
+				if (result) {
+					window.template.entry(result);
+				}
 			});
 		});
 		_.bindEvent(prevItemLink, 'click', function(e) {
 			e.preventDefault();
 			preloadCache.prev(function(result) {
-				console.log(result);
+				if (result) {
+					window.template.entry(result);
+				}
 			});
 		});
 	}
