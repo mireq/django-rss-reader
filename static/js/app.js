@@ -125,14 +125,6 @@ var PreloadCache = function(feedListUrl) {
 		});
 	};
 
-	var preloadNext = function() {
-		preloadCache('next');
-	};
-
-	var preloadPrev = function() {
-		preloadCache('prev');
-	};
-
 	var triggerLoad = function(direction) {
 		if (callbacks[direction] === undefined) {
 			return;
@@ -194,7 +186,7 @@ var PreloadCache = function(feedListUrl) {
 				triggerLoad(direction);
 			}
 			if (nextCache.length < 5) {
-				preloadNext();
+				preloadCache(direction);
 			}
 		}
 		if (direction === 'prev') {
@@ -202,7 +194,7 @@ var PreloadCache = function(feedListUrl) {
 				triggerLoad(direction);
 			}
 			if (prevCache.length < 5) {
-				preloadPrev();
+				preloadCache(direction);
 			}
 		}
 	};
