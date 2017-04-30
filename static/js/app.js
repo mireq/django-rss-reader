@@ -193,7 +193,9 @@ var PreloadCache = function(feedListUrl) {
 				triggerLoad(direction);
 			}
 			if (nextCache.length < 10) {
-				preloadCache(direction);
+				if (nextId || nextCache.length === 0) {
+					preloadCache(direction);
+				}
 			}
 		}
 		if (direction === 'prev') {
@@ -201,7 +203,9 @@ var PreloadCache = function(feedListUrl) {
 				triggerLoad(direction);
 			}
 			if (prevCache.length < 10) {
-				preloadCache(direction);
+				if (prevId || prevCache.length === 0) {
+					preloadCache(direction);
+				}
 			}
 		}
 	};
