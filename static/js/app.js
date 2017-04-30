@@ -14,7 +14,7 @@ var setEelemntText = function(element, text) {
 var setNewEntries = function(count) {
 	var element = _.id('new_entries_count');
 	var message = interpolate(ngettext('%s new entry', '%s new entries', count), [count]);
-	setEelemntText(element, text);
+	setEelemntText(element, message);
 };
 
 
@@ -157,6 +157,15 @@ var PreloadCache = function(feedListUrl) {
 		if (current) {
 			setEntryId(current.id);
 			_.pjax.pushState(current.url);
+
+			_.xhrSend({
+				method: 'POST',
+				url: urlresolver.reverse("feeds:api_entry_detail", [current.id]),
+				data: 'action=mark_read',
+				successFn: function(response) {
+					setNewEntries(response.new_entries_count);
+				}
+			});
 
 			var link;
 
