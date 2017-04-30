@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.http.response import HttpResponseBadRequest
-from django.views.generic import View, DetailView
 from django.template.loader import render_to_string
+from django.views.generic import View, DetailView
 
 from .models import UserEntryStatus
 from .views import UserEntriesMixin
@@ -49,24 +48,16 @@ class EntryListApi(UserEntriesMixin, ApiEndpointMixin, View):
 
 class EntryDetailApi(UserEntriesMixin, ApiEndpointMixin, DetailView):
 	api_actions = {
-		'get': {
-			'serialize': 'serialize'
-		}
+		'get': ['serialize'],
+		'post': ['mark'],
 	}
 
 	def get_queryset(self):
 		return UserEntryStatus.objects.for_user(self.request.user)
 
-	def get(self, request, *args, **kwargs):
+	def dispatch(self, request, *args, **kwargs):
 		self.object = self.get_object()
-		return self.render_api_actions(request.GET) or HttpResponseBadRequest("Unknown action")
-
-	def post(self, request, *args, **kwargs):
-		self.object = self.get_object()
-		return self.render_api_actions(request.POST, 'post') or HttpResponseBadRequest("Unknown action")
-
-	def serialize(self):
-		return self.render_result(self.object.serialize())
+		return super(EntryDetailApi, self).dispatch()
 
 
 entry_list_api = EntryListApi.as_view()
