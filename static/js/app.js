@@ -156,6 +156,7 @@ var PreloadCache = function(feedListUrl) {
 		}
 		if (current) {
 			setEntryId(current.id);
+			_.pjax.pushState(current.url);
 
 			var link;
 
