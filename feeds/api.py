@@ -7,7 +7,6 @@ from django.views.generic import View, DetailView
 from .models import UserEntryStatus
 from .views import UserEntriesMixin
 from web.generic_views import ApiEndpointMixin
-from web.url_utils import build_url
 
 
 class EntryListApi(UserEntriesMixin, ApiEndpointMixin, View):
@@ -32,13 +31,7 @@ class EntryListApi(UserEntriesMixin, ApiEndpointMixin, View):
 		if 'self' in request.GET and hasattr(self, 'object'):
 			result.insert(0, self.object.serialize())
 		if next_entry:
-			query = {'from': entries[-1].pk}
-			if 'prev' in request.GET:
-				query['prev'] = ''
-			else:
-				query['next'] = ''
-			next_url = build_url('feeds:api_entry_list', query=query)
-			return self.render_result(result, next=next_url)
+			return self.render_result(result, next=next_entry.pk)
 		else:
 			return self.render_result(result)
 
