@@ -197,11 +197,24 @@ var PreloadCache = function(feedListUrl) {
 		callbacks.prev = undefined;
 	};
 
-	self.getNextLink = function() {
+	self.getNextId = function() {
 		var id = nextId;
 		if (nextCache.length) {
 			id = nextCache[0].id;
 		}
+		return id;
+	};
+
+	self.getPrevId = function() {
+		var id = prevId;
+		if (prevCache.length) {
+			id = prevCache[prevCache.length - 1].id;
+		}
+		return id;
+	};
+
+	self.getNextLink = function() {
+		var id = self.getNextId();
 		if (id === undefined) {
 			return;
 		}
@@ -209,10 +222,7 @@ var PreloadCache = function(feedListUrl) {
 	};
 
 	self.getPrevLink = function() {
-		var id = prevId;
-		if (prevCache.length) {
-			id = prevCache[prevCache.length - 1].id;
-		}
+		var id = self.getPrevId();
 		if (id === undefined) {
 			return;
 		}
@@ -226,6 +236,12 @@ var PreloadCache = function(feedListUrl) {
 
 
 var module = {
+	getNextId: function() {
+		return preloadCache.getNextId();
+	},
+	getPrevId: function() {
+		return preloadCache.getPrevId();
+	},
 	getNextLink: function() {
 		return preloadCache.getNextLink();
 	},
