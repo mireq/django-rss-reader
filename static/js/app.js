@@ -192,6 +192,11 @@ var PreloadCache = function(feedListUrl) {
 		preload('prev');
 	};
 
+	self.clearCallbacks = function() {
+		callbacks.next = undefined;
+		callbacks.prev = undefined;
+	};
+
 	preload('next');
 
 	return self;
@@ -223,7 +228,10 @@ var registerPreloader = function() {
 };
 
 var unregisterPreloader = function() {
-	preloadCache = undefined;
+	if (preloadCache !== undefined) {
+		preloadCache.clearCallbacks();
+		preloadCache = undefined;
+	}
 };
 
 //var registerPreloader = function() {
