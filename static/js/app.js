@@ -204,6 +204,9 @@ var PreloadCache = function(feedListUrl) {
 
 
 var registerPreloader = function() {
+	if (!_.checkFeatures(['history_push'])) {
+		return;
+	}
 	if (preloadCache === undefined && window.template !== undefined && window.template.entry !== undefined) {
 		preloadCache = PreloadCache(urlresolver.reverse("feeds:api_entry_list"));
 
