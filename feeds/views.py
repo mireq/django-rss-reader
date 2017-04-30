@@ -153,9 +153,6 @@ class EntryDetailView(UserEntriesMixin, JsonResponseMixin, DetailView):
 		return HttpResponseRedirect(self.request.get_full_path())
 
 	def get(self, request, *args, **kwargs):
-		if 'mark' in self.request.GET:
-			self.get_object().mark_read()
-			return self.render_json_response({'new_entries_count': request.user.new_entries_count})
 		response = super(EntryDetailView, self).get(request, *args, **kwargs)
 		self.object.mark_read()
 		return response
