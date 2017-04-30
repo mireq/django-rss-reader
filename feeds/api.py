@@ -57,7 +57,7 @@ class EntryDetailApi(UserEntriesMixin, ApiEndpointMixin, DetailView):
 
 	def dispatch(self, request, *args, **kwargs):
 		self.object = self.get_object()
-		return super(EntryDetailApi, self).dispatch()
+		return super(EntryDetailApi, self).dispatch(request, *args, **kwargs)
 
 	def serialize(self):
 		return self.render_result(self.object.serialize())
