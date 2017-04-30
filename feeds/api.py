@@ -11,7 +11,7 @@ from web.generic_views import ApiEndpointMixin
 
 
 class EntryListApi(UserEntriesMixin, ApiEndpointMixin, View):
-	ENTRIES_COUNT = 20
+	ENTRIES_COUNT = 100
 
 	def get(self, request, *args, **kwargs):
 		if 'from' in request.GET:

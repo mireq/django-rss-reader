@@ -192,7 +192,7 @@ var PreloadCache = function(feedListUrl) {
 			if (nextCache.length) {
 				triggerLoad(direction);
 			}
-			if (nextCache.length < 5) {
+			if (nextCache.length < 10) {
 				preloadCache(direction);
 			}
 		}
@@ -200,7 +200,7 @@ var PreloadCache = function(feedListUrl) {
 			if (prevCache.length) {
 				triggerLoad(direction);
 			}
-			if (prevCache.length < 5) {
+			if (prevCache.length < 10) {
 				preloadCache(direction);
 			}
 		}
