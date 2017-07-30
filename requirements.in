@@ -6,4 +6,4 @@ pillow
 pip-tools
 redis
 -e git+https://github.com/mireq/django-assets-manager.git@af4944e6f1def727b84f51583a911ef60e978d55#egg=django_assets_manager
--e git+https://github.com/mireq/django-ajax-utils.git@cf0a150ee813c1fe9a090476fc94576156f7364d#egg=django_ajax_utils
+-e git+https://github.com/mireq/django-ajax-utils.git@294d294dd1afa9cc874d9c6716c3074280c17e80#egg=django_ajax_utils
