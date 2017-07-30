@@ -132,4 +132,4 @@ def clean_old_entries():
 	is_favorite = Q(status__is_favorite=True)
 	is_new = Q(status__created__gte=timezone.now() - timedelta(14))
 	is_unread = Q(status__is_read=False, status__created__gte=timezone.now() - timedelta(90))
-	Entry.objects.exclude(pk__in=Entry.objects.filter(is_favorite | is_new | is_unread)).delete()
+	return Entry.objects.exclude(pk__in=Entry.objects.filter(is_favorite | is_new | is_unread).values('pk')).delete()
