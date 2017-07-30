@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from time import mktime
 
 import feedparser
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 from django.utils import timezone
 from django.utils.encoding import force_text
 
@@ -124,3 +125,11 @@ def update_feed(feed_id, force=False):
 def synchronize():
 	for feed in Feed.objects.for_update().values_list('pk', flat=True):
 		update_feed.delay(feed)
+
+
+@app.task
+def clean_old_entries():
+	is_favorite = Q(status__is_favorite=True)
+	is_new = Q(status__created__gte=timezone.now() - timedelta(14))
+	is_unread = Q(status__is_read=False, status__created__gte=timezone.now() - timedelta(90))
+	Entry.objects.exclude(pk__in=Entry.objects.filter(is_favorite | is_new | is_unread)).delete()

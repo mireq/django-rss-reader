@@ -178,6 +178,10 @@ CELERYBEAT_SCHEDULE = {
 		'task': 'accounts.tasks.clean_remember_tokens',
 		'schedule': timedelta(seconds=1800),
 	},
+	'clean-old-entris': {
+		'task': 'feeds.tasks.clean_old_entries',
+		'schedule': timedelta(seconds=1800),
+	},
 }
 
 DYNAMIC_TEMPLATES = ('default', 'newspaper',)
