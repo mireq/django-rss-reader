@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 import re
 
 from django.apps import AppConfig as CoreAppConfig
-from django.utils.encoding import force_bytes
+from django.utils.encoding import force_text
 
 
 class AppConfig(CoreAppConfig):
@@ -17,8 +17,8 @@ class AppConfig(CoreAppConfig):
 	def patch_migrations(self):
 		def unexpand_tabs(text):
 			for length in range(16, 0, -4):
-				rx = re.compile(force_bytes('^') + force_bytes('[ ]') * length, re.MULTILINE)
-				text = rx.sub(force_bytes('\t') * (length // 4), force_bytes(text))
+				rx = re.compile('^' + '[ ]' * length, re.MULTILINE)
+				text = rx.sub('\t' * (length // 4), force_text(text))
 			return text
 
 		from django.db.migrations.writer import MigrationWriter
