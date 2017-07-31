@@ -65,6 +65,7 @@ def register_feed(url, user_id=None):
 
 
 def import_entries(feed, entries):
+	entry_instances = []
 	for entry in entries:
 		entry_data = {
 			'link': entry.link,
@@ -96,6 +97,8 @@ def import_entries(feed, entries):
 				**entry_data
 			)
 			entry.save()
+		entry_instances.append(entry)
+	Entry.objects.filter(feed=feed).exclude(pk__in=entry_instances).update(in_feed=False)
 
 
 @app.task
@@ -129,7 +132,9 @@ def synchronize():
 
 @app.task
 def clean_old_entries():
+	is_live = Q(in_feed=True)
 	is_favorite = Q(status__is_favorite=True)
 	is_new = Q(status__created__gte=timezone.now() - timedelta(14))
 	is_unread = Q(status__is_read=False, status__created__gte=timezone.now() - timedelta(90))
-	return Entry.objects.exclude(pk__in=Entry.objects.filter(is_favorite | is_new | is_unread).values('pk')).delete()
+	preserve = Entry.objects.filter(is_live | is_favorite | is_new | is_unread)
+	return Entry.objects.exclude(pk__in=preserve.values('pk')).delete()

@@ -204,6 +204,11 @@ class Entry(models.Model):
 		max_length=200,
 		blank=True
 	)
+	in_feed = models.BooleanField(
+		verbose_name=("this entry is included in feed"),
+		blank=True,
+		default=True
+	)
 
 	def __str__(self):
 		return self.title
