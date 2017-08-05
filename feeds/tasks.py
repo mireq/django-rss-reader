@@ -121,7 +121,8 @@ def update_feed(feed_id, force=False):
 		feed.update_status = Feed.UPDATE_STATUS_ERROR
 		feed.update_error = force_text(e)
 		feed.save()
-	import_entries(feed, parser_data.entries)
+	else:
+		import_entries(feed, parser_data.entries)
 
 
 @app.task
