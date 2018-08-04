@@ -29,7 +29,7 @@ class SuccessRedirectMixin(object):
 
 	def get_redirect_url(self):
 		next_url = self.__get_redirect_parameter_value()
-		if next_url and not is_safe_url(next_url, host=self.request.get_host()):
+		if next_url and not is_safe_url(next_url, allowed_hosts={self.request.get_host()}):
 			next_url = ''
 		if next_url:
 			return next_url

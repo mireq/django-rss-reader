@@ -13,7 +13,7 @@
 {% block body %}
 	<div id="header">
 		<header>
-			<a class="toggle-menu nopjax" href="{% if "visible_menu" in request.GET %}{% current_link_remove "visible_menu" %}{% else %}{% current_link_add visible_menu=1 %}{% endif %}"></a>
+			<a class="toggle-menu nopjax" href="{% if "visible_menu" in request.GET %}{% current_link_remove "visible_menu" %}{% else %}{% current_link_add visible_menu="1" %}{% endif %}"></a>
 			<div id="top_navigation" class="button-group navigation">
 				{% block top_navigation %}
 				{% endblock %}
