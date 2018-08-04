@@ -98,7 +98,7 @@ def import_entries(feed, entries):
 			)
 			entry.save()
 		entry_instances.append(entry)
-	Entry.objects.filter(feed=feed).exclude(pk__in=entry_instances).update(in_feed=False)
+	Entry.objects.filter(feed=feed).exclude(pk__in=[entry.pk for entry in entry_instances]).update(in_feed=False)
 
 
 @app.task
