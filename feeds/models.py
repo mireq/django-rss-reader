@@ -158,7 +158,7 @@ class UserFeed(models.Model):
 		ordering = ('order',)
 
 	def get_absolute_url(self):
-		reverse('feeds:user_feed_detail', args=(self.pk,))
+		return reverse('feeds:user_feed_detail', args=(self.pk,))
 
 
 @python_2_unicode_compatible
