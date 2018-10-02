@@ -137,5 +137,4 @@ def clean_old_entries():
 	is_favorite = Q(status__is_favorite=True)
 	is_new = Q(status__created__gte=timezone.now() - timedelta(14))
 	is_unread = Q(status__is_read=False, status__created__gte=timezone.now() - timedelta(90))
-	preserve = Entry.objects.filter(is_live | is_favorite | is_new | is_unread)
-	return Entry.objects.exclude(pk__in=preserve.values('pk')).delete()
+	return Entry.objects.exclude(is_live | is_favorite | is_new | is_unread).delete()
